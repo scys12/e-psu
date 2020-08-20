@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Serah Terima PSU</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    </head>
+    <body>
+        <div class="container">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h2>Penambahan Serah Terima PSU</h2>
+                </div>
+                <div class="card-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="namapsu">Nama PSU</label>
+                            <input type="text" class="form-control" id="namapsu" name="nama" placeholder="Masukkan Nama PSU">
+                        </div>
+                        <div class="form-group">
+                            <label for="videopsu">Video Serah Terima</label>
+                            <div class="input-group">
+                                <label class="custom-file-label" for="videopsu">Masukkan Video Serah Terima</label>
+                                <input type="file" class="form-control-file" id="videopsu" name="video" accept="video/*">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="fotopsu">Foto Serah Terima</label>
+                            <div class="input-group">
+                                <label class="custom-file-label" for="fotopsu">Masukkan Foto Serah Terima</label>
+                                <input type="file" class="form-control-file" id="fotopsu" name="foto" accept="image/*">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="salinanpsu">Salinan Laporan Serah Terima Aset</label>
+                            <div class="input-group">
+                                <label class="custom-file-label" for="salinanpsu">Masukkan Salinan Laporan Serah Terima Aset</label>
+                                <input type="file" class="custom-file-input" id="salinanpsu" name="salinan" accept="application/pdf">
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-danger">Batal</button>
+                        <button type="button" class="btn btn-success">Tambahkan</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>  
+</html>
