@@ -40,7 +40,6 @@ INSTALLED_APPS = [
 
     #own
     'serah_terima',
-
     'crispy_forms',
 ]
 
