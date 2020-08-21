@@ -40,6 +40,8 @@ INSTALLED_APPS = [
 
     #own
     'serah_terima',
+
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -73,6 +75,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'e_psu.wsgi.application'
 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+MEDIA_URL = '/media/'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
@@ -87,8 +93,6 @@ DATABASES = {
         'PORT': '3306',
     }
 }
-
-
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
@@ -113,7 +117,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Jakarta'
 
 USE_I18N = True
 

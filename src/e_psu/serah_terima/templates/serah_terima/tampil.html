@@ -1,0 +1,29 @@
+{% include 'serah_terima/layout.html' %}
+
+{% block body %}
+    <div class="container">
+        <div class="card">
+            <div class="card-header text-center">
+                <h2>Dokumen Serah Terima {{ dokumen.nama_psu }}</h2>
+            </div>
+            <div class="card-body">
+                <h4>Video</h4>
+                <div class="text-center">
+                    <video width="100%" controls>
+                        <source src="{{ dokumen.video.url }}" type="video/mp4">
+                    </video>
+                </div>
+                <hr class="my-4">
+                <h4>Foto</h4>
+                <div class="text-center">
+                    <img src="{{ dokumen.foto.url }}" alt="Foto {{ dokumen.nama_psu }}">
+                </div>
+                <hr class="my-4">
+                <h4>Salinan Laporan</h4>
+                <a href="{{ dokumen.salinan_laporan.url }}" class="btn btn-primary" target="_blank">Unduh Salinan Laporan</a>
+                <hr class="my-4">
+                <a href="{% url 'serah_terima:index' %}" type="button" class="btn btn-success">Kembali</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
