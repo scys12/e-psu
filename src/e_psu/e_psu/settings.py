@@ -40,6 +40,12 @@ INSTALLED_APPS = [
 
     #own
     'serah_terima',
+<<<<<<< HEAD
+=======
+
+    'smartfields',
+
+>>>>>>> 649ebf647a56dc7dd4209a4332cb184b1ecb5c28
     'crispy_forms',
 ]
 
