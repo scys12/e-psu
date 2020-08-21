@@ -46,15 +46,17 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware', #added manually for e_psu.wsgi.application
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
-    #'django.middleware.csrf.CsrfResponseMiddleware', #added manually
+    # 'django.middleware.csrf.CsrfResponseMiddleware', #added manually
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+SITE_ID = 1
 ROOT_URLCONF = 'e_psu.urls'
 
 TEMPLATES = [
