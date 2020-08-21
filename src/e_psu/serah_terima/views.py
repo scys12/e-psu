@@ -1,4 +1,5 @@
-from django.shortcuts import render, redirect
+from django.http import HttpResponse, Http404
+from django.shortcuts import render, redirect, get_object_or_404
 
 from .forms import DokumenForm
 from .models import Dokumen
@@ -23,7 +24,7 @@ def tambah(request):
     })
 
 def tampil(request, id):
-    dokumen = Dokumen.objects.get(id=id);
+    dokumen = Dokumen.objects.get(id=id)
     return render(request, "serah_terima/tampil.html", {
         'dokumen' : dokumen
     })
