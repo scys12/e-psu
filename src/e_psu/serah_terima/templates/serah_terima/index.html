@@ -25,16 +25,16 @@
                                 <td>{{ dokumen.nama_psu }}</td>
                                 <td>{{ dokumen.perumahan }}</td>
                                 <td>
-                                    <a href="{{ dokumen.video.url }}" class="btn btn-primary" target="_blank">Unduh Video</a>                                    
+                                    <a href="{{ dokumen.video.url }}" class="btn btn-secondary" target="_blank">Unduh Video</a>                                    
                                 </td>
                                 <td>
-                                    <a href="{{ dokumen.foto.url }}" class="btn btn-primary" target="_blank">Unduh Foto</a>
+                                    <a href="{{ dokumen.foto.url }}" class="btn btn-secondary" target="_blank">Unduh Foto</a>
                                 </td>
                                 <td>
-                                    <a href="{{ dokumen.salinan_laporan.url }}" class="btn btn-primary" target="_blank">Unduh Salinan</a>                                    
+                                    <a href="{{ dokumen.salinan_laporan.url }}" class="btn btn-secondary" target="_blank">Unduh Salinan</a>                                    
                                 </td>
                                 <td>
-                                    <a href="{% url 'serah_terima:tampil' %}" type="button" class="btn btn-primary">Lihat</a>
+                                    <a href="{% url 'serah_terima:tampil' id=dokumen.id %}" type="button" class="btn btn-primary">Lihat</a>
                                     <button type="button" class="btn btn-danger">Hapus</button>
                                 </td>
                             </tr>

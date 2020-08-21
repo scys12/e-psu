@@ -22,8 +22,8 @@ def tambah(request):
         'form' : form
     })
 
-def tampil(request):
-    form = DokumenForm()
+def tampil(request, id):
+    dokumen = Dokumen.objects.get(id=id);
     return render(request, "serah_terima/tampil.html", {
-        'form' : form
+        'dokumen' : dokumen
     })

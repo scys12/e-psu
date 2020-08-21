@@ -6,5 +6,5 @@ app_name = "serah_terima"
 urlpatterns = [
     path("", views.index, name="index"),
     path("tambah", views.tambah, name="tambah"),
-    path("tampil", views.tampil, name="tampil"),
+    path("tampil/<int:id>", views.tampil, name="tampil"),
 ]
