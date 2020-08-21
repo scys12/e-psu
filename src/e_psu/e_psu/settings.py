@@ -37,7 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
     'serah_terima',
+
+    'smartfields',
 
     'crispy_forms',
 ]

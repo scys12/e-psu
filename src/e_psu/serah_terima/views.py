@@ -18,7 +18,7 @@ def tambah(request):
     else:
         form = DokumenForm()
 
-    return render(request, "serah_terima/tambah.html", {
+    return render(request, "serah_terima/upload_form.html", {
         'form' : form
     })
 
@@ -27,3 +27,28 @@ def tampil(request, id):
     return render(request, "serah_terima/tampil.html", {
         'dokumen' : dokumen
     })
+
+def ubah(request, id):
+    try:
+        dokumen = Dokumen.objects.get(id = id)
+    except Dokumen.DoesNotExist:
+        return redirect('serah_terima:index')
+    
+    form = DokumenForm(request.POST or None, request.FILES or None, instance = dokumen)
+
+    if form.is_valid():
+       form.save()
+       return redirect('serah_terima:index')
+
+    return render(request, "serah_terima/upload_form.html", {
+        'form' : form
+    })
+
+def hapus(request, id):
+    try:
+        dokumen = Dokumen.objects.get(id = id)
+    except Dokumen.DoesNotExist:
+        return redirect('serah_terima:index')
+
+    dokumen.delete()
+    return redirect('serah_terima:index')
