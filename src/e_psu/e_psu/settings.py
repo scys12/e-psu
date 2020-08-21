@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'serah_terima',
+
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -70,6 +72,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'e_psu.wsgi.application'
 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+MEDIA_URL = '/media/'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
@@ -108,7 +114,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'Indonesia/Jakarta'
+TIME_ZONE = 'Asia/Jakarta'
 
 USE_I18N = True
 

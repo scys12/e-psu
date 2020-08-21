@@ -1,55 +1,47 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <title>Serah Terima PSU</title>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    </head>
-    <body>
-        <div class="container">
-            <div class="card">
-                <div class="card-header text-center">
-                    <h2>Serah Terima PSU</h2>
-                </div>
-                <div class="card-body">
-                    <button type="button" class="btn btn-success">Tambah</button>
-                    <table class="mt-2 table">
-                        <thead class="thead-light">
+{% extends "serah_terima/layout.html" %}
+
+{% block body %}
+    <div class="container">
+        <div class="card">
+            <div class="card-header text-center">
+                <h2>Serah Terima PSU</h2>
+            </div>
+            <div class="card-body">
+                <a href="{% url 'serah_terima:tambah' %}" class="btn btn-success">Tambah</a>
+                <table class="mt-2 table">
+                    <thead class="thead-light">
+                        <tr>
+                            <th shape="col">PSU</th>
+                            <th shape="col">Perumahan</th>
+                            <th shape="col">Video</th>
+                            <th shape="col">Foto</th>
+                            <th shape="col">Salinan Laporan</th>
+                            <th shape="col">Opsi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for dokumen in dokumens %}
                             <tr>
-                                <th shape="col">No.</th>
-                                <th shape="col">PSU</th>
-                                <th shape="col">Opsi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>PSU 1</td>
+                                <td>{{ dokumen.nama_psu }}</td>
+                                <td>{{ dokumen.perumahan }}</td>
                                 <td>
-                                    <div>
-                                        <button type="button" class="btn btn-primary">Lihat</button>
-                                        <button type="button" class="btn btn-warning">Ubah</button>
-                                        <button type="button" class="btn btn-danger">Hapus</button>
-                                    </div>
+                                    <a href="{{ dokumen.video.url }}" class="btn btn-primary" target="_blank">Unduh Video</a>                                    
+                                </td>
+                                <td>
+                                    <a href="{{ dokumen.foto.url }}" class="btn btn-primary" target="_blank">Unduh Foto</a>
+                                </td>
+                                <td>
+                                    <a href="{{ dokumen.salinan_laporan.url }}" class="btn btn-primary" target="_blank">Unduh Salinan</a>                                    
+                                </td>
+                                <td>
+                                    <a href="{% url 'serah_terima:tampil' %}" type="button" class="btn btn-primary">Lihat</a>
+                                    <button type="button" class="btn btn-danger">Hapus</button>
                                 </td>
                             </tr>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>PSU 1</td>
-                                <td>
-                                    <div>
-                                        <button type="button" class="btn btn-primary">Lihat</button>
-                                        <button type="button" class="btn btn-warning">Ubah</button>
-                                        <button type="button" class="btn btn-danger">Hapus</button>
-                                    </div>
-                                </td>
-                            </tr>
-                          </tbody>
-                    </table>
-                </div>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </div>
-    </body>
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>  
-</html>
+    </div>
+{% endblock %}
