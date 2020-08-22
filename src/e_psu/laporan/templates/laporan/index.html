@@ -1,0 +1,54 @@
+{% extends "laporan/layout.html" %}
+
+{% block body %}
+    <div class="container">
+        <div class="card">
+            <div class="card-header text-center">
+                <h2>Laporan Masyarakat</h2>
+            </div>
+            <div class="card-body">
+                {% for message in messages %}
+                    <div class="alert alert-success" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+                <a href="{% url 'laporan:tambah' %}" class="btn btn-success">Tambah</a>
+                <table class="mt-2 table">
+                    <thead class="thead-light">
+                        <tr>
+                            <th shape="col">PSU</th>
+                            <th shape="col">Perumahan</th>
+                            <th shape="col">Judul Laporan</th>
+                            <th shape="col">Bukti Foto</th>
+                            <th shape="col">Bukti Video</th>
+                            <th shape="col">Opsi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for laporan in semua_laporan %}
+                            <tr>
+                                <td>{{ laporan.nama_psu }}</td>
+                                <td>{{ laporan.perumahan }}</td>
+                                <td>{{ laporan.judul_laporan }}</td>
+                                <td>
+                                    <a href="{{ laporan.foto.url }}" class="btn btn-secondary" target="_blank">Unduh Bukti Foto</a>
+                                </td>
+                                <td>
+                                    <a href="{{ laporan.video.url }}" class="btn btn-secondary" target="_blank">Unduh Bukti Video</a>                                    
+                                </td>
+                                <td>
+                                    <a href="# {% url 'laporan:tampil' id=laporan.id %}" type="button" class="btn btn-primary">Lihat</a>
+                                    <a href="# {% url 'laporan:ubah' id=laporan.id %}" type="button" class="btn btn-warning">Ubah</a>
+                                    <a href="# {% url 'laporan:hapus' id=laporan.id %}" type="button" class="btn btn-danger" 
+                                        onclick="return confirm('Apakah Anda yakin untuk menghapus laporan {{ laporan.judul_laporan }}?')">
+                                        Hapus
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
