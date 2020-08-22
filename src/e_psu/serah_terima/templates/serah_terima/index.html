@@ -7,6 +7,11 @@
                 <h2>Serah Terima PSU</h2>
             </div>
             <div class="card-body">
+                {% for message in messages %}
+                    <div class="alert alert-success" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
                 <a href="{% url 'serah_terima:tambah' %}" class="btn btn-success">Tambah</a>
                 <table class="mt-2 table">
                     <thead class="thead-light">
@@ -36,7 +41,10 @@
                                 <td>
                                     <a href="{% url 'serah_terima:tampil' id=dokumen.id %}" type="button" class="btn btn-primary">Lihat</a>
                                     <a href="{% url 'serah_terima:ubah' id=dokumen.id %}" type="button" class="btn btn-warning">Ubah</a>
-                                    <a href="{% url 'serah_terima:hapus' id=dokumen.id %}" type="button" class="btn btn-danger">Hapus</a>
+                                    <a href="{% url 'serah_terima:hapus' id=dokumen.id %}" type="button" class="btn btn-danger" 
+                                        onclick="return confirm('Apakah Anda yakin untuk menghapus dokumen {{ dokumen.nama_psu }}?')">
+                                        Hapus
+                                    </a>
                                 </td>
                             </tr>
                         {% endfor %}

@@ -12,7 +12,7 @@
                 <form method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     {{ form | crispy }}
-                    <a href="{% url 'serah_terima:index' %}" type="button" class="btn btn-danger">Batal</a>
+                    <a href="{{ request.META.HTTP_REFERER }}" type="button" class="btn btn-danger">Batal</a>
                     <button type="submit" class="btn btn-success">Tambahkan</button>
                 </form>
             </div>

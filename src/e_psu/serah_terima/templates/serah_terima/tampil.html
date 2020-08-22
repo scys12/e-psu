@@ -7,6 +7,11 @@
                 <h2>Dokumen Serah Terima {{ dokumen.nama_psu }}</h2>
             </div>
             <div class="card-body">
+                {% for message in messages %}
+                    <div class="alert alert-success" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
                 <h4>Video</h4>
                 <div class="text-center">
                     <video width="100%" controls>
@@ -21,7 +26,7 @@
                 <hr class="my-4">
                 <h4>Salinan Laporan</h4>
                 <a href="{{ dokumen.salinan_laporan.url }}" class="btn btn-primary" target="_blank">Unduh Salinan Laporan</a>
-                <hr class="my-4">
+                <hr class="my-3">
                 <a href="{% url 'serah_terima:index' %}" type="button" class="btn btn-success">Kembali</a>
                 <a href="{% url 'serah_terima:ubah' id=dokumen.id %}" type="button" class="btn btn-warning">Ubah</a>
             </div>
