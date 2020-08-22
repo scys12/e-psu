@@ -17,9 +17,10 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
-
+from pages.views import home_view, register_view
 urlpatterns = [
-    # path('',),
+    path("", home_view, name="home"),
+    path("register", register_view, name="register"),
     path('admin/', admin.site.urls),
     path('serah_terima/', include("serah_terima.urls")),
     path('laporan/', include("laporan.urls"))
