@@ -5,10 +5,12 @@
     <div class="col-md-12">
         <div class="row">
             <div class="signup-form">
-                <form action="/examples/actions/confirmation.php" method="post">
+                <form action="{% url 'masyarakat:register' %}" method="post">
+                    {% csrf_token %}
                     <h2>Sign Up</h2>
                     <p>Please fill in this form to create an account!</p>
                     <hr>
+                    {% for field in form %}
                     <div class="form-group">
                         <div class="input-group">
                             <div class="input-group-prepend">
@@ -16,10 +18,11 @@
                                     <i class="fa fa-id-card"></i>
                                 </span>                    
                             </div>
-                            <input type="text" class="form-control" name="name" placeholder="Your Name" required="required">
+                            {{field}}                            
                         </div>
                     </div>
-                    <div class="form-group">
+                    {% endfor %}
+                    {% comment %} <div class="form-group">
                         <div class="input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text">
@@ -62,7 +65,7 @@
                     </div>
                     <div class="form-group">
                         <label class="form-check-label"><input type="checkbox" required="required"> I accept the <a href="#">Terms of Use</a> &amp; <a href="#">Privacy Policy</a></label>
-                    </div>
+                    </div> {% endcomment %}
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary btn-lg">Sign Up</button>
                     </div>

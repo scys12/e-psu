@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     #own
+    'masyarakat',
     'serah_terima',
     'laporan',
     'smartfields',
