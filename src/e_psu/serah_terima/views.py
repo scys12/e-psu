@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponse, Http404
 from django.shortcuts import render, redirect, get_object_or_404
 
@@ -6,7 +7,17 @@ from .forms import DokumenForm
 from .models import Dokumen
 
 def index(request):
-    dokumens = Dokumen.objects.all()
+    dokumen_list = Dokumen.objects.all()
+    page = request.GET.get('page', 1)
+
+    paginator = Paginator(dokumen_list, 10)
+    try:
+        dokumens = paginator.page(page)
+    except PageNotAnInteger:
+        dokumens = paginator.page(1)
+    except EmptyPage:
+        dokumens = paginator.page(paginator.num_pages)
+
     return render(request, "serah_terima/index.html", {
         'dokumens' : dokumens
     })
