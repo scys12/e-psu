@@ -1,0 +1,50 @@
+{% extends 'laporan/layout.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block body %}
+    <div class="container">
+        <div class="card">
+            <div class="card-header text-center">
+                <h2>Ubah Laporan {{ form.nama_psu.value }}</h2>
+            </div>
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.nama_psu | as_crispy_field }}
+                    {{ form.perumahan | as_crispy_field }}
+                    <div id="div_id_video" class="form-group mb-4">
+                        <label for="id_video" class="requiredField">
+                            Video <span class="asteriskField">*</span>
+                        </label>
+                        <div>
+                            Saat ini: 
+                            <video width="100%" controls>
+                                <source src="{{ form.video.value.url }}" type="video/mp4">
+                            </video>
+                            Ubah: <br>
+                            <input type="file" name="video" accept="video/*" class="berkaslaporanclearablefileinput form-control-file" id="id_video"> 
+                        </div>
+                    </div>
+                    <div id="div_id_foto" class="form-group mb-4">
+                        <label for="id_foto" class=" requiredField">
+                            Foto<span class="asteriskField">*</span> 
+                        </label> 
+                        <div>
+                            Saat ini: <br>
+                            <div class="text-center">
+                                <img style="max-width: 100%" src="{{ form.foto.value.url }}" alt="Foto {{ form.nama_psu.value }}">
+                            </div>
+                            Ubah: <br>
+                            <input type="file" name="foto" accept="image/*" class="berkaslaporanclearablefileinput form-control-file" id="id_foto"> 
+                        </div>
+                    </div>
+                    <hr class="my-3">
+                    <a href="{{ request.META.HTTP.REFERER }}" type="button" class="btn btn-danger">Batal</a>
+                    <button class="btn btn-success" type="submit">Simpan</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

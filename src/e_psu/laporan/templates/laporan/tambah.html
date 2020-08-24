@@ -1,0 +1,21 @@
+{% extends "laporan/layout.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block body %}
+    <div class="container">
+        <div class="card-header text-center">
+            <h2>Penambahan Laporan Warga</h2>
+        </div>
+        <div class="card-body">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form | crispy }}
+                <a href="{{ request.META.HTTP.REFERER }}" type="button" class="btn btn-danger">
+                    Batal
+                </a>
+                <button type="submit" class="btn btn-success"> Tambahkan </button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

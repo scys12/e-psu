@@ -1,12 +1,18 @@
 from django import forms
+from django.forms.widgets import ClearableFileInput
 
 from .models import BerkasLaporan
+
+class BerkasLaporanClearableFileInput(ClearableFileInput):
+    initial_text = 'Saat ini'
+    input_text = 'Ubah'
 
 class BerkasLaporanForm(forms.ModelForm):
     class Meta:
         model = BerkasLaporan
-        fields = ("nama_psu", "perumahan", "judul_laporan",
-            "deskripsi_laporan", "bukti_foto_laporan", "bukti_video_laporan")
+        fields = "__all__"
+        # fields = ("nama_psu", "perumahan", "judul_laporan",
+        #     "deskripsi_laporan", "bukti_foto_laporan", "bukti_video_laporan")
 
     nama_psu = forms.CharField(label="Nama PSU", max_length=100)
     perumahan = forms.CharField(label="Perumahan", max_length=100)

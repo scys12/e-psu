@@ -1,0 +1,39 @@
+{% include 'laporan/layout.html' %}
+{% block body %}
+    <div class="container">
+        <div class="card">
+            <div class="card-header text-center">
+                <h2>Berkas Laporan {{ laporan.nama_psu }}</h2>
+            </div>
+            <div class="card-body">
+                {% for message in messages %}
+                    <div class="alert alert-success" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+                <h4>Judul Laporan</h4>
+                <div>
+                    <p>{{ laporan.judul_laporan }}</p>
+                </div>
+                <h4>Deskripsi Laporan</h4>
+                <div>
+                    <p>{{ laporan.deskripsi_laporan }}</p>
+                </div>
+                <h4>Video</h4>
+                <div class="text-center">
+                    <video width="100%" controls>
+                        <source src="{{ laporan.bukti_video_laporan.url }}" type="video/mp4">
+                    </video>
+                </div>
+                <hr class="my-4">
+                <h4>Foto</h4>
+                <div class="text-center">
+                    <img style="max-width: 100%" src="{{ laporan.bukti_foto_laporan.url }}" alt="Foto laporan {{ laporan.nama_psu }}">
+                </div>
+                <hr class="my-4">
+                <a href="{% url 'laporan:index' %}" type="button" class="btn btn-success"> Kembali </a>
+                <a href="{% url 'laporan:ubah' id=laporan.id %}" type="button" class="btn btn-warning"> Ubah </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
