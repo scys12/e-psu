@@ -18,5 +18,5 @@ class BerkasLaporanForm(forms.ModelForm):
     perumahan = forms.CharField(label="Perumahan", max_length=100)
     judul_laporan = forms.CharField(label="Judul Laporan", max_length=100)
     deskripsi_laporan = forms.CharField()
-    bukti_foto_laporan = forms.ImageField(widget=forms.ClearableFileInput(attrs={'accept': 'image/*'}))
-    bukti_video_laporan = forms.FileField(widget=forms.ClearableFileInput(attrs={'accept': 'video/*'}))
+    bukti_foto_laporan = forms.ImageField(widget=forms.ClearableFileInput(attrs={'accept': 'image/*'}), required=False)
+    bukti_video_laporan = forms.FileField(widget=forms.ClearableFileInput(attrs={'accept': 'video/*'}), required=False)
