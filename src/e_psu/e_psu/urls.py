@@ -21,7 +21,6 @@ from pages.views import home_view, register_view
 
 urlpatterns = [
     path("", home_view, name="home"),
-    path('masyarakat/', include("masyarakat.urls", namespace='masyarakat')),
     path('admin/', admin.site.urls),
     path('serah_terima/', include("serah_terima.urls")),
     path('laporan/', include("laporan.urls"))

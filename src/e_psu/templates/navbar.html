@@ -1,7 +1,82 @@
-<!-- Navigation -->
-  <nav class="navbar navbar-light bg-light static-top">
-    <div class="container">
-      <a class="navbar-brand" href="#">Start Bootstrap</a>
-      <a class="btn btn-primary" href="/masyarakat/signin">Sign In</a>
+<nav class="navbar navbar-light" style="background-color: #03a678;">
+    <a class="navbar-brand" href="#">
+        <img src="http://4.bp.blogspot.com/-FtOrR7FqtEg/Tdufk5MUD9I/AAAAAAAADrE/1FMbaYHMrR8/s320/Kabupaten_Sidoarjo.png" class="m-2" alt="logo_sidoarjo" width="75" height="75">
+    </a>
+    <span class="text-white" style="font-size: x-large;">E-PSU PERUMAHAN KABUPATEN SIDOARJO</span> 
+</nav>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #025b42;">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link text-white" href="/epsu">Beranda <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Pelaporan
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="#">Ajukan Laporan</a>
+                    <a class="dropdown-item" href="#">Cek Status</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Pemantauan
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="#">Action</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Pengelolaan
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="#">Sosialisasi Serah Terima</a>
+                    <a class="dropdown-item" href="#">Laporan Masyarakat</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                </div>
+            </li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
+            <!-- Belum Login -->
+            <li class="nav-item">
+                <a class="nav-link text-white" href="#">Login</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link text-white" href="#">Register</a>
+            </li>
+
+            <!-- Sudah Login -->
+            <li class="nav-item dropdown">
+                <a id="navbarDropdown" class="nav-link text-white dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                    Username <span class="caret"></span>
+                </a>
+
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="#">Change profile</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Logout</a>
+
+                    <form id="logout-form" action="#" method="POST" style="display: none;">
+                        <!-- Insert csrf token here -->
+                    </form>
+                </div>
+            </li>
+        </ul>
     </div>
-  </nav>
+</nav>

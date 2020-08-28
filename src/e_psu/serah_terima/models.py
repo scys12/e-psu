@@ -8,3 +8,6 @@ class Dokumen(models.Model):
     video = fields.FileField(upload_to="serah_terima/dokumen/video/")
     foto = fields.ImageField(upload_to="serah_terima/dokumen/foto/")
     salinan_laporan = fields.FileField(upload_to="serah_terima/dokumen/salinan_laporan/")
+
+    class Meta:
+        db_table= "kelola_serahterima"

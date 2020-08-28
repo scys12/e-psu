@@ -38,10 +38,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     #own
-    'masyarakat',
     'serah_terima',
     'laporan',
+    'admin_kelola',
+    'admin_skpd',
+    'perwakilan_penghuni',
+    'warga',
     'smartfields',
+    'account',
     'crispy_forms',
 ]
 
@@ -96,6 +100,9 @@ DATABASES = {
         'PORT': '3306',
     }
 }
+
+AUTH_USER_MODEL = 'account.Account'
+
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
