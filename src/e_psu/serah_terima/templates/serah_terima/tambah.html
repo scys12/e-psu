@@ -1,9 +1,11 @@
-{% extends "serah_terima/layout.html" %}
+{% extends 'header.html' %}
+{% load static %}
 
 {% load crispy_forms_tags %}
 
-{% block body %}
-    <div class="container">
+<!-- Masthead -->
+{% block content %}
+    <div class="container py-5">
         <div class="card">
             <div class="card-header text-center">
                 <h2>Penambahan Serah Terima PSU</h2>
