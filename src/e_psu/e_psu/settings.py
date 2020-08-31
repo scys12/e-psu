@@ -80,7 +80,6 @@ TEMPLATES = [
     },
 ]
 
-print(os.path.join(BASE_DIR, "templates"))
 WSGI_APPLICATION = 'e_psu.wsgi.application'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')

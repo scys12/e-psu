@@ -12,7 +12,7 @@ class WargaRegistrationForm(forms.ModelForm):
     def clean_password(self):
         user_data = self.cleaned_data
         print(user_data)
-        if user_data['password'] != user_data['confirm_password']:
+        if user_data['password'] != user_data['konfirmasi_password']:
             return forms.ValidationError("Password tidak sama")
 
         return user_data['password']

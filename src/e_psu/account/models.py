@@ -3,13 +3,14 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
 # Create your models here.
 class MyAccountManager(BaseUserManager):
-    def create_user(self, email, username, password=None, user_type=4):
+    def create_user(self, email, username, password=None, user_type=0):
         if not email:
             raise ValueError("User harus mempunyai email")
         if not username:
             raise ValueError("User harus mempunyai username")
         if not password:
             raise ValueError("User harus mempunyai password")
+        print(password)
 
         user = self.model(
             email=self.normalize_email(email),
