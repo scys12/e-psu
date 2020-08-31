@@ -1,0 +1,30 @@
+{% extends 'header.html' %}
+{% block content %}
+<div class="wrapper fadeInDown">
+  <div id="formContent">
+    <!-- Tabs Titles -->
+
+    <!-- Icon -->
+    <div class="fadeIn first header-box-text">
+      <h4>Daftar</h4>
+    </div>
+    <!-- Login Form -->
+    <form method="post" style="padding: 0px 22px;text-align: center">
+      {% csrf_token %}
+      {% for field in account_form %}
+        <div class="form-group">
+          <label for="">{{ field.label }}</label>
+          {{ field }}
+        </div>
+      {% endfor %}
+      {% for field in warga_form %}
+        <div class="form-group">
+          <label for="">{{ field.label }}</label>
+          {{ field }}
+        </div>
+      {% endfor %}
+      <input type="submit" class="fadeIn fourth" value="Buat Akun">
+    </form>
+  </div>
+</div>
+{% endblock content %}
