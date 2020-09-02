@@ -28,7 +28,7 @@ class RegisterForm(forms.ModelForm):
             user.save()
         return user
 
-class LoginForm(forms.ModelForm):
+class LoginForm(forms.Form):
     email = forms.EmailField(label='Email', widget=forms.EmailInput(attrs={'class' : 'fadeIn second'}))
     password = forms.CharField(label='Password', widget=forms.PasswordInput(attrs={'class' : 'fadeIn second'}))
 
@@ -38,10 +38,12 @@ class LoginForm(forms.ModelForm):
 
     def clean(self):
         request = self.request
-        data = self.cleaned_data
+        print("KN")
+        data = super(LoginForm, self).clean()
         email = data.get("email")
         password = data.get("password")
         user = authenticate(request, username=email, password=password)
+        print(user)
         if user is None:
             raise forms.ValidationError("Email atau Password salah")
         login(request, user)
