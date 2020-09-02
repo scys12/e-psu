@@ -8,9 +8,9 @@ class BerkasLaporan(models.Model):
     deskripsi_laporan = models.CharField(max_length=200)
     foto_laporan = fields.ImageField(upload_to="laporan/foto", null=True, blank=True)
     status_laporan = models.CharField(max_length=20)
-    id_admin_status_laporan = models.CharField(max_length=20)
+    id_admin_status_laporan = models.PositiveIntegerField()
     bentuk_penanganan_laporan = models.TextField()
-    id_admin_penanganan_laporan = models.CharField(max_length=20)
+    id_admin_penanganan_laporan = models.PositiveIntegerField()
 
 
     # nama_psu = models.CharField(max_length=100)
