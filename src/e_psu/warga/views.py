@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import WargaRegistrationForm
-from account.forms import AccountForm
+from account.forms import LoginForm
 from django.db import transaction
 # Create your views here.
 
@@ -11,7 +11,7 @@ def login(request):
 
 @transaction.atomic
 def register(request):
-    account = AccountForm(request.POST or None, prefix='account')
+    account = LoginForm(request.POST or None, prefix='account')
     warga = WargaRegistrationForm(request.POST or None, prefix='warga')
     context = {
         "warga_form" : warga,
@@ -26,3 +26,5 @@ def register(request):
         warga_data.save()
         return redirect('warga:login')
     return render(request, 'warga/register.html', context)
+
+def login(request):

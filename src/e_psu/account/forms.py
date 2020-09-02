@@ -1,8 +1,10 @@
 from django import forms
-from .models import Account
+from django.contrib.auth import authenticate, login, get_user_model
 from django.core.validators import MinLengthValidator
 
-class AccountForm(forms.ModelForm):
+Account = get_user_model()
+
+class RegisterForm(forms.ModelForm):
     password = forms.CharField(label='Password', validators=[MinLengthValidator(4, "Password terlalu pendek")], widget=forms.PasswordInput(attrs={'class' : 'fadeIn second'}))
     konfirmasi_password = forms.CharField(label='Konfirmasi Password', validators=[MinLengthValidator(4, "Konfirmasi Password terlalu pendek")], widget=forms.PasswordInput(attrs={'class' : 'fadeIn second'})) 
     email = forms.EmailField(label='Email', widget=forms.EmailInput(attrs={'class' : 'fadeIn second'}))
@@ -20,8 +22,28 @@ class AccountForm(forms.ModelForm):
         return password
     
     def save(self, commit=True):
-        user = super(AccountForm, self).save(commit=False)
+        user = super(RegisterForm, self).save(commit=False)
         user.set_password(self.cleaned_data['password'])
         if commit:
             user.save()
         return user
+
+class LoginForm(forms.ModelForm):
+    email = forms.EmailField(label='Email', widget=forms.EmailInput(attrs={'class' : 'fadeIn second'}))
+    password = forms.CharField(label='Password', widget=forms.PasswordInput(attrs={'class' : 'fadeIn second'}))
+
+    def __init__(self, request, *args, **kwargs):
+        self.request = request
+        super(LoginForm, self).__init__(*args, **kwargs)
+
+    def clean(self):
+        request = self.request
+        data = self.cleaned_data
+        email = data.get("email")
+        password = data.get("password")
+        user = authenticate(request, username=email, password=password)
+        if user is None:
+            raise forms.ValidationError("Email atau Password salah")
+        login(request, user)
+        self.user = user
+        return data
