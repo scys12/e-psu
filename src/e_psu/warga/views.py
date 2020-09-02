@@ -11,21 +11,18 @@ def login(request):
 
 @transaction.atomic
 def register(request):
-    if request.method == 'POST':
-        account = AccountForm(request.POST, prefix='account')
-        warga = WargaRegistrationForm(request.POST, prefix='warga')
-        if account.is_valid() and warga.is_valid():
-
-            user = account.save(commit=False)
-            user.user_type = 4
-            user.objects.create_user()
-            warga_data = warga.save(commit=False)
-            warga_data.user = user
-            warga_data.save()
-            return redirect('warga:login')
-        else:
-            return redirect('warga:login')
-    else:
-        account = AccountForm(prefix='account')
-        warga = WargaRegistrationForm(prefix='warga')
-        return render(request, 'warga/register.html', {'warga': warga, 'account': account})
+    account = AccountForm(request.POST or None, prefix='account')
+    warga = WargaRegistrationForm(request.POST or None, prefix='warga')
+    context = {
+        "warga_form" : warga,
+        "account_form" : account
+    }
+    if account.is_valid() and warga.is_valid():
+        user = account.save(commit=False)
+        user.user_type = 4
+        user.save()
+        warga_data = warga.save(commit=False)
+        warga_data.user = user
+        warga_data.save()
+        return redirect('warga:login')
+    return render(request, 'warga/register.html', context)
