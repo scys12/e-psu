@@ -38,7 +38,6 @@ class LoginForm(forms.Form):
 
     def clean(self):
         request = self.request
-        print("KN")
         data = super(LoginForm, self).clean()
         email = data.get("email")
         password = data.get("password")
