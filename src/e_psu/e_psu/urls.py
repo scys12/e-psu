@@ -25,7 +25,8 @@ urlpatterns = [
     path('serah_terima/', include("serah_terima.urls")),
     path('laporan/', include("laporan.urls")),
     path('warga/', include("warga.urls")),
-    path('admin_kelola/', include("admin_kelola.urls"))
+    path('admin_kelola/', include("admin_kelola.urls")),
+    path('admin_skpd/', include("admin_skpd.urls"))
 ]
 
 if settings.DEBUG:
