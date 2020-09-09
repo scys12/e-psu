@@ -24,7 +24,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('serah_terima/', include("serah_terima.urls")),
     path('laporan/', include("laporan.urls")),
-    path('warga/', include("warga.urls"))
+    path('warga/', include("warga.urls")),
+    path('admin_kelola/', include("admin_kelola.urls"))
 ]
 
 if settings.DEBUG:

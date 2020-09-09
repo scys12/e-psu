@@ -33,6 +33,5 @@ def login(request):
         "form" : account
     }
     if account.is_valid():
-        print("OK")
         return render(request, 'warga/auth/register.html',context)
     return render(request, 'warga/auth/login.html', context)

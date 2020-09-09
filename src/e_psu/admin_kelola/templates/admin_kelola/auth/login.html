@@ -1,0 +1,46 @@
+{% extends 'header.html' %}
+
+{% block content %}
+<div class="wrapper fadeInDown">
+  <div id="formContent">
+    <!-- Tabs Titles -->
+
+    <!-- Icon -->
+    <div class="fadeIn first header-box-text">
+      <h4>Masuk</h4>
+    </div>
+
+    <!-- Login Form -->
+    <form method="post" style="padding: 0px 22px;text-align: center">
+      {% csrf_token %}
+      {% if form.errors %}
+          {% for field in form %}
+              {% for error in field.errors %}
+                  <div class="alert alert-danger">
+                      <strong>{{ error|escape }}</strong>
+                  </div>
+              {% endfor %}
+          {% endfor %}
+          {% for error in form.non_field_errors %}
+              <div class="alert alert-danger">
+                  <strong>{{ error|escape }}</strong>
+              </div>
+          {% endfor %}
+      {% endif %}
+      {% for field in form %}
+        <div class="form-group">
+          <label for="">{{ field.label }}</label>
+          {{ field }}
+        </div>
+      {% endfor %}
+      <input type="submit" class="fadeIn fourth" value="Log In">
+    </form>
+
+    <!-- Remind Passowrd -->
+    <div id="formFooter">
+      <a class="underlineHover" href="#">Forgot Password?</a>
+    </div>
+
+  </div>
+</div>
+{% endblock content %}
