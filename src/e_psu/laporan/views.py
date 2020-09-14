@@ -27,8 +27,8 @@ def tambah(request):
         form = BerkasLaporanForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            nama_psu = form.cleaned_data.get('nama_psu')
-            messages.success(request, f'Laporan {nama_psu} berhasil ditambahkan.')
+            nama_psu_laporan = form.cleaned_data.get('nama_psu_laporan')
+            messages.success(request, f'Laporan {nama_psu_laporan} berhasil ditambahkan.')
             return redirect('laporan:index')
     else:
         form = BerkasLaporanForm()
@@ -68,5 +68,5 @@ def hapus(request, id):
         return redirect('laporan:index')
 
     laporan.delete()
-    messages.success(request, f'Laporan {laporan.nama_psu} berhasil dihapus.')
+    messages.success(request, f'Laporan {laporan.nama_psu_laporan} berhasil dihapus.')
     return redirect('laporan:index')

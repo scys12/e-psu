@@ -4,13 +4,15 @@ from smartfields import fields
 
 #Belum tau bentuk laporannya seperti apa
 class BerkasLaporan(models.Model):
-    tanggal_entri_laporan = models.DateField()
+    tanggal_entri_laporan = models.DateField(auto_now_add=True)
+    nama_psu_laporan = models.CharField(max_length=100)
+    judul_laporan = models.CharField(max_length=100)
     deskripsi_laporan = models.CharField(max_length=200)
     foto_laporan = fields.ImageField(upload_to="laporan/foto", null=True, blank=True)
     status_laporan = models.CharField(max_length=20)
-    id_admin_status_laporan = models.PositiveIntegerField()
-    bentuk_penanganan_laporan = models.TextField()
-    id_admin_penanganan_laporan = models.PositiveIntegerField()
+    id_admin_status_laporan = models.PositiveIntegerField(null=True, blank=True)
+    bentuk_penanganan_laporan = models.TextField(null=True, blank=True)
+    id_admin_penanganan_laporan = models.PositiveIntegerField(null=True, blank=True)
 
 
     # nama_psu = models.CharField(max_length=100)

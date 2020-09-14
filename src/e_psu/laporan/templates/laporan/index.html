@@ -17,26 +17,29 @@
                 <table class="mt-2 table">
                     <thead class="thead-light">
                         <tr>
-                            <th shape="col">PSU</th>
-                            <th shape="col">Perumahan</th>
+                            <th shape="col">Tanggal Entri</th>
+                            <th shape="col">ID</th>
+                            <th shape="col">Nama PSU</th>
+                            <!-- <th shape="col">Perumahan</th> -->
                             <th shape="col">Judul Laporan</th>
                             <th shape="col">Bukti Foto</th>
-                            <th shape="col">Bukti Video</th>
+                            <!-- <th shape="col">Bukti Video</th> -->
                             <th shape="col">Opsi</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for laporan in laporans %}
                             <tr>
-                                <td>{{ laporan.nama_psu }}</td>
-                                <td>{{ laporan.perumahan }}</td>
+                                <td>{{ laporan.tanggal_entri_laporan }}</td>
+                                <td>{{ laporan.id }}</td>
+                                <td>{{ laporan.nama_psu_laporan }}</td>
                                 <td>{{ laporan.judul_laporan }}</td>
                                 <td>
-                                    <a href="{{ laporan.foto.url }}" class="btn btn-secondary" target="_blank">Unduh Bukti Foto</a>
+                                    <a href="{{ foto.url }}" class="btn btn-secondary" target="_blank">Unduh Bukti Foto</a>
                                 </td>
-                                <td>
+                                <!-- <td>
                                     <a href="{{ laporan.video.url }}" class="btn btn-secondary" target="_blank">Unduh Bukti Video</a>                                    
-                                </td>
+                                </td> -->
                                 <td>
                                     <a href="{% url 'laporan:tampil' id=laporan.id %}" type="button" class="btn btn-primary">Lihat</a>
                                     <a href="{% url 'laporan:ubah' id=laporan.id %}" type="button" class="btn btn-warning">Ubah</a>

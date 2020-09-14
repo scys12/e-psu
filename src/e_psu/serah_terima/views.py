@@ -63,7 +63,7 @@ def ubah(request, id):
 
 def hapus(request, id):
     try:
-        dokumen = Dokumen.objects.get(id = id)
+        dokumen = Dokumen.objects.get(id=id)
     except Dokumen.DoesNotExist:
         return redirect('serah_terima:index')
 
