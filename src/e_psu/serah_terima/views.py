@@ -29,6 +29,24 @@ def index(request):
 
 @login_required
 @admin_kelola_required
+def cari(request):
+    dokumen_list = Dokumen.objects.filter(nama_psu__icontains=request.GET['psu'])
+    page = request.GET.get('page', 1)
+
+    paginator = Paginator(dokumen_list, 10)
+    try:
+        dokumens = paginator.page(page)
+    except PageNotAnInteger:
+        dokumens = paginator.page(1)
+    except EmptyPage:
+        dokumens = paginator.page(paginator.num_pages)
+
+    return render(request, "serah_terima/cari.html", {
+        'dokumens' : dokumens
+    })
+
+@login_required
+@admin_kelola_required
 def tambah(request):
     if request.method == 'POST':
         form = DokumenForm(request.POST, request.FILES)

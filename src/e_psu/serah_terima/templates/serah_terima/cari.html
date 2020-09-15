@@ -6,7 +6,7 @@
     <div class="container py-5">
         <div class="card">
             <div class="card-header text-center">
-                <h2>Sosialisasi Serah Terima PSU</h2>
+                <h2>Hasil Pencarian Dokumen dengan Nama '{{ request.GET.psu }}'</h2>
             </div>
             <div class="card-body">
                 {% for message in messages %}
@@ -17,8 +17,8 @@
                 <div class="mb-4">
                     <a href="{% url 'serah_terima:tambah' %}" class="btn btn-success d-inline">Tambah</a>
                     <form class="form-inline d-inline float-right" action="{% url 'serah_terima:cari' %}" method="get">
-                            <input name="psu" class="form-control" type="text" placeholder="Cari Dokumen">
-                            <button type="submit" class="btn btn-primary">Cari</button>
+                        <input name="psu" class="form-control" type="text" placeholder="Cari Dokumen" value="{{ request.GET.psu }}">
+                        <button type="submit" class="btn btn-primary">Cari</button>
                     </form>
                 </div>                
                 <table class="mt-2 table">
@@ -94,6 +94,9 @@
                         {% endif %}
                     </ul>
                 {% endif %}
+            </div>
+            <div class="card-footer">
+                <a href="{% url 'serah_terima:index' %}" type="button" class="btn btn-success">Kembali</a>
             </div>
         </div>
     </div>
