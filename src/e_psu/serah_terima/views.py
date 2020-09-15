@@ -8,7 +8,7 @@ from .forms import DokumenForm
 from .models import Dokumen
 from admin_kelola.models import AdminKelola
 
-@login_required
+@login_required(login_url='/admin_kelola/login')
 @admin_kelola_required
 def index(request):    
     dokumen_list = Dokumen.objects.select_related()
@@ -44,7 +44,7 @@ def index(request):
 #         'dokumens' : dokumens
 #     })
 
-@login_required
+@login_required(login_url='/admin_kelola/login')
 @admin_kelola_required
 def tambah(request):    
     if request.method == 'POST':
@@ -64,7 +64,7 @@ def tambah(request):
         'form' : form
     })
 
-@login_required
+@login_required(login_url='/admin_kelola/login')
 @admin_kelola_required
 def tampil(request, id):
     dokumen = Dokumen.objects.get(id=id)
@@ -72,7 +72,7 @@ def tampil(request, id):
         'dokumen' : dokumen
     })
 
-@login_required
+@login_required(login_url='/admin_kelola/login')
 @admin_kelola_required
 def ubah(request, id):
     try:
@@ -95,7 +95,7 @@ def ubah(request, id):
         'form' : form
     })
 
-@login_required
+@login_required(login_url='/admin_kelola/login')
 @admin_kelola_required
 def hapus(request, id):
     try:
