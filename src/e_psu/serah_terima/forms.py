@@ -10,7 +10,7 @@ class DokumenClearableFileInput(ClearableFileInput):
 class DokumenForm(forms.ModelForm):
     class Meta:
         model = Dokumen
-        fields = "__all__"
+        exclude = ['admin_kelola']
 
     nama_psu = forms.CharField(label="Nama PSU", max_length=100)
     video = forms.FileField(widget=DokumenClearableFileInput(attrs={'accept': 'video/*'}))

@@ -4,14 +4,13 @@ from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponse, Http404
 from django.shortcuts import render, redirect, get_object_or_404
-
 from .forms import DokumenForm
 from .models import Dokumen
-
+from admin_kelola.models import AdminKelola
 
 @login_required
 @admin_kelola_required
-def index(request):
+def index(request):    
     dokumen_list = Dokumen.objects.all()
     page = request.GET.get('page', 1)
 
@@ -47,11 +46,14 @@ def cari(request):
 
 @login_required
 @admin_kelola_required
-def tambah(request):
+def tambah(request):    
     if request.method == 'POST':
         form = DokumenForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            admin = AdminKelola.objects.get(pk=request.user.id)
+            form_serah_terima = form.save(commit=False)
+            form_serah_terima.admin_kelola = admin
+            form_serah_terima.save()
             nama_psu = form.cleaned_data.get('nama_psu')
             messages.success(request, f'Dokumen {nama_psu} berhasil ditambahkan.')
             return redirect('serah_terima:index')
@@ -81,10 +83,13 @@ def ubah(request, id):
     form = DokumenForm(request.POST or None, request.FILES or None, instance = dokumen)
 
     if form.is_valid():
-       form.save()
-       nama_psu = form.cleaned_data.get('nama_psu')
-       messages.success(request, f'Dokumen {nama_psu} berhasil diperbarui.')
-       return redirect('serah_terima:tampil', id=id)
+        admin = AdminKelola.objects.get(pk=request.user.id)
+        form_serah_terima = form.save(commit=False)
+        form_serah_terima.admin_kelola = admin
+        form_serah_terima.save()
+        nama_psu = form.cleaned_data.get('nama_psu')
+        messages.success(request, f'Dokumen {nama_psu} berhasil diperbarui.')
+        return redirect('serah_terima:index')
 
     return render(request, "serah_terima/ubah.html", {
         'form' : form

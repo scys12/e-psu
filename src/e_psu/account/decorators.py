@@ -34,7 +34,7 @@ def admin_skpd_required(function=None, redirect_field_name=REDIRECT_FIELD_NAME, 
         return actual_decorator(function)
     return actual_decorator
 
-def perwakilan_penghuni_required(function=None, redirect_field_name=REDIRECT_FIELD_NAME, login_url='/perwakilan_penghunilogin'):
+def perwakilan_penghuni_required(function=None, redirect_field_name=REDIRECT_FIELD_NAME, login_url='/perwakilan_penghuni/login'):
     # decorator for perwakilan_penghuni
     actual_decorator = user_passes_test(
         lambda u: u.is_active and u.user_type == 2,
