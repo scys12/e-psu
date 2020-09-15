@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth import logout
 from .forms import AdminKelolaRegistrationForm
 from account.forms import RegisterForm, LoginForm
 from django.db import transaction
@@ -10,7 +11,7 @@ def login(request):
 
 
 @transaction.atomic
-def register(request):
+def register_admin_kelola(request):
     account = RegisterForm(request.POST or None, prefix='account')
     admin_kelola = AdminKelolaRegistrationForm(request.POST or None, prefix='admin_kelola')
     context = {
@@ -27,11 +28,16 @@ def register(request):
         return redirect('admin_kelola:login')
     return render(request, 'admin_kelola/auth/register.html', context)
 
-def login(request):
+def login_admin_kelola(request):
     account = LoginForm(data=request.POST or None, request=request)
     context = {
         "form" : account
     }
     if account.is_valid():
-        return render(request, 'admin_kelola/auth/register.html',context)
+        return redirect('serah_terima:index')
     return render(request, 'admin_kelola/auth/login.html', context)
+
+
+def logout_admin_kelola(request):
+    logout(request)
+    return redirect('home')

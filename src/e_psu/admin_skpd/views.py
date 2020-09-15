@@ -33,5 +33,6 @@ def login(request):
         "form" : account
     }
     if account.is_valid():
-        return render(request, 'admin_skpd/auth/register.html',context)
+        print("1")
+        return redirect('serah_terima:index')
     return render(request, 'admin_skpd/auth/login.html', context)

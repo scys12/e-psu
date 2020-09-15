@@ -1,3 +1,5 @@
+from django.contrib.auth.decorators import login_required
+from account.decorators import admin_kelola_required
 from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponse, Http404
@@ -6,6 +8,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .forms import DokumenForm
 from .models import Dokumen
 
+
+@login_required
+@admin_kelola_required
 def index(request):
     dokumen_list = Dokumen.objects.all()
     page = request.GET.get('page', 1)
@@ -22,6 +27,8 @@ def index(request):
         'dokumens' : dokumens
     })
 
+@login_required
+@admin_kelola_required
 def tambah(request):
     if request.method == 'POST':
         form = DokumenForm(request.POST, request.FILES)
@@ -37,12 +44,16 @@ def tambah(request):
         'form' : form
     })
 
+@login_required
+@admin_kelola_required
 def tampil(request, id):
     dokumen = Dokumen.objects.get(id=id)
     return render(request, "serah_terima/tampil.html", {
         'dokumen' : dokumen
     })
 
+@login_required
+@admin_kelola_required
 def ubah(request, id):
     try:
         dokumen = Dokumen.objects.get(id = id)
@@ -61,6 +72,8 @@ def ubah(request, id):
         'form' : form
     })
 
+@login_required
+@admin_kelola_required
 def hapus(request, id):
     try:
         dokumen = Dokumen.objects.get(id=id)
