@@ -35,11 +35,15 @@ class MyAccountManager(BaseUserManager):
 
 
 class Account(AbstractBaseUser):
+    ADMIN = 1
+    PERWAKILAN = 2
+    SKPD = 3
+    WARGA = 4
     USER_TYPE_CHOICES = (
-      (1, 'admin'),
-      (2, 'perwakilan'),
-      (3, 'skpd'),
-      (4, 'warga'),
+      (ADMIN, 'admin'),
+      (PERWAKILAN, 'perwakilan'),
+      (SKPD, 'skpd'),
+      (WARGA, 'warga'),
     )
 
     email = models.EmailField(verbose_name="email", max_length=30, unique=True)

@@ -28,7 +28,7 @@ def register(request):
     return render(request, 'warga/auth/register.html', context)
 
 def login(request):
-    account = LoginForm(data=request.POST or None, request=request)
+    account = LoginForm(data=request.POST or None, request=request, prefix='warga')
     context = {
         "form" : account
     }

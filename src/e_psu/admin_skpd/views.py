@@ -4,11 +4,6 @@ from account.forms import RegisterForm, LoginForm
 from django.db import transaction
 # Create your views here.
 
-
-def login(request):
-    return render(request, "admin_skpd/auth/login.html")
-
-
 @transaction.atomic
 def register(request):
     account = RegisterForm(request.POST or None, prefix='account')
@@ -28,11 +23,10 @@ def register(request):
     return render(request, 'admin_skpd/auth/register.html', context)
 
 def login(request):
-    account = LoginForm(data=request.POST or None, request=request)
+    account = LoginForm(data=request.POST or None, request=request, prefix='skpd')
     context = {
         "form" : account
     }
     if account.is_valid():
-        print("1")
-        return redirect('serah_terima:index')
+        return render(request, 'admin_skpd/auth/register.html', context)
     return render(request, 'admin_skpd/auth/login.html', context)

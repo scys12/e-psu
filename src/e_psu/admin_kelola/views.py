@@ -29,7 +29,7 @@ def register_admin_kelola(request):
     return render(request, 'admin_kelola/auth/register.html', context)
 
 def login_admin_kelola(request):
-    account = LoginForm(data=request.POST or None, request=request)
+    account = LoginForm(data=request.POST or None, request=request, prefix='admin')
     context = {
         "form" : account
     }
