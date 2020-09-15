@@ -16,16 +16,17 @@
                 {% endfor %}
                 <div class="mb-4">
                     <a href="{% url 'serah_terima:tambah' %}" class="btn btn-success d-inline">Tambah</a>
+                    {% comment %}
                     <form class="form-inline d-inline float-right" action="{% url 'serah_terima:cari' %}" method="get">
                             <input name="psu" class="form-control" type="text" placeholder="Cari Dokumen">
                             <button type="submit" class="btn btn-primary">Cari</button>
                     </form>
-                </div>                
+                    {% endcomment %}
+                </div>
                 <table class="mt-2 table">
                     <thead class="thead-light">
                         <tr>
-                            <th shape="col">PSU</th>
-                            <th shape="col">Perumahan</th>
+                            <th shape="col">Admin</th>
                             <th shape="col">Video</th>
                             <th shape="col">Foto</th>
                             <th shape="col">Salinan Laporan</th>
@@ -35,8 +36,9 @@
                     <tbody>
                         {% for dokumen in dokumens %}
                             <tr>
-                                <td>{{ dokumen.nama_psu }}</td>
-                                <td>{{ dokumen.perumahan }}</td>
+                                <td>
+                                    {{ dokumen.admin_kelola.user.username }}
+                                </td>
                                 <td>
                                     <a href="{{ dokumen.video.url }}" class="btn btn-secondary" target="_blank">Unduh Video</a>                                    
                                 </td>

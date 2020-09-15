@@ -12,7 +12,6 @@ class DokumenForm(forms.ModelForm):
         model = Dokumen
         exclude = ['admin_kelola']
 
-    nama_psu = forms.CharField(label="Nama PSU", max_length=100)
     video = forms.FileField(widget=DokumenClearableFileInput(attrs={'accept': 'video/*'}))
     foto = forms.ImageField(widget=DokumenClearableFileInput(attrs={'accept': 'image/*'}))
     salinan_laporan = forms.FileField(widget=DokumenClearableFileInput(attrs={'accept': 'application/pdf'}))
