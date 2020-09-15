@@ -42,9 +42,11 @@ class LoginForm(forms.Form):
         email = data.get("email")
         password = data.get("password")
         user = authenticate(request, username=email, password=password)
-        print(user)
         if user is None:
             raise forms.ValidationError("Email atau Password salah")
+        user_type_name = dict(Account.USER_TYPE_CHOICES).get(user.user_type)
+        if user_type_name != self.prefix:
+            raise forms.ValidationError("Terdapat kesalahan pada saat autentikasi akun. Mohon mengecek kembali apakah akun Anda sesuai dengan halaman Login")
         login(request, user)
         self.user = user
         return data
