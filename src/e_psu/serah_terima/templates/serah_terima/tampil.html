@@ -28,9 +28,45 @@
                 <hr class="my-4">
                 <h4>Salinan Laporan</h4>
                 <a href="{{ dokumen.salinan_laporan.url }}" class="btn btn-primary" target="_blank">Unduh Salinan Laporan</a>
+                
+                {% if dokumen.status_pengelolaan_text %}
+                    <hr class="my-4">
+                    <h4>Status Pengelolaan Teks</h4>
+                    {{ dokumen.status_pengelolaan_text }}
+                {% endif %}
+                {% if dokumen.status_pengelolaan %}
+                    <hr class="my-4">
+                    <h4>Status Pengelolaan File</h4>
+                    <a href="{{ dokumen.status_pengelolaan_text.url }}" class="btn btn-primary" target="_blank">Unduh File Status Pengelolaan</a>
+                {% endif %}
+
+                {% if dokumen.pola_pengelolaan_text %}
+                    <hr class="my-4">
+                    <h4>Pola Pengelolaan Teks</h4>
+                    {{ dokumen.pola_pengelolaan_text }}
+                {% endif %}
+                {% if dokumen.pola_pengelolaan %}
+                    <hr class="my-4">
+                    <h4>Pola Pengelolaan File</h4>
+                    <a href="{{ dokumen.pola_pengelolaan_text.url }}" class="btn btn-primary" target="_blank">Unduh File Pola Pengelolaan</a>
+                {% endif %}
+
+                {% if dokumen.regulasi_pemanfaatan_psu_text %}
+                    <hr class="my-4">
+                    <h4>Regulasi Pemanfaatan PSU Teks</h4>
+                    {{ dokumen.regulasi_pemanfaatan_psu_text }}
+                {% endif %}
+                {% if dokumen.regulasi_pemanfaatan_psu %}
+                    <hr class="my-4">
+                    <h4>Regulasi Pemanfaatan PSU File</h4>
+                    <a href="{{ dokumen.regulasi_pemanfaatan_psu_text.url }}" class="btn btn-primary" target="_blank">Unduh File Regulasi Pemanfaatan PSU</a>
+                {% endif %}
+
                 <hr class="my-3">
                 <a href="{% url 'serah_terima:index' %}" type="button" class="btn btn-success">Kembali</a>
-                <a href="{% url 'serah_terima:ubah' id=dokumen.id %}" type="button" class="btn btn-warning">Ubah</a>
+                {% if request.user.is_admin %}
+                    <a href="{% url 'serah_terima:ubah' id=dokumen.id %}" type="button" class="btn btn-warning">Ubah</a>
+                {% endif %}
             </div>
         </div>
     </div>

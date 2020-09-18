@@ -13,7 +13,12 @@
                 <form method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="form-group">
-                        <div class="label">Status Pengelolaan</div>
+                        <div class="label">Status Pengelolaan* (pilih minimal satu)</div>
+                        {% if form.errors.status_pengelolaan %}
+                            <small class="text-danger">
+                                <strong>Status Pengelolaan diperlukan</strong>
+                            </small>
+                        {% endif %}
                         <div id="dynamic-button-status_pengelolaan" style="margin-bottom:10px;">
                             <button class="btn btn-info add-text-status_pengelolaan" style="margin:10px">
                                 Tambah Status Berupa Teks
@@ -24,7 +29,12 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="label">Pola Pengelolaan</div>
+                        <div class="label">Pola Pengelolaan* (pilih minimal satu)</div>
+                        {% if form.errors.pola_pengelolaan %}
+                            <small class="text-danger">
+                                <strong>Pola Pengelolaan diperlukan</strong>
+                            </small>
+                        {% endif %}
                         <div id="dynamic-button-pola_pengelolaan" style="margin-bottom:10px;">
                             <button class="btn btn-info add-text-pola_pengelolaan" style="margin:10px">
                                 Tambah Pola Berupa Teks
@@ -35,7 +45,12 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="label">Regulasi Pemanfaatan PSU</div>
+                        <div class="label">Regulasi Pemanfaatan PSU* (pilih minimal satu)</div>
+                        {% if form.errors.regulasi_pemanfaatan_psu %}
+                            <small class="text-danger">
+                                <strong>Regulasi Pemanfaatan PSU diperlukan</strong>
+                            </small>
+                        {% endif %}
                         <div id="dynamic-button-regulasi_pemanfaatan_psu" style="margin-bottom:10px;">
                             <button class="btn btn-info add-text-regulasi_pemanfaatan_psu" style="margin:10px">
                                 Tambah Regulasi Berupa Teks
@@ -48,7 +63,7 @@
                     {{ form.video | as_crispy_field }}
                     {{ form.foto | as_crispy_field }}
                     {{ form.salinan_laporan | as_crispy_field }}
-                    <a href="{{ request.META.HTTP_REFERER }}" type="button" class="btn btn-danger">Batal</a>
+                    <a href="{% url 'serah_terima:index' %}" type="button" class="btn btn-danger">Batal</a>
                     <button type="submit" class="btn btn-success">Tambahkan</button>
                 </form>
             </div>

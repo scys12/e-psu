@@ -50,7 +50,6 @@ def tambah(request):
     if request.method == 'POST':
         form = DokumenForm(request.POST, request.FILES)
         if form.is_valid():
-            print(form.cleaned_data)
             admin = AdminKelola.objects.get(pk=request.user.id)
             form_serah_terima = form.save(commit=False)
             form_serah_terima.admin_kelola = admin
@@ -87,12 +86,12 @@ def ubah(request, id):
         form_serah_terima = form.save(commit=False)
         form_serah_terima.admin_kelola = admin
         form_serah_terima.save()
-        nama_psu = form.cleaned_data.get('nama_psu')
-        messages.success(request, f'Dokumen {nama_psu} berhasil diperbarui.')
+        messages.success(request, f'Dokumen berhasil diperbarui.')
         return redirect('serah_terima:index')
 
+    print(form.errors)
     return render(request, "serah_terima/ubah.html", {
-        'form' : form
+        'form' : form, 'dokumen' : dokumen
     })
 
 @login_required(login_url='/admin_kelola/login')
@@ -104,5 +103,5 @@ def hapus(request, id):
         return redirect('serah_terima:index')
 
     dokumen.delete()
-    messages.success(request, f'Dokumen {dokumen.nama_psu} berhasil dihapus.')
+    messages.success(request, f'Dokumen berhasil dihapus.')
     return redirect('serah_terima:index')

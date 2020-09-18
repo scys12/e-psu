@@ -15,7 +15,9 @@
                     </div>
                 {% endfor %}
                 <div class="mb-4">
-                    <a href="{% url 'serah_terima:tambah' %}" class="btn btn-success d-inline">Tambah</a>
+                    {% if request.user.is_admin %}
+                        <a href="{% url 'serah_terima:tambah' %}" class="btn btn-success d-inline">Tambah</a>
+                    {% endif %}
                     {% comment %}
                     <form class="form-inline d-inline float-right" action="{% url 'serah_terima:cari' %}" method="get">
                             <input name="psu" class="form-control" type="text" placeholder="Cari Dokumen">
@@ -50,11 +52,13 @@
                                 </td>
                                 <td>
                                     <a href="{% url 'serah_terima:tampil' id=dokumen.id %}" type="button" class="btn btn-primary">Lihat</a>
-                                    <a href="{% url 'serah_terima:ubah' id=dokumen.id %}" type="button" class="btn btn-warning">Ubah</a>
-                                    <a href="{% url 'serah_terima:hapus' id=dokumen.id %}" type="button" class="btn btn-danger" 
-                                        onclick="return confirm('Apakah Anda yakin untuk menghapus dokumen {{ dokumen.nama_psu }}?')">
-                                        Hapus
-                                    </a>
+                                    {% if request.user.is_admin %}
+                                        <a href="{% url 'serah_terima:ubah' id=dokumen.id %}" type="button" class="btn btn-warning">Ubah</a>
+                                        <a href="{% url 'serah_terima:hapus' id=dokumen.id %}" type="button" class="btn btn-danger" 
+                                            onclick="return confirm('Apakah Anda yakin untuk menghapus dokumen {{ dokumen.nama_psu }}?')">
+                                            Hapus
+                                        </a>
+                                    {% endif %}
                                 </td>
                             </tr>
                         {% endfor %}
