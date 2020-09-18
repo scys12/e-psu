@@ -50,16 +50,16 @@ def tambah(request):
     if request.method == 'POST':
         form = DokumenForm(request.POST, request.FILES)
         if form.is_valid():
+            print(form.cleaned_data)
             admin = AdminKelola.objects.get(pk=request.user.id)
             form_serah_terima = form.save(commit=False)
             form_serah_terima.admin_kelola = admin
             form_serah_terima.save()
             nama_psu = form.cleaned_data.get('nama_psu')
-            messages.success(request, f'Dokumen {nama_psu} berhasil ditambahkan.')
+            messages.success(request, f'Dokumen berhasil ditambahkan.')
             return redirect('serah_terima:index')
     else:
         form = DokumenForm()
-
     return render(request, "serah_terima/tambah.html", {
         'form' : form
     })
