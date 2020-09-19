@@ -14,7 +14,8 @@ class BerkasLaporan(models.Model):
     bentuk_penanganan_laporan = models.TextField(null=True, blank=True)
     id_admin_penanganan_laporan = models.PositiveIntegerField(null=True, blank=True)
 
-
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     # nama_psu = models.CharField(max_length=100)
     # perumahan = models.CharField(max_length=100)
     # judul_laporan = models.CharField(max_length=100)

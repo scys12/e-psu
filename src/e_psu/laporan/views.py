@@ -2,10 +2,13 @@ from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponse, Http404
 from django.shortcuts import render, redirect, get_object_or_404
-
+from account.decorators import admin_kelola_required
+from django.contrib.auth.decorators import login_required
 from .forms import BerkasLaporanForm
 from .models import BerkasLaporan
 
+@login_required(login_url='/admin_kelola/login')
+@admin_kelola_required
 def index(request):
     semua_laporan = BerkasLaporan.objects.all()
     page = request.GET.get('page', 1)
@@ -22,6 +25,8 @@ def index(request):
         'laporans': laporans
     })
 
+@login_required(login_url='/admin_kelola/login')
+@admin_kelola_required
 def tambah(request):
     if request.method == 'POST':
         form = BerkasLaporanForm(request.POST, request.FILES)
@@ -37,12 +42,16 @@ def tambah(request):
         'form': form
     })
 
+@login_required(login_url='/admin_kelola/login')
+@admin_kelola_required
 def tampil(request, id):
     laporan = BerkasLaporan.objects.get(id=id)
     return render(request, "laporan/tampil.html", {
         'laporan': laporan
     })
 
+@login_required(login_url='/admin_kelola/login')
+@admin_kelola_required
 def ubah(request, id):
     try:
         laporan = BerkasLaporan.objects.get(id=id)
@@ -61,6 +70,8 @@ def ubah(request, id):
         'form': form
     })
 
+@login_required(login_url='/admin_kelola/login')
+@admin_kelola_required
 def hapus(request, id):
     try:
         laporan = BerkasLaporan.objects.get(id=id)

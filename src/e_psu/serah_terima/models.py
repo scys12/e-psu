@@ -28,5 +28,8 @@ class Dokumen(models.Model):
     pola_pengelolaan = fields.FileField(upload_to=PathAndRename("serah_terima/dokumen/pola_pengelolaan/"),blank=True, null=True)
     regulasi_pemanfaatan_psu = fields.FileField(upload_to=PathAndRename("serah_terima/dokumen/regulasi_pemanfaatan_psu/"),blank=True, null=True)
 
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
     class Meta:
         db_table= "kelola_serahterima"

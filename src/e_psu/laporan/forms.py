@@ -10,7 +10,7 @@ class BerkasLaporanClearableFileInput(ClearableFileInput):
 class BerkasLaporanForm(forms.ModelForm):
     class Meta:
         model = BerkasLaporan
-        fields = ("nama_psu_laporan", "judul_laporan", "deskripsi_laporan", "foto_laporan")
+        fields = ("nama_psu_laporan", "judul_laporan", "deskripsi_laporan", "foto_laporan",)
         # fields = "__all__"
         # fields = ("nama_psu", "perumahan", "judul_laporan",
         #     "deskripsi_laporan", "bukti_foto_laporan", "bukti_video_laporan")
