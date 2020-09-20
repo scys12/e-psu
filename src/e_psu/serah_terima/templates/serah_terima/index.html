@@ -15,7 +15,7 @@
                     </div>
                 {% endfor %}
                 <div class="mb-4">
-                    {% if request.user.is_admin %}
+                    {% if request.user.user_type == 1 %}
                         <a href="{% url 'serah_terima:tambah' %}" class="btn btn-success d-inline">Tambah</a>
                     {% endif %}
                     {% comment %}
@@ -52,7 +52,7 @@
                                 </td>
                                 <td>
                                     <a href="{% url 'serah_terima:tampil' id=dokumen.id %}" type="button" class="btn btn-primary">Lihat</a>
-                                    {% if request.user.is_admin %}
+                                    {% if request.user.user_type == 1 %}
                                         <a href="{% url 'serah_terima:ubah' id=dokumen.id %}" type="button" class="btn btn-warning">Ubah</a>
                                         <a href="{% url 'serah_terima:hapus' id=dokumen.id %}" type="button" class="btn btn-danger" 
                                             onclick="return confirm('Apakah Anda yakin untuk menghapus dokumen {{ dokumen.nama_psu }}?')">

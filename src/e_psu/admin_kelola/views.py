@@ -3,12 +3,43 @@ from django.contrib.auth import logout
 from .forms import AdminKelolaRegistrationForm
 from account.forms import RegisterForm, LoginForm
 from django.db import transaction
+from serah_terima.models import Dokumen
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from account.decorators import admin_kelola_required
+from django.contrib.auth.decorators import login_required
+from laporan.models import BerkasLaporan
 # Create your views here.
-
 
 def login(request):
     return render(request, "admin_kelola/auth/login.html")
 
+@login_required(login_url='/admin_kelola/login')
+@admin_kelola_required
+def index(request):    
+    page = request.GET.get('page', 1)
+
+    dokumen_list = Dokumen.objects.select_related()
+    paginator = Paginator(dokumen_list, 10)
+    try:
+        dokumens = paginator.page(page)
+    except PageNotAnInteger:
+        dokumens = paginator.page(1)
+    except EmptyPage:
+        dokumens = paginator.page(paginator.num_pages)
+    
+    semua_laporan = BerkasLaporan.objects.all()  
+    paginator = Paginator(semua_laporan, 10)
+    try:
+        laporans = paginator.page(page)
+    except PageNotAnInteger:
+        laporans = paginator.page(1)
+    except EmptyPage:
+        laporans = paginator.page(paginator.num_pages)
+
+    return render(request, "admin_kelola/index.html", {
+        'dokumens' : dokumens,
+        'laporans': laporans
+    })    
 
 @transaction.atomic
 def register_admin_kelola(request):

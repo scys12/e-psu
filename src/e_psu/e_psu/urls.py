@@ -22,8 +22,8 @@ from pages.views import home_view, register_view
 urlpatterns = [
     path("", home_view, name="home"),
     path('admin/', admin.site.urls),
-    path('serah_terima/', include("serah_terima.urls")),
-    path('laporan/', include("laporan.urls")),
+    path('admin_kelola/serah_terima/', include("serah_terima.urls")),
+    path('admin_kelola/laporan/', include("laporan.urls")),
     path('warga/', include("warga.urls")),
     path('admin_kelola/', include("admin_kelola.urls")),
     path('admin_skpd/', include("admin_skpd.urls"))
