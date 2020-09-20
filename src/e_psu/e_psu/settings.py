@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'smartfields',
     'account',
     'crispy_forms',
+    'data_proyek',
 ]
 
 MIDDLEWARE = [
