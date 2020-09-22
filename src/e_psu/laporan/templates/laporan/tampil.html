@@ -36,7 +36,7 @@
                     <img style="max-width: 100%" src="{{ laporan.bukti_foto_laporan.url }}" alt="Foto laporan {{ laporan.nama_psu }}">
                 </div>
                 <hr class="my-4">
-                <a href="{% url 'laporan:index' %}" type="button" class="btn btn-success"> Kembali </a>
+                <a href="{% url 'admin_kelola:index' %}" type="button" class="btn btn-success"> Kembali </a>
                 <a href="{% url 'laporan:ubah' id=laporan.id %}" type="button" class="btn btn-warning"> Ubah </a>
             </div>
         </div>

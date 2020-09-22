@@ -9,9 +9,11 @@
             </div>
             <div class="card-body">
                 {% for message in messages %}
-                    <div class="alert alert-success" role="alert">
-                        {{ message }}
-                    </div>
+                    {% if message.extra_tags == 'laporan' %}
+                        <div class="alert alert-success" role="alert">
+                            {{ message }}
+                        </div>
+                    {% endif %}
                 {% endfor %}
                 <a href="{% url 'laporan:tambah' %}" class="btn btn-success">Tambah</a>
                 <table class="mt-2 table">
@@ -101,9 +103,11 @@
                 </div>
                 <div class="card-body">
                     {% for message in messages %}
-                        <div class="alert alert-success" role="alert">
-                            {{ message }}
-                        </div>
+                        {% if message.extra_tags == 'serah_terima' %}
+                            <div class="alert alert-success" role="alert">
+                                {{ message }}
+                            </div>
+                        {% endif %}                        
                     {% endfor %}
                     <div class="mb-4">
                         {% if request.user.user_type == 1 %}

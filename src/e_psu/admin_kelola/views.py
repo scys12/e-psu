@@ -28,13 +28,13 @@ def index(request):
         dokumens = paginator.page(paginator.num_pages)
     
     semua_laporan = BerkasLaporan.objects.all()  
-    paginator = Paginator(semua_laporan, 10)
+    paginator_laporan = Paginator(semua_laporan, 10)
     try:
-        laporans = paginator.page(page)
+        laporans = paginator_laporan.page(page)
     except PageNotAnInteger:
-        laporans = paginator.page(1)
+        laporans = paginator_laporan.page(1)
     except EmptyPage:
-        laporans = paginator.page(paginator.num_pages)
+        laporans = paginator_laporan.page(paginator_laporan.num_pages)
 
     return render(request, "admin_kelola/index.html", {
         'dokumens' : dokumens,
@@ -65,7 +65,7 @@ def login_admin_kelola(request):
         "form" : account
     }
     if account.is_valid():
-        return redirect('serah_terima:index')
+        return redirect('admin_kelola:index')
     return render(request, 'admin_kelola/auth/login.html', context)
 
 

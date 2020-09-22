@@ -63,7 +63,7 @@
                 {% endif %}
 
                 <hr class="my-3">
-                <a href="{% url 'serah_terima:index' %}" type="button" class="btn btn-success">Kembali</a>
+                <a href="{% url 'admin_kelola:index' %}" type="button" class="btn btn-success">Kembali</a>
                 {% if request.user.is_admin %}
                     <a href="{% url 'serah_terima:ubah' id=dokumen.id %}" type="button" class="btn btn-warning">Ubah</a>
                 {% endif %}

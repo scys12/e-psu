@@ -11,7 +11,7 @@
             <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 {{ form | crispy }}
-                <a href="{% url 'laporan:index' %}" type="button" class="btn btn-danger">
+                <a href="{% url 'admin_kelola:index' %}" type="button" class="btn btn-danger">
                     Batal
                 </a>
                 <button type="submit" class="btn btn-success"> Tambahkan </button>

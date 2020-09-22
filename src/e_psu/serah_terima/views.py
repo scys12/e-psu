@@ -8,23 +8,23 @@ from .forms import DokumenForm
 from .models import Dokumen
 from admin_kelola.models import AdminKelola
 
-@login_required(login_url='/admin_kelola/login')
-@admin_kelola_required
-def index(request):    
-    dokumen_list = Dokumen.objects.select_related()
-    page = request.GET.get('page', 1)
+# @login_required(login_url='/admin_kelola/login')
+# @admin_kelola_required
+# def index(request):    
+#     dokumen_list = Dokumen.objects.select_related()
+#     page = request.GET.get('page', 1)
 
-    paginator = Paginator(dokumen_list, 10)
-    try:
-        dokumens = paginator.page(page)
-    except PageNotAnInteger:
-        dokumens = paginator.page(1)
-    except EmptyPage:
-        dokumens = paginator.page(paginator.num_pages)
+#     paginator = Paginator(dokumen_list, 10)
+#     try:
+#         dokumens = paginator.page(page)
+#     except PageNotAnInteger:
+#         dokumens = paginator.page(1)
+#     except EmptyPage:
+#         dokumens = paginator.page(paginator.num_pages)
 
-    return render(request, "serah_terima/index.html", {
-        'dokumens' : dokumens
-    })
+#     return render(request, "serah_terima/index.html", {
+#         'dokumens' : dokumens
+#     })
 
 # @login_required
 # @admin_kelola_required
@@ -55,8 +55,8 @@ def tambah(request):
             form_serah_terima.admin_kelola = admin
             form_serah_terima.save()
             nama_psu = form.cleaned_data.get('nama_psu')
-            messages.success(request, f'Dokumen berhasil ditambahkan.')
-            return redirect('serah_terima:index')
+            messages.success(request, f'Dokumen berhasil ditambahkan.', extra_tags='serah_terima')
+            return redirect('admin_kelola:index')
     else:
         form = DokumenForm()
     return render(request, "serah_terima/tambah.html", {
@@ -77,7 +77,7 @@ def ubah(request, id):
     try:
         dokumen = Dokumen.objects.get(id = id)
     except Dokumen.DoesNotExist:
-        return redirect('serah_terima:index')
+        return redirect('admin_kelola:index')
     
     form = DokumenForm(request.POST or None, request.FILES or None, instance = dokumen)
 
@@ -86,8 +86,8 @@ def ubah(request, id):
         form_serah_terima = form.save(commit=False)
         form_serah_terima.admin_kelola = admin
         form_serah_terima.save()
-        messages.success(request, f'Dokumen berhasil diperbarui.')
-        return redirect('serah_terima:index')
+        messages.success(request, f'Dokumen berhasil diperbarui.', extra_tags='serah_terima')
+        return redirect('admin_kelola:index')
 
     print(form.errors)
     return render(request, "serah_terima/ubah.html", {
@@ -100,8 +100,8 @@ def hapus(request, id):
     try:
         dokumen = Dokumen.objects.get(id=id)
     except Dokumen.DoesNotExist:
-        return redirect('serah_terima:index')
+        return redirect('admin_kelola:index')
 
     dokumen.delete()
-    messages.success(request, f'Dokumen berhasil dihapus.')
-    return redirect('serah_terima:index')
+    messages.success(request, f'Dokumen berhasil dihapus.', extra_tags='serah_terima')
+    return redirect('admin_kelola:index')

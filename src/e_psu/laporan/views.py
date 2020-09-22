@@ -6,24 +6,7 @@ from account.decorators import admin_kelola_required
 from django.contrib.auth.decorators import login_required
 from .forms import BerkasLaporanForm
 from .models import BerkasLaporan
-
-@login_required(login_url='/admin_kelola/login')
-@admin_kelola_required
-def index(request):
-    semua_laporan = BerkasLaporan.objects.all()
-    page = request.GET.get('page', 1)
-
-    paginator = Paginator(semua_laporan, 10)
-    try:
-        laporans = paginator.page(page)
-    except PageNotAnInteger:
-        laporans = paginator.page(1)
-    except EmptyPage:
-        laporans = paginator.page(paginator.num_pages)
-
-    return render(request, "laporan/index.html", {
-        'laporans': laporans
-    })
+from admin_skpd.models import AdminSKPD
 
 @login_required(login_url='/admin_kelola/login')
 @admin_kelola_required
@@ -33,8 +16,8 @@ def tambah(request):
         if form.is_valid():
             form.save()
             nama_psu_laporan = form.cleaned_data.get('nama_psu_laporan')
-            messages.success(request, f'Laporan {nama_psu_laporan} berhasil ditambahkan.')
-            return redirect('laporan:index')
+            messages.success(request, f'Laporan {nama_psu_laporan} berhasil ditambahkan.', extra_tags='laporan')
+            return redirect('admin_kelola:index')
     else:
         form = BerkasLaporanForm()
 
@@ -49,6 +32,7 @@ def tampil(request, id):
     return render(request, "laporan/tampil.html", {
         'laporan': laporan
     })
+    
 
 @login_required(login_url='/admin_kelola/login')
 @admin_kelola_required
@@ -56,7 +40,7 @@ def ubah(request, id):
     try:
         laporan = BerkasLaporan.objects.get(id=id)
     except BerkasLaporan.DoesNotExist:
-        return redirect('laporan:index')
+        return redirect('admin_kelola:index')
     
     form = BerkasLaporanForm(request.POST or None, request.FILES or None, instance = laporan)
 
@@ -76,8 +60,8 @@ def hapus(request, id):
     try:
         laporan = BerkasLaporan.objects.get(id=id)
     except BerkasLaporan.DoesNotExist:
-        return redirect('laporan:index')
+        return redirect('admin_kelola:index')
 
     laporan.delete()
     messages.success(request, f'Laporan {laporan.nama_psu_laporan} berhasil dihapus.')
-    return redirect('laporan:index')
+    return redirect('admin_kelola:index')
