@@ -50,7 +50,7 @@ def ubah(request, id):
         form.save()
         nama_psu = form.cleaned_data.get('nama_psu_laporan')
         messages.success(request, f'Laporan {nama_psu} berhasil diperbarui.', extra_tags='laporan')
-        return redirect('admin_kelola:index'    )
+        return redirect('admin_kelola:index')
 
     return render(request, 'laporan/ubah.html', {
         'form': form
@@ -63,7 +63,6 @@ def hapus(request, id):
         laporan = BerkasLaporan.objects.get(id=id)
     except BerkasLaporan.DoesNotExist:
         return redirect('admin_kelola:index')
-
     laporan.delete()
     messages.success(request, f'Laporan {laporan.nama_psu_laporan} berhasil dihapus.', extra_tags='laporan')
     return redirect('admin_kelola:index')

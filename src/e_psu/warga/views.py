@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import WargaRegistrationForm
 from account.forms import RegisterForm, LoginForm
@@ -7,10 +8,12 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from laporan.models import BerkasLaporan
 from django.contrib.auth import logout
+from laporan.forms import BerkasLaporanForm
+from .models import Warga
 # Create your views here.
 @login_required(login_url='/warga/login')
 @warga_required
-def index(request):
+def index_view(request):
     page = request.GET.get('page', 1)
     semua_laporan = BerkasLaporan.objects.all()  
     paginator_laporan = Paginator(semua_laporan, 10)
@@ -27,11 +30,12 @@ def index(request):
 
 @login_required(login_url='/warga/login')
 @warga_required
-def logout_warga(request):
+def logout_view(request):
     logout(request)
     return redirect('home')
+
 @transaction.atomic
-def register(request):
+def register_view(request):
     account = RegisterForm(request.POST or None, prefix='account')
     warga = WargaRegistrationForm(request.POST or None, prefix='warga')
     context = {
@@ -49,7 +53,7 @@ def register(request):
     return render(request, 'warga/auth/register.html', context)
 
 @anonymous_required
-def login(request):
+def login_view(request):
     account = LoginForm(data=request.POST or None, request=request, prefix='warga')
     context = {
         "form" : account
@@ -57,3 +61,49 @@ def login(request):
     if account.is_valid():
         return redirect('warga:index')
     return render(request, 'warga/auth/login.html', context)
+
+@login_required(login_url='/warga/login')
+@warga_required
+def detail_laporan_view(request, id):
+    laporan = BerkasLaporan.objects.get(id=id)
+    return render(request, "warga/laporan/detail_laporan.html", {
+        'laporan': laporan
+    })
+
+@login_required(login_url='/warga/login')
+@warga_required
+def add_laporan_view(request):
+    form = BerkasLaporanForm(request.POST or None, request.FILES or None)
+    if form.is_valid():
+        form_laporan = form.save(commit=False)
+        form_laporan.status_laporan = 'Belum Diproses'
+        form_laporan.user_created = request.user
+        form_laporan.save()
+        nama_psu_laporan = form.cleaned_data.get('nama_psu_laporan')
+        messages.success(request, f'Laporan {nama_psu_laporan} berhasil ditambahkan.', extra_tags='laporan')
+        return redirect('warga:index')
+    return render(request, "warga/laporan/add_laporan.html", {
+        'form': form
+    })
+
+@login_required(login_url='/warga/login')
+@warga_required
+def change_profile(request):
+    warga = WargaRegistrationForm(request.POST or None, prefix='warga',instance = request.warga)
+    if warga.is_valid():
+        warga.save()
+        messages.success(request, f'Profile berhasil diperbarui.')
+        return redirect('warga:index')
+    context = {
+        "warga_form" : warga
+    }
+    return render(request, 'warga/auth/change_profile.html', context)
+
+@login_required(login_url='/warga/login')
+@warga_required
+def display_profile(request):
+    warga = Warga.objects.get(pk=request.user.id)
+    context = {
+        "warga" : warga
+    }
+    return render(request, 'warga/auth/display_profile.html', context)

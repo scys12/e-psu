@@ -1,0 +1,53 @@
+{% extends "header.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="container py-5">
+        <div class="card-header text-center">
+            <h2>Penambahan Laporan Warga</h2>
+        </div>
+        <div class="card-body">
+            <form method="post" enctype="multipart/form-data" id="form_laporan_warga">
+                {% csrf_token %}
+                {{ form | crispy }}
+                <a href="{% url 'warga:index' %}" type="button" class="btn btn-danger">
+                    Batal
+                </a>
+                <button type="submit" class="btn btn-success"> Tambahkan </button>
+            </form>
+        </div>
+    </div>
+    <script>
+        sweetAlertDialog = (e) =>{
+            e.preventDefault()
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+            })
+
+            swalWithBootstrapButtons.fire({
+                title: 'Apakah laporan Anda sudah benar?',
+                text: "Anda tidak akan bisa mengedit laporan Anda lagi!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, sudah benar!',
+                cancelButtonText: 'Belum benar!',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    e.srcElement.submit()                    
+                } else if (
+                    /* Read more about handling dismissals below */
+                    result.dismiss === Swal.DismissReason.cancel
+                ) {
+                }
+            })
+        }
+        submitButton = document.getElementById('form_laporan_warga');
+        submitButton.addEventListener('submit', sweetAlertDialog);
+    </script>
+{% endblock %}

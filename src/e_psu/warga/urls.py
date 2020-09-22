@@ -4,8 +4,12 @@ from . import views
 
 app_name = "warga"
 urlpatterns = [
-    path("login", views.login, name="login"),
-    path("logout", views.logout_warga, name="logout"),
-    path("register", views.register, name="register"),
-    path("dashboard", views.index, name="index"),
+    path("login", views.login_view, name="login"),
+    path("logout", views.logout_view, name="logout"),
+    path("register", views.register_view, name="register"),
+    path("dashboard", views.index_view, name="index"),
+    path("laporan/<int:id>", views.detail_laporan_view, name="detail_laporan"),
+    path("laporan", views.add_laporan_view, name="add_laporan"),
+    path("profile", views.display_profile, name="display_profile"),
+    path("profile/edit", views.add_laporan_view, name="change_profile"),
 ]

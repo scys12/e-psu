@@ -15,14 +15,15 @@
                         </div>
                     {% endif %}
                 {% endfor %}
-                <a href="{% url 'laporan:tambah' %}" class="btn btn-success">Tambah</a>
+                {% if request.user.user_type == 4 %}
+                    <a href="{% url 'warga:add_laporan' %}" class="btn btn-success d-inline">Tambah</a>
+                {% endif %}
                 <table class="mt-2 table">
                     <thead class="thead-light">
                         <tr>
                             <th shape="col">Tanggal Entri</th>
-                            <th shape="col">ID</th>
+                            <th shape="col">Status Laporan</th>
                             <th shape="col">Nama PSU</th>
-                            <!-- <th shape="col">Perumahan</th> -->
                             <th shape="col">Judul Laporan</th>
                             <th shape="col">Bukti Foto</th>
                             <!-- <th shape="col">Bukti Video</th> -->
@@ -33,22 +34,39 @@
                         {% for laporan in laporans %}
                             <tr>
                                 <td>{{ laporan.tanggal_entri_laporan }}</td>
-                                <td>{{ laporan.id }}</td>
+                                <td>
+                                    {% if laporan.status_laporan == 'Belum Diproses' %}
+                                        <span style="background-color: #f34d30;width: max-content;padding: 10px;border-radius:4px;color:white">
+                                            {{ laporan.status_laporan }}
+                                        </span>
+                                    {% endif %}
+                                    {% if laporan.status_laporan == 'Sedang Diproses' %}
+                                        <span style="background-color: #fbff24;width: max-content;padding: 10px;border-radius:4px;color:white">
+                                            {{ laporan.status_laporan }}
+                                        </span>
+                                    {% endif %}
+                                    {% if laporan.status_laporan == 'Telah Diproses' %}
+                                        <span style="background-color: #03a678;width: max-content;padding: 10px;border-radius:4px;color:white">
+                                            {{ laporan.status_laporan }}
+                                        </span>
+                                    {% endif %}
+                                </td>
                                 <td>{{ laporan.nama_psu_laporan }}</td>
                                 <td>{{ laporan.judul_laporan }}</td>
-                                <td>
-                                    <a href="{{ laporan.foto_laporan.url }}" class="btn btn-secondary" download>Unduh Bukti Foto</a>
-                                </td>
+                                {% if laporan.foto_laporan %}
+                                    <td>
+                                        <a href="{{ laporan.foto_laporan.url }}" class="btn btn-secondary" target="_blank">Unduh Bukti Foto</a>
+                                    </td>
+                                {% else %}
+                                    <td>
+                                        <p>-</p>
+                                    </td>
+                                {% endif %}
                                 <!-- <td>
-                                    <a href="{{ laporan.video.url }}" class="btn btn-secondary" download>Unduh Bukti Video</a>                                    
+                                    <a href="{{ laporan.video.url }}" class="btn btn-secondary" target="_blank">Unduh Bukti Video</a>                                    
                                 </td> -->
                                 <td>
-                                    <a href="{% url 'laporan:tampil' id=laporan.id %}" type="button" class="btn btn-primary">Lihat</a>
-                                    <a href="{% url 'laporan:ubah' id=laporan.id %}" type="button" class="btn btn-warning">Ubah</a>
-                                    <a href="{% url 'laporan:hapus' id=laporan.id %}" type="button" class="btn btn-danger" 
-                                        onclick="return confirm('Apakah Anda yakin untuk menghapus laporan {{ laporan.judul_laporan }}?')">
-                                        Hapus
-                                    </a>
+                                    <a href="{% url 'warga:detail_laporan' id=laporan.id %}" type="button" class="btn btn-primary">Lihat Detail</a>
                                 </td>
                             </tr>
                         {% endfor %}
