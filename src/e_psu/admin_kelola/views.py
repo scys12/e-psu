@@ -10,9 +10,6 @@ from django.contrib.auth.decorators import login_required
 from laporan.models import BerkasLaporan
 # Create your views here.
 
-def login(request):
-    return render(request, "admin_kelola/auth/login.html")
-
 @login_required(login_url='/admin_kelola/login')
 @admin_kelola_required
 def index(request):    
@@ -39,7 +36,7 @@ def index(request):
     return render(request, "admin_kelola/index.html", {
         'dokumens' : dokumens,
         'laporans': laporans
-    })    
+    })
 
 @transaction.atomic
 def register_admin_kelola(request):
