@@ -5,7 +5,7 @@ from account.forms import RegisterForm, LoginForm
 from django.db import transaction
 from serah_terima.models import Dokumen
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from account.decorators import admin_kelola_required
+from account.decorators import admin_kelola_required, anonymous_required
 from django.contrib.auth.decorators import login_required
 from laporan.models import BerkasLaporan
 # Create your views here.
@@ -59,6 +59,7 @@ def register_admin_kelola(request):
         return redirect('admin_kelola:login')
     return render(request, 'admin_kelola/auth/register.html', context)
 
+@anonymous_required
 def login_admin_kelola(request):
     account = LoginForm(data=request.POST or None, request=request, prefix='admin')
     context = {
@@ -68,7 +69,8 @@ def login_admin_kelola(request):
         return redirect('admin_kelola:index')
     return render(request, 'admin_kelola/auth/login.html', context)
 
-
+@login_required(login_url='/admin_kelola/login')
+@admin_kelola_required
 def logout_admin_kelola(request):
     logout(request)
     return redirect('home')
