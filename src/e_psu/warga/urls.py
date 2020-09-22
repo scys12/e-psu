@@ -11,5 +11,5 @@ urlpatterns = [
     path("laporan/<int:id>", views.detail_laporan_view, name="detail_laporan"),
     path("laporan", views.add_laporan_view, name="add_laporan"),
     path("profile", views.display_profile, name="display_profile"),
-    path("profile/edit", views.add_laporan_view, name="change_profile"),
+    path("profile/edit", views.change_profile, name="change_profile"),
 ]

@@ -89,13 +89,14 @@ def add_laporan_view(request):
 @login_required(login_url='/warga/login')
 @warga_required
 def change_profile(request):
-    warga = WargaRegistrationForm(request.POST or None, prefix='warga',instance = request.warga)
-    if warga.is_valid():
-        warga.save()
+    warga = Warga.objects.get(pk=request.user.id)
+    warga_form = WargaRegistrationForm(request.POST or None, prefix='warga',instance = warga)
+    if warga_form.is_valid():
+        warga_form.save()
         messages.success(request, f'Profile berhasil diperbarui.')
-        return redirect('warga:index')
+        return redirect('warga:display_profile')
     context = {
-        "warga_form" : warga
+        "warga_form" : warga_form
     }
     return render(request, 'warga/auth/change_profile.html', context)
 

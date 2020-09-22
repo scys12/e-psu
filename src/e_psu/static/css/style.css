@@ -391,3 +391,57 @@ input[type=text]:placeholder {
 .label-form{
 
 }
+
+.profile-title h4{
+  font-size: 40px;
+  font-weight: 900;  
+  text-transform: uppercase;
+}
+.profile-title{
+  border-bottom: 2px solid #fff;
+  padding-bottom: 5px;
+  margin-bottom: 20px;
+}
+
+.profile-field{
+  margin: 15px 55px 0 0;
+  width: 50%;
+}
+
+.profile-field .section{
+  border-bottom: 1px solid white;
+}
+
+.wrapper-profile{
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.wrapper-profile-container{
+  margin: 40px auto;
+  border: 1px solid #ccc;
+  box-shadow: 3px 1px 8px 0px #ccc;
+  padding: 40px;
+  background-color: #03a678;
+  color: white;
+  border-radius: 10px;
+  justify-content: center;
+}
+
+.wrapper-profile-container:hover{
+  box-shadow: 5px 2px 8px 3px #ccc;
+}
+
+.profile-field .body p{
+  font-size: 20px;
+  font-weight: 200;
+}
+
+.wrapper-title{
+  display: inline-block;
+}
+
+.profile-title a{
+  float: right;
+  margin-top: 5px;
+}

@@ -1,0 +1,72 @@
+{% extends "header.html" %}
+{% load static %}
+
+{% block content %}
+    <div class="container">        
+        <div class="row">
+            <div class="col-md-7" style="margin:auto">
+                <div class="wrapper-profile-container">
+                    {% for message in messages %}
+                        <div class="alert alert-success" role="alert">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                    <div class="profile-title">                        
+                        <div class="wrapper-title">
+                            <h4>Profile</h4>
+                        </div>
+                        <a class="btn btn-secondary " href={% url 'warga:change_profile' %}>Ganti Profile</a>
+                    </div>
+                    <div class="profile-body">
+                        <div class="wrapper-profile">
+                            <div class="profile-field">
+                                <div class="section">
+                                    <h3>Nama</h3>
+                                </div>
+                                <div class="body">
+                                    <p>{{warga.nama}}</p>
+                                </div>
+                            </div>
+                            <div class="profile-field">
+                                <div class="section">
+                                    <h3>Username</h3>
+                                </div>
+                                <div class="body">
+                                    <p>{{warga.user.username}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="wrapper-profile">
+                            <div class="profile-field">
+                                <div class="section">
+                                    <h3>Alamat Rumah</h3>
+                                </div>
+                                <div class="body">
+                                    <p>{{warga.alamat_rumah}}</p>
+                                </div>
+                            </div>
+                            <div class="profile-field">
+                                <div class="section">
+                                    <h3>Nomor KTP</h3>
+                                </div>
+                                <div class="body">
+                                    <p>{{warga.no_ktp}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="wrapper-profile">
+                            <div class="profile-field">
+                                <div class="section">
+                                    <h3>Email</h3>
+                                </div>
+                                <div class="body">
+                                    <p>{{warga.user.email}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
