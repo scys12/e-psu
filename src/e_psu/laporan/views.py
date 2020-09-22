@@ -14,7 +14,9 @@ def tambah(request):
     if request.method == 'POST':
         form = BerkasLaporanForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            form_laporan = form.save(commit=False)
+            form_laporan.status_laporan = 'Belum Diproses'
+            form_laporan.save()
             nama_psu_laporan = form.cleaned_data.get('nama_psu_laporan')
             messages.success(request, f'Laporan {nama_psu_laporan} berhasil ditambahkan.', extra_tags='laporan')
             return redirect('admin_kelola:index')
@@ -46,9 +48,9 @@ def ubah(request, id):
 
     if form.is_valid():
         form.save()
-        nama_psu = form.cleaned_data.get('nama_psu')
-        messages.success(request, f'Laporan {nama_psu} berhasil diperbarui.')
-        return redirect('laporan:tampil', id=id)
+        nama_psu = form.cleaned_data.get('nama_psu_laporan')
+        messages.success(request, f'Laporan {nama_psu} berhasil diperbarui.', extra_tags='laporan')
+        return redirect('admin_kelola:index'    )
 
     return render(request, 'laporan/ubah.html', {
         'form': form
@@ -63,5 +65,5 @@ def hapus(request, id):
         return redirect('admin_kelola:index')
 
     laporan.delete()
-    messages.success(request, f'Laporan {laporan.nama_psu_laporan} berhasil dihapus.')
+    messages.success(request, f'Laporan {laporan.nama_psu_laporan} berhasil dihapus.', extra_tags='laporan')
     return redirect('admin_kelola:index')

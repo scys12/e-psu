@@ -3,7 +3,7 @@
 
 {% load crispy_forms_tags %}
 
-{% block body %}
+{% block content %}
     <div class="container py-5">
         <div class="card">
             <div class="card-header text-center">
@@ -12,21 +12,10 @@
             <div class="card-body">
                 <form method="post" enctype="multipart/form-data">
                     {% csrf_token %}
-                    {{ form.nama_psu | as_crispy_field }}
-                    {{ form.perumahan | as_crispy_field }}
-                    <!-- <div id="div_id_video" class="form-group mb-4">
-                        <label for="id_video" class="requiredField">
-                            Video <span class="asteriskField">*</span>
-                        </label>
-                        <div>
-                            Saat ini: 
-                            <video width="100%" controls>
-                                <source src="{{ form.video.value.url }}" type="video/mp4">
-                            </video>
-                            Ubah: <br>
-                            <input type="file" name="video" accept="video/*" class="berkaslaporanclearablefileinput form-control-file" id="id_video"> 
-                        </div>
-                    </div> -->
+                    {{ form.nama_psu_laporan | as_crispy_field }}
+                    {{ form.judul_laporan | as_crispy_field }}
+                    {{ form.deskripsi_laporan | as_crispy_field }}
+                                        
                     <div id="div_id_foto" class="form-group mb-4">
                         <label for="id_foto" class=" requiredField">
                             Foto<span class="asteriskField">*</span> 
@@ -34,7 +23,7 @@
                         <div>
                             Saat ini: <br>
                             <div class="text-center">
-                                <img style="max-width: 100%" src="{{ form.foto.value.url }}" alt="Foto {{ form.nama_psu.value }}">
+                                <img style="max-width: 100%" src="{{ form.foto_laporan.value.url }}" alt="Foto {{ form.nama_psu_laporan.value }}">
                             </div>
                             Ubah: <br>
                             <input type="file" name="foto" accept="image/*" class="berkaslaporanclearablefileinput form-control-file" id="id_foto"> 

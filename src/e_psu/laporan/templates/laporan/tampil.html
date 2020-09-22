@@ -24,6 +24,22 @@
                 <div>
                     <p>{{ laporan.deskripsi_laporan }}</p>
                 </div>
+                <h4>Status Laporan</h4>
+                {% if laporan.status_laporan == 'Belum Diproses' %}
+                    <div style="background-color: #f34d30;width: max-content;padding: 0px 13px;">
+                        <p style="color:white">{{ laporan.status_laporan }}</p>
+                    </div>
+                {% endif %}
+                {% if laporan.status_laporan == 'Sedang Diproses' %}
+                    <div style="background-color: #fbff24;width: max-content;padding: 0px 13px;">
+                        <p style="color:white">{{ laporan.status_laporan }}</p>
+                    </div>
+                {% endif %}
+                {% if laporan.status_laporan == 'Telah Diproses' %}
+                    <div style="background-color: #03a678;width: max-content;padding: 0px 13px;">
+                        <p style="color:white">{{ laporan.status_laporan }}</p>
+                    </div>
+                {% endif %}
                 <!-- <h4>Video</h4>
                 <div class="text-center">
                     <video width="100%" controls>
@@ -33,7 +49,7 @@
                 <hr class="my-4"> -->
                 <h4>Foto</h4>
                 <div class="text-center">
-                    <img style="max-width: 100%" src="{{ laporan.bukti_foto_laporan.url }}" alt="Foto laporan {{ laporan.nama_psu }}">
+                    <img style="max-width: 100%" src="{{ laporan.foto_laporan.url }}" alt="Foto laporan {{ laporan.nama_psu_laporan }}">
                 </div>
                 <hr class="my-4">
                 <a href="{% url 'admin_kelola:index' %}" type="button" class="btn btn-success"> Kembali </a>
