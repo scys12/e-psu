@@ -45,7 +45,7 @@
                         </label> 
                         <div>
                             Saat ini: <br>
-                            <a href="{{ form.salinan_laporan.value.url }}" class="btn btn-primary" target="_blank">Unduh Salinan Laporan</a> <br>
+                            <a href="{{ form.salinan_laporan.value.url }}" class="btn btn-primary" download>Unduh Salinan Laporan</a> <br>
                             Ubah: <br>
                             <input type="file" name="salinan_laporan" accept="application/pdf" class="dokumenclearablefileinput form-control-file" id="id_salinan_laporan"> 
                         </div> 
@@ -66,7 +66,7 @@
                             <div>
                                 {% if dokumen.status_pengelolaan %}
                                 Saat ini: <br>
-                                <a href="{{ dokumen.status_pengelolaan.url }}" class="btn btn-primary" target="_blank">Unduh Status Pengelolaan</a> 
+                                <a href="{{ dokumen.status_pengelolaan.url }}" class="btn btn-primary" download>Unduh Status Pengelolaan</a> 
                                 <input type="checkbox" name="status_pengelolaan-clear" id="status_pengelolaan-clear_id">
                                 <label for="status_pengelolaan-clear_id">hapus</label><br>
                                 Ubah: <br>
@@ -91,7 +91,7 @@
                             <div>
                                 {% if dokumen.pola_pengelolaan %}
                                 Saat ini: <br>
-                                <a href="{{ dokumen.pola_pengelolaan.url }}" class="btn btn-primary" target="_blank">Unduh Pola Pengelolaan</a>
+                                <a href="{{ dokumen.pola_pengelolaan.url }}" class="btn btn-primary" download>Unduh Pola Pengelolaan</a>
                                 <input type="checkbox" name="pola_pengelolaan-clear" id="pola_pengelolaan-clear_id">
                                 <label for="pola_pengelolaan-clear_id">hapus</label><br>
                                 Ubah: <br>
@@ -116,7 +116,7 @@
                             <div>
                                 {% if dokumen.regulasi_pemanfaatan_psu %}
                                 Saat ini: <br>
-                                <a href="#" class="btn btn-primary" target="_blank">Unduh Regulasi Pemanfaatan PSU</a>
+                                <a href="#" class="btn btn-primary" download>Unduh Regulasi Pemanfaatan PSU</a>
                                 <input type="checkbox" name="regulasi_pemanfaatan_psu-clear" id="regulasi_pemanfaatan_psu-clear_id">
                                 <label for="regulasi_pemanfaatan_psu-clear_id">hapus</label><br>
                                 Ubah: <br>

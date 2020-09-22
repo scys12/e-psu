@@ -37,10 +37,10 @@
                                 <td>{{ laporan.nama_psu_laporan }}</td>
                                 <td>{{ laporan.judul_laporan }}</td>
                                 <td>
-                                    <a href="{{ laporan.foto_laporan.url }}" class="btn btn-secondary" target="_blank">Unduh Bukti Foto</a>
+                                    <a href="{{ laporan.foto_laporan.url }}" class="btn btn-secondary" download>Unduh Bukti Foto</a>
                                 </td>
                                 <!-- <td>
-                                    <a href="{{ laporan.video.url }}" class="btn btn-secondary" target="_blank">Unduh Bukti Video</a>                                    
+                                    <a href="{{ laporan.video.url }}" class="btn btn-secondary" download>Unduh Bukti Video</a>                                    
                                 </td> -->
                                 <td>
                                     <a href="{% url 'laporan:tampil' id=laporan.id %}" type="button" class="btn btn-primary">Lihat</a>
@@ -123,6 +123,7 @@
                     <table class="mt-2 table">
                         <thead class="thead-light">
                             <tr>
+                                <th shape="col">ID</th>
                                 <th shape="col">Admin</th>
                                 <th shape="col">Video</th>
                                 <th shape="col">Foto</th>
@@ -134,16 +135,19 @@
                             {% for dokumen in dokumens %}
                                 <tr>
                                     <td>
+                                        {{ dokumen.id }}
+                                    </td>
+                                    <td>
                                         {{ dokumen.admin_kelola.user.username }}
                                     </td>
                                     <td>
-                                        <a href="{{ dokumen.video.url }}" class="btn btn-secondary" target="_blank">Unduh Video</a>                                    
+                                        <a href="{{ dokumen.video.url }}" class="btn btn-secondary" download>Unduh Video</a>                                    
                                     </td>
                                     <td>
-                                        <a href="{{ dokumen.foto.url }}" class="btn btn-secondary" target="_blank">Unduh Foto</a>
+                                        <a href="{{ dokumen.foto.url }}" class="btn btn-secondary" download>Unduh Foto</a>
                                     </td>
                                     <td>
-                                        <a href="{{ dokumen.salinan_laporan.url }}" class="btn btn-secondary" target="_blank">Unduh Salinan</a>                                    
+                                        <a href="{{ dokumen.salinan_laporan.url }}" class="btn btn-secondary" download>Unduh Salinan</a>                                    
                                     </td>
                                     <td>
                                         <a href="{% url 'serah_terima:tampil' id=dokumen.id %}" type="button" class="btn btn-primary">Lihat</a>
