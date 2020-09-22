@@ -27,7 +27,7 @@ class Migration(migrations.Migration):
                 ('judul_laporan', models.CharField(max_length=100)),
                 ('deskripsi_laporan', models.TextField()),
                 ('foto_laporan', smartfields.fields.ImageField(blank=True, null=True, upload_to=serah_terima.models.PathAndRename('laporan/foto'))),
-                ('status_laporan', models.CharField(max_length=20)),
+                ('status_laporan', models.CharField(choices=[('BELUM', 'Belum Diproses'), ('SEDANG', 'Sedang Diproses'), ('SUDAH', 'Sudah Diproses')], max_length=6)),
                 ('bentuk_penanganan_laporan', models.TextField(blank=True, null=True)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('updated_at', models.DateTimeField(auto_now=True)),

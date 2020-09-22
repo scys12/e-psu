@@ -16,6 +16,14 @@ class BerkasLaporanForm(forms.ModelForm):
     judul_laporan = forms.CharField(label="Judul Laporan", max_length=100)
     deskripsi_laporan = forms.CharField(label="Deskripsi Laporan")
     foto_laporan = forms.ImageField(widget=forms.ClearableFileInput(attrs={'accept': 'image/*'}), required=False)
+    
+    status_laporan_choices = [
+        ('BELUM', 'Belum Diproses'),
+        ('SEDANG', 'Sedang Diproses'),
+        ('SUDAH', 'Sudah Diproses')
+    ]
+
+    status_laporan = forms.ChoiceField(widget=forms.RadioSelect, choices=status_laporan_choices)
     # nama_psu = forms.CharField(label="Nama PSU", max_length=100)
     # perumahan = forms.CharField(label="Perumahan", max_length=100)
     # judul_laporan = forms.CharField(label="Judul Laporan", max_length=100)
