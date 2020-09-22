@@ -16,6 +16,7 @@ def tambah(request):
         if form.is_valid():
             form_laporan = form.save(commit=False)
             form_laporan.status_laporan = 'Belum Diproses'
+            form_laporan.user_created = request.user
             form_laporan.save()
             nama_psu_laporan = form.cleaned_data.get('nama_psu_laporan')
             messages.success(request, f'Laporan {nama_psu_laporan} berhasil ditambahkan.', extra_tags='laporan')
