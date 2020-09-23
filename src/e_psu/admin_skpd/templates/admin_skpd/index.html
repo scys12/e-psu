@@ -34,19 +34,19 @@
                                 <td>{{ laporan.tanggal_entri_laporan }}</td>
                                 <td>{{ laporan.id }}</td>
                                 <td>
-                                    {% if laporan.status_laporan == 'Belum Diproses' %}
+                                    {% if laporan.status_laporan == 'BELUM' %}
                                         <span style="background-color: #f34d30;width: max-content;padding: 10px;border-radius:4px;color:white">
-                                            {{ laporan.status_laporan }}
+                                            Belum Diproses
                                         </span>
                                     {% endif %}
-                                    {% if laporan.status_laporan == 'Sedang Diproses' %}
+                                    {% if laporan.status_laporan == 'SEDANG' %}
                                         <span style="background-color: #fbff24;width: max-content;padding: 10px;border-radius:4px;color:white">
-                                            {{ laporan.status_laporan }}
+                                            Sedang Diproses
                                         </span>
                                     {% endif %}
-                                    {% if laporan.status_laporan == 'Telah Diproses' %}
+                                    {% if laporan.status_laporan == 'SUDAH' %}
                                         <span style="background-color: #03a678;width: max-content;padding: 10px;border-radius:4px;color:white">
-                                            {{ laporan.status_laporan }}
+                                            Telah Diproses
                                         </span>
                                     {% endif %}
                                 </td>
@@ -59,8 +59,8 @@
                                     <a href="{{ laporan.video.url }}" class="btn btn-secondary" target="_blank">Unduh Bukti Video</a>                                    
                                 </td> -->
                                 <td>
-                                    <a href="{% url 'laporan:ubah' id=laporan.id %}" type="button" class="btn btn-info">Lihat Laporan</a>
-                                    <a href="{% url 'laporan:ubah' id=laporan.id %}" type="button" class="btn btn-warning">Update Laporan</a>
+                                    <a href="{% url 'admin_skpd:detail_laporan' id=laporan.id %}" type="button" class="btn btn-info">Lihat Laporan</a>
+                                    <a href="{% url 'admin_skpd:update_laporan' id=laporan.id %}" type="button" class="btn btn-warning">Update Laporan</a>
                                 </td>
                             </tr>
                         {% endfor %}

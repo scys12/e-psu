@@ -33,12 +33,14 @@
           {{ field }}
         </div>
       {% endfor %}
+      <a href="#" class="fadeIn"style="display: block;text-align: left;padding-left: 22px;">Lupa Password?</a>
       <input type="submit" class="fadeIn fourth" value="Log In">
     </form>
 
     <!-- Remind Passowrd -->
     <div id="formFooter">
-      <a class="underlineHover" href="#">Forgot Password?</a>
+      <p>Belum punya akun?</p>
+      <a href="{% url 'admin_skpd:register' %}" class="fadeIn fourth login-button" style="color:white;margin-top:0px">Daftar</a>
     </div>
 
   </div>

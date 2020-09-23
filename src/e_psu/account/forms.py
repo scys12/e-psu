@@ -50,3 +50,11 @@ class LoginForm(forms.Form):
         login(request, user)
         self.user = user
         return data
+
+class EditAccountForm(forms.ModelForm):
+    email = forms.EmailField(label='Email', widget=forms.EmailInput(attrs={'class' : 'fadeIn second'}))
+    username = forms.CharField(label='Username', validators=[MinLengthValidator(4, "Username terlalu pendek")],widget=forms.TextInput(attrs={'class' : 'fadeIn second'}))
+
+    class Meta:
+        model = Account
+        fields = ['email', 'username']

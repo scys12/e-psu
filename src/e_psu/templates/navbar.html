@@ -65,7 +65,7 @@
                             <a class="dropdown-item" href="{% url 'admin_kelola:logout' %}">Logout</a>
                         {% endif %}
                         {% if user.user_type == 3 %}
-                            <a class="dropdown-item" href="#">Ganti profile</a>
+                            <a class="dropdown-item" href="{% url 'admin_skpd:display_profile' %}">Profile</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{% url 'admin_skpd:logout' %}">Logout</a>
                         {% endif %}

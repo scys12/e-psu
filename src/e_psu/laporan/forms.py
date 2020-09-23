@@ -14,19 +14,24 @@ class BerkasLaporanForm(forms.ModelForm):
 
     nama_psu_laporan = forms.CharField(label="Nama PSU", max_length=100)
     judul_laporan = forms.CharField(label="Judul Laporan", max_length=100)
-    deskripsi_laporan = forms.CharField(label="Deskripsi Laporan")
+    deskripsi_laporan = forms.CharField(widget=forms.Textarea,label="Deskripsi Laporan")
     foto_laporan = forms.ImageField(widget=forms.ClearableFileInput(attrs={'accept': 'image/*'}), required=False)
+
+class UpdateStatusForm(forms.ModelForm):
+    class Meta:
+        model = BerkasLaporan
+        fields = ("status_laporan",)
     
     status_laporan_choices = [
         ('BELUM', 'Belum Diproses'),
         ('SEDANG', 'Sedang Diproses'),
         ('SUDAH', 'Sudah Diproses')
     ]
+    status_laporan = forms.ChoiceField(widget=forms.RadioSelect, choices=status_laporan_choices, label="Status Laporan")
 
-    status_laporan = forms.ChoiceField(widget=forms.RadioSelect, choices=status_laporan_choices)
-    # nama_psu = forms.CharField(label="Nama PSU", max_length=100)
-    # perumahan = forms.CharField(label="Perumahan", max_length=100)
-    # judul_laporan = forms.CharField(label="Judul Laporan", max_length=100)
-    # deskripsi_laporan = forms.CharField()
-    # bukti_foto_laporan = forms.ImageField(widget=forms.ClearableFileInput(attrs={'accept': 'image/*'}), required=False)
-    # bukti_video_laporan = forms.FileField(widget=forms.ClearableFileInput(attrs={'accept': 'video/*'}), required=False)
+class UpdatePenangananForm(forms.ModelForm):
+    class Meta:
+        model = BerkasLaporan
+        fields = ("bentuk_penanganan_laporan",)
+
+    bentuk_penanganan_laporan = forms.CharField(widget=forms.Textarea, label="Penanganan Terhadap Laporan")

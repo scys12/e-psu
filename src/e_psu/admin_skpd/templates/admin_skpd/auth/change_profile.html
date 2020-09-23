@@ -10,9 +10,9 @@
         <div class="card-body">
             <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-                {{ account | crispy }}
-                {{ warga_form | crispy }}
-                <a href="{% url 'warga:display_profile' %}" type="button" class="btn btn-danger">
+                {{ account | crispy}}
+                {{ admin_skpd_form | crispy }}
+                <a href="{% url 'admin_skpd:display_profile' %}" type="button" class="btn btn-danger">
                     Batal
                 </a>
                 <button type="submit" class="btn btn-success"> Ganti Profile </button>

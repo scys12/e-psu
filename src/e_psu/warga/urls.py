@@ -10,6 +10,6 @@ urlpatterns = [
     path("dashboard", views.index_view, name="index"),
     path("laporan/<int:id>", views.detail_laporan_view, name="detail_laporan"),
     path("laporan", views.add_laporan_view, name="add_laporan"),
-    path("profile", views.display_profile, name="display_profile"),
-    path("profile/edit", views.change_profile, name="change_profile"),
+    path("profile", views.display_profile_view, name="display_profile"),
+    path("profile/edit", views.change_profile_view, name="change_profile"),
 ]

@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import WargaRegistrationForm
-from account.forms import RegisterForm, LoginForm
+from account.forms import RegisterForm, LoginForm, EditAccountForm
 from account.decorators import anonymous_required, warga_required
 from django.db import transaction
 from django.contrib.auth.decorators import login_required
@@ -76,7 +76,7 @@ def add_laporan_view(request):
     form = BerkasLaporanForm(request.POST or None, request.FILES or None)
     if form.is_valid():
         form_laporan = form.save(commit=False)
-        form_laporan.status_laporan = 'Belum Diproses'
+        form_laporan.status_laporan = 'BELUM'
         form_laporan.user_created = request.user
         form_laporan.save()
         nama_psu_laporan = form.cleaned_data.get('nama_psu_laporan')
@@ -88,21 +88,24 @@ def add_laporan_view(request):
 
 @login_required(login_url='/warga/login')
 @warga_required
-def change_profile(request):
+def change_profile_view(request):
     warga = Warga.objects.get(pk=request.user.id)
     warga_form = WargaRegistrationForm(request.POST or None, prefix='warga',instance = warga)
-    if warga_form.is_valid():
+    account = EditAccountForm(request.POST or None, prefix='account', instance= request.user)
+    if warga_form.is_valid() and account.is_valid():
         warga_form.save()
+        account.save()
         messages.success(request, f'Profile berhasil diperbarui.')
         return redirect('warga:display_profile')
     context = {
-        "warga_form" : warga_form
+        "warga_form" : warga_form,
+        "account" : account,
     }
     return render(request, 'warga/auth/change_profile.html', context)
 
 @login_required(login_url='/warga/login')
 @warga_required
-def display_profile(request):
+def display_profile_view(request):
     warga = Warga.objects.get(pk=request.user.id)
     context = {
         "warga" : warga

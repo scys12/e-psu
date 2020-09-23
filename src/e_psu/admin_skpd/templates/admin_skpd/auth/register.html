@@ -53,6 +53,10 @@
       {% endfor %}
       <input type="submit" class="fadeIn fourth" value="Buat Akun">
     </form>
+    <div id="formFooter">
+      <p>Sudah punya akun?</p>
+      <a href="{% url 'admin_skpd:login' %}" class="fadeIn fourth login-button" style="color:white;margin-top:0px">Masuk</a>
+    </div>
   </div>
 </div>
 {% endblock content %}

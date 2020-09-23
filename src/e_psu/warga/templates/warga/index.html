@@ -35,19 +35,19 @@
                             <tr>
                                 <td>{{ laporan.tanggal_entri_laporan }}</td>
                                 <td>
-                                    {% if laporan.status_laporan == 'Belum Diproses' %}
+                                    {% if laporan.status_laporan == 'BELUM' %}
                                         <span style="background-color: #f34d30;width: max-content;padding: 10px;border-radius:4px;color:white">
-                                            {{ laporan.status_laporan }}
+                                            Belum Diproses
                                         </span>
                                     {% endif %}
-                                    {% if laporan.status_laporan == 'Sedang Diproses' %}
+                                    {% if laporan.status_laporan == 'SEDANG' %}
                                         <span style="background-color: #fbff24;width: max-content;padding: 10px;border-radius:4px;color:white">
-                                            {{ laporan.status_laporan }}
+                                            Sedang Diproses
                                         </span>
                                     {% endif %}
-                                    {% if laporan.status_laporan == 'Telah Diproses' %}
+                                    {% if laporan.status_laporan == 'SUDAH' %}
                                         <span style="background-color: #03a678;width: max-content;padding: 10px;border-radius:4px;color:white">
-                                            {{ laporan.status_laporan }}
+                                            Telah Diproses
                                         </span>
                                     {% endif %}
                                 </td>

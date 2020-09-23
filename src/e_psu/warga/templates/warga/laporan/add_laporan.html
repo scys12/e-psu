@@ -10,7 +10,10 @@
         <div class="card-body">
             <form method="post" enctype="multipart/form-data" id="form_laporan_warga">
                 {% csrf_token %}
-                {{ form | crispy }}
+                {{ form.nama_psu_laporan | as_crispy_field }}
+                {{ form.judul_laporan | as_crispy_field }}
+                {{ form.deskripsi_laporan | as_crispy_field }}
+                {{ form.foto_laporan | as_crispy_field }}
                 <a href="{% url 'warga:index' %}" type="button" class="btn btn-danger">
                     Batal
                 </a>
