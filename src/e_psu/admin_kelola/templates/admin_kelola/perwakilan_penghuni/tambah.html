@@ -1,0 +1,58 @@
+{% extends 'header.html' %}
+{% block content %}
+<div class="wrapper fadeInDown">
+  <div id="formContent">
+    <!-- Tabs Titles -->
+
+    <!-- Icon -->
+    <div class="fadeIn first header-box-text">
+      <h4>Daftarkan Perwakilan Penghuni</h4>
+    </div>
+    <!-- Login Form -->
+    <form method="post" style="padding: 0px 22px;text-align: center">
+      {% csrf_token %}
+      {% if perwakilan_penghuni_form.errors %}
+          {% for field in perwakilan_penghuni_form %}
+              {% for error in field.errors %}
+                  <div class="alert alert-danger">
+                      <strong>{{ error|escape }}</strong>
+                  </div>
+              {% endfor %}
+          {% endfor %}
+          {% for error in perwakilan_penghuni_form.non_field_errors %}
+              <div class="alert alert-danger">
+                  <strong>{{ error|escape }}</strong>
+              </div>
+          {% endfor %}
+      {% endif %}
+      {% if account_form.errors %}
+          {% for field in account_form %}
+              {% for error in field.errors %}
+                  <div class="alert alert-danger">
+                      <strong>{{ error|escape }}</strong>
+                  </div>
+              {% endfor %}
+          {% endfor %}
+          {% for error in account_form.non_field_errors %}
+              <div class="alert alert-danger">
+                  <strong>{{ error|escape }}</strong>
+              </div>
+          {% endfor %}
+      {% endif %}
+      {% for field in account_form %}
+        <div class="form-group">
+          <label for="">{{ field.label }}</label>
+          {{ field }}
+        </div>
+      {% endfor %}
+      {% for field in perwakilan_penghuni_form %}
+        <div class="form-group">
+          <label for="">{{ field.label }}</label>
+          {{ field }}
+        </div>
+      {% endfor %}
+      <input type="submit" class="fadeIn fourth" value="Daftarkan Akun">
+    </form>
+  </div>
+</div>
+{% endblock content %}

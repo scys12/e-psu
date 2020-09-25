@@ -202,5 +202,104 @@
                 </div>
             </div>
         </div>
+
+        <div class="py-5">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h2>Perwakilan Penghuni</h2>
+                </div>
+                <div class="card-body">
+                    {% for message in messages %}
+                        {% if message.extra_tags == 'perwakilan_penghuni' %}
+                            <div class="alert alert-success" role="alert">
+                                {{ message }}
+                            </div>
+                        {% endif %}                        
+                    {% endfor %}
+                    <div class="mb-4">
+                        {% if request.user.user_type == 1 %}
+                            <a href="{% url 'admin_kelola:perwakilan_penghuni_tambah' %}" class="btn btn-success d-inline">Tambah</a>
+                        {% endif %}
+                    </div>
+                    <table class="mt-2 table">
+                        <thead class="thead-light">
+                            <tr>
+                                <th shape="col">ID</th>
+                                <th shape="col">Nama</th>
+                                <th shape="col">Alamat Rumah</th>
+                                <th shape="col">No KTP</th>
+                                <th shape="col">Opsi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for perwakilan_penghuni in perwakilan_penghunis %}
+                                <tr>
+                                    <td>
+                                        {{ perwakilan_penghuni.user_id }}
+                                    </td>
+                                    <td>
+                                        {{ perwakilan_penghuni.nama }}
+                                    </td>
+                                    <td>
+                                        {{ perwakilan_penghuni.alamat_rumah }}
+                                    </td>
+                                    <td>
+                                        {{ perwakilan_penghuni.no_ktp }}
+                                    </td>
+                                    <td>
+                                        {% comment %}
+                                        <a href="{% url 'admin_kelola:perwakilam_penghuni' id=perwakilan_penghuni.id %}" type="button" class="btn btn-primary">Lihat</a>
+                                        {% if request.user.user_type == 1 %}
+                                            <a href="{% url 'admin_kelola:serah_terima_ubah' id=perwakilan_penghuni.id %}" type="button" class="btn btn-warning">Ubah</a>
+                                            <a href="{% url 'admin_kelola:serah_terima_hapus' id=perwakilan_penghuni.id %}" type="button" class="btn btn-danger" 
+                                                onclick="return confirm('Apakah Anda yakin untuk menghapus perwakilan_penghuni {{ perwakilan_penghuni.nama_psu }}?')">
+                                                Hapus
+                                            </a>
+                                        {% endif %}
+                                        {% endcomment %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+
+                    {% if perwakilan_penghunis.has_other_pages %}
+                        <ul class="pagination">
+                            {% if perwakilan_penghunis.has_previous %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ perwakilan_penghunis.previous_page_number }}">&laquo;</a>
+                                </li>
+                            {% else %}
+                            <li class="page-item disabled">
+                                <span class="page-link">&laquo;</span>
+                            </li>
+                            {% endif %}
+                            {% for i in perwakilan_penghunis.paginator.page_range %}
+                                {% if perwakilan_penghunis.number == i %}
+                                    <li class="page-item active">
+                                        <span class="page-link">{{ i }} 
+                                            <span class="sr-only">(current)</span>
+                                        </span>
+                                    </li>
+                                {% else %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                            {% if perwakilan_penghunis.has_next %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ perwakilan_penghunis.next_page_number }}">&raquo;</a>
+                                </li>
+                            {% else %}
+                                <li class="page-item disabled">
+                                    <span class="page-link">&raquo;</span>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}

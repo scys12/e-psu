@@ -2,8 +2,10 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import logout
 from .forms import AdminKelolaRegistrationForm
 from serah_terima.forms import DokumenForm
+from perwakilan_penghuni.forms import PerwakilanPenghuniForm
 from account.forms import RegisterForm, LoginForm
 from django.db import transaction
+from perwakilan_penghuni.models import PerwakilanPenghuni
 from serah_terima.models import Dokumen
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from account.decorators import admin_kelola_required, anonymous_required
@@ -35,9 +37,19 @@ def index(request):
     except EmptyPage:
         laporans = paginator_laporan.page(paginator_laporan.num_pages)
 
+    semua_perwakilan_penghuni = PerwakilanPenghuni.objects.all()  
+    paginator_penghuni = Paginator(semua_perwakilan_penghuni, 10)
+    try:
+        perwakilan_penghunis = paginator_penghuni.page(page)
+    except PageNotAnInteger:
+        perwakilan_penghunis = paginator_penghuni.page(1)
+    except EmptyPage:
+        perwakilan_penghunis = paginator_penghuni.page(paginator_penghuni.num_pages)
+
     return render(request, "admin_kelola/index.html", {
         'dokumens' : dokumens,
-        'laporans': laporans
+        'laporans': laporans,
+        'perwakilan_penghunis': perwakilan_penghunis
     })
 
 @transaction.atomic
@@ -76,6 +88,26 @@ def logout_admin_kelola(request):
 
 @login_required(login_url='/admin_kelola/login')
 @admin_kelola_required
+def perwakilan_penghuni_tambah(request):    
+    account = RegisterForm(request.POST or None, prefix='account')
+    perwakilan_penghuni = PerwakilanPenghuniForm(request.POST or None, prefix='perwakilan_penghuni')
+    context = {
+        "perwakilan_penghuni_form" : perwakilan_penghuni,
+        "account_form" : account
+    }
+    if account.is_valid() and perwakilan_penghuni.is_valid():
+        user = account.save(commit=False)
+        user.user_type = 2
+        user.save()
+        perwakilan_penghuni_data = perwakilan_penghuni.save(commit=False)
+        perwakilan_penghuni_data.user = user
+        perwakilan_penghuni_data.save()
+        return redirect('admin_kelola:index')
+    return render(request, 'admin_kelola/perwakilan_penghuni/tambah.html', context)
+
+
+@login_required(login_url='/admin_kelola/login')
+@admin_kelola_required
 def serah_terima_tambah(request):    
     if request.method == 'POST':
         form = DokumenForm(request.POST, request.FILES)
@@ -89,7 +121,7 @@ def serah_terima_tambah(request):
             return redirect('admin_kelola:index')
     else:
         form = DokumenForm()
-    return render(request, "serah_terima/tambah.html", {
+    return render(request, "admin_kelola/serah_terima/tambah.html", {
         'form' : form
     })
 
@@ -97,7 +129,7 @@ def serah_terima_tambah(request):
 @admin_kelola_required
 def serah_terima_tampil(request, id):
     dokumen = Dokumen.objects.get(id=id)
-    return render(request, "serah_terima/tampil.html", {
+    return render(request, "admin_kelola/serah_terima/tampil.html", {
         'dokumen' : dokumen
     })
 
@@ -120,7 +152,7 @@ def serah_terima_ubah(request, id):
         return redirect('admin_kelola:index')
 
     print(form.errors)
-    return render(request, "serah_terima/ubah.html", {
+    return render(request, "admin_kelola/serah_terima/ubah.html", {
         'form' : form, 'dokumen' : dokumen
     })
 
