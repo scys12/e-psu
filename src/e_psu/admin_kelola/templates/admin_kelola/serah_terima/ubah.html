@@ -1,0 +1,135 @@
+{% extends 'header.html' %}
+{% load static %}
+
+{% load crispy_forms_tags %}
+
+<!-- Masthead -->
+{% block content %}
+    <div class="container py-5">
+        <div class="card">
+            <div class="card-header text-center">
+                <h2>Ubah Serah Terima {{ dokumen.id }}</h2>
+            </div>
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div id="div_id_video" class="form-group mb-4"> 
+                        <label for="id_video" class=" requiredField">
+                            Video<span class="asteriskField">*</span> 
+                        </label> 
+                        <div>
+                            Saat ini: 
+                            <video width="100%" controls>
+                                <source src="{{ form.video.value.url }}" type="video/mp4">
+                            </video>
+                            Ubah: <br>
+                            <input type="file" name="video" accept="video/*" class="dokumenclearablefileinput form-control-file" id="id_video"> 
+                        </div> 
+                    </div> 
+                    <div id="div_id_foto" class="form-group mb-4"> 
+                        <label for="id_foto" class=" requiredField">
+                            Foto<span class="asteriskField">*</span> 
+                        </label> 
+                        <div>
+                            Saat ini: <br>
+                            <div class="text-center">
+                                <img style="max-width: 100%" src="{{ form.foto.value.url }}" alt="Foto {{ form.nama_psu.value }}">
+                            </div>
+                            Ubah: <br>
+                            <input type="file" name="foto" accept="image/*" class="dokumenclearablefileinput form-control-file" id="id_foto"> 
+                        </div> 
+                    </div>
+                    <div id="div_id_salinan_laporan" class="form-group mb-4"> 
+                        <label for="id_salinan_laporan" class=" requiredField">
+                            Salinan laporan<span class="asteriskField">*</span> 
+                        </label> 
+                        <div>
+                            Saat ini: <br>
+                            <a href="{{ form.salinan_laporan.value.url }}" class="btn btn-primary" download>Unduh Salinan Laporan</a> <br>
+                            Ubah: <br>
+                            <input type="file" name="salinan_laporan" accept="application/pdf" class="dokumenclearablefileinput form-control-file" id="id_salinan_laporan"> 
+                        </div> 
+                    </div>
+                    <div class="form-group mb-4">
+                        <div class="label">Status Pengelolaan* (pilih minimal satu)</div>
+                        {% if form.errors.status_pengelolaan %}
+                            <small class="text-danger">
+                                <strong>Status Pengelolaan diperlukan</strong>
+                            </small>
+                        {% endif %}
+                        <div>
+                            <label style="font-size: 16px;">Teks</label>
+                            <div class="input-group mb-3">
+                                <input class="textinput textInput form-control" id="id_status_pengelolaan_text" name="status_pengelolaan_text" type="text" placeholder="Status Pengelolaan" maxlength="100" value="{{ dokumen.status_pengelolaan_text }}">
+                            </div>
+                            <label style="font-size: 16px;">File</label>
+                            <div>
+                                {% if dokumen.status_pengelolaan %}
+                                Saat ini: <br>
+                                <a href="{{ dokumen.status_pengelolaan.url }}" class="btn btn-primary" download>Unduh Status Pengelolaan</a> 
+                                <input type="checkbox" name="status_pengelolaan-clear" id="status_pengelolaan-clear_id">
+                                <label for="status_pengelolaan-clear_id">hapus</label><br>
+                                Ubah: <br>
+                                {% endif %}
+                                <input type="file" name="status_pengelolaan" accept="application/pdf" class="dokumenclearablefileinput form-control-file" id="id_status_pengelolaan"> 
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group mb-4">
+                        <div class="label">Pola Pengelolaan* (pilih minimal satu)</div>
+                        {% if form.errors.pola_pengelolaan %}
+                            <small class="text-danger">
+                                <strong>Pola Pengelolaan diperlukan</strong>
+                            </small>
+                        {% endif %}
+                        <div>
+                            <label style="font-size: 16px;">Teks</label>
+                            <div class="input-group mb-3">
+                                <input class="textinput textInput form-control" id="id_pola_pengelolaan_text" name="pola_pengelolaan_text" type="text" placeholder="Pola Pengelolaan" maxlength="100" value="{{ dokumen.pola_pengelolaan_text }}">
+                            </div>
+                            <label style="font-size: 16px;">File</label>
+                            <div>
+                                {% if dokumen.pola_pengelolaan %}
+                                Saat ini: <br>
+                                <a href="{{ dokumen.pola_pengelolaan.url }}" class="btn btn-primary" download>Unduh Pola Pengelolaan</a>
+                                <input type="checkbox" name="pola_pengelolaan-clear" id="pola_pengelolaan-clear_id">
+                                <label for="pola_pengelolaan-clear_id">hapus</label><br>
+                                Ubah: <br>
+                                {% endif %}
+                                <input type="file" name="pola_pengelolaan" accept="application/pdf" class="dokumenclearablefileinput form-control-file" id="id_pola_pengelolaan"> 
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group mb-4">
+                        <div class="label">Regulasi Pemanfaatan PSU* (pilih minimal satu)</div>
+                        {% if form.errors.regulasi_pemanfaatan_psu %}
+                            <small class="text-danger">
+                                <strong>Regulasi Pemanfaatan PSU diperlukan</strong>
+                            </small>
+                        {% endif %}
+                        <div>
+                            <label style="font-size: 16px;">Teks</label>
+                            <div class="input-group mb-3">
+                                <input class="textinput textInput form-control" id="id_regulasi_pemanfaatan_psu_text" name="regulasi_pemanfaatan_psu_text" type="text" placeholder="Regulasi Pemanfaatan PSU" maxlength="100" value="{{ dokumen.regulasi_pemanfaatan_psu_text }}">
+                            </div>
+                            <label style="font-size: 16px;">File</label>
+                            <div>
+                                {% if dokumen.regulasi_pemanfaatan_psu %}
+                                Saat ini: <br>
+                                <a href="#" class="btn btn-primary" download>Unduh Regulasi Pemanfaatan PSU</a>
+                                <input type="checkbox" name="regulasi_pemanfaatan_psu-clear" id="regulasi_pemanfaatan_psu-clear_id">
+                                <label for="regulasi_pemanfaatan_psu-clear_id">hapus</label><br>
+                                Ubah: <br>
+                                {% endif %}
+                                <input type="file" name="regulasi_pemanfaatan_psu" accept="application/pdf" class="dokumenclearablefileinput form-control-file" id="id_regulasi_pemanfaatan_psu"> 
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="my-3">
+                    <a href="{% url 'admin_kelola:index' %}" type="button" class="btn btn-danger">Batal</a>
+                    <button type="submit" class="btn btn-success">Simpan</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

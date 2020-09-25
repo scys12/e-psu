@@ -1,0 +1,106 @@
+{% extends 'header.html' %}
+{% load static %}
+
+<!-- Masthead -->
+{% block content %}
+    <div class="container py-5">
+        <div class="card">
+            <div class="card-header text-center">
+                <h2>Sosialisasi Serah Terima PSU</h2>
+            </div>
+            <div class="card-body">
+                {% for message in messages %}
+                    <div class="alert alert-success" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+                <div class="mb-4">
+                    {% if request.user.user_type == 1 %}
+                        <a href="{% url 'serah_terima:tambah' %}" class="btn btn-success d-inline">Tambah</a>
+                    {% endif %}
+                    {% comment %}
+                    <form class="form-inline d-inline float-right" action="{% url 'serah_terima:cari' %}" method="get">
+                            <input name="psu" class="form-control" type="text" placeholder="Cari Dokumen">
+                            <button type="submit" class="btn btn-primary">Cari</button>
+                    </form>
+                    {% endcomment %}
+                </div>
+                <table class="mt-2 table">
+                    <thead class="thead-light">
+                        <tr>
+                            <th shape="col">Admin</th>
+                            <th shape="col">Video</th>
+                            <th shape="col">Foto</th>
+                            <th shape="col">Salinan Laporan</th>
+                            <th shape="col">Opsi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for dokumen in dokumens %}
+                            <tr>
+                                <td>
+                                    {{ dokumen.admin_kelola.user.username }}
+                                </td>
+                                <td>
+                                    <a href="{{ dokumen.video.url }}" class="btn btn-secondary" target="_blank">Unduh Video</a>                                    
+                                </td>
+                                <td>
+                                    <a href="{{ dokumen.foto.url }}" class="btn btn-secondary" target="_blank">Unduh Foto</a>
+                                </td>
+                                <td>
+                                    <a href="{{ dokumen.salinan_laporan.url }}" class="btn btn-secondary" target="_blank">Unduh Salinan</a>                                    
+                                </td>
+                                <td>
+                                    <a href="{% url 'serah_terima:tampil' id=dokumen.id %}" type="button" class="btn btn-primary">Lihat</a>
+                                    {% if request.user.user_type == 1 %}
+                                        <a href="{% url 'serah_terima:ubah' id=dokumen.id %}" type="button" class="btn btn-warning">Ubah</a>
+                                        <a href="{% url 'serah_terima:hapus' id=dokumen.id %}" type="button" class="btn btn-danger" 
+                                            onclick="return confirm('Apakah Anda yakin untuk menghapus dokumen {{ dokumen.nama_psu }}?')">
+                                            Hapus
+                                        </a>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                {% if dokumens.has_other_pages %}
+                    <ul class="pagination">
+                        {% if dokumens.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ dokumens.previous_page_number }}">&laquo;</a>
+                            </li>
+                        {% else %}
+                        <li class="page-item disabled">
+                            <span class="page-link">&laquo;</span>
+                        </li>
+                        {% endif %}
+                        {% for i in dokumens.paginator.page_range %}
+                            {% if dokumens.number == i %}
+                                <li class="page-item active">
+                                    <span class="page-link">{{ i }} 
+                                        <span class="sr-only">(current)</span>
+                                    </span>
+                                </li>
+                            {% else %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                        {% if dokumens.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ dokumens.next_page_number }}">&raquo;</a>
+                            </li>
+                        {% else %}
+                            <li class="page-item disabled">
+                                <span class="page-link">&raquo;</span>
+                            </li>
+                        {% endif %}
+                    </ul>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
