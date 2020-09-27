@@ -1,17 +1,18 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import logout
 from .forms import AdminKelolaRegistrationForm
-from serah_terima.forms import DokumenForm
 from perwakilan_penghuni.forms import PerwakilanPenghuniForm
 from account.forms import RegisterForm, LoginForm
 from django.db import transaction
 from perwakilan_penghuni.models import PerwakilanPenghuni
 from serah_terima.models import Dokumen
+from laporan.models import BerkasLaporan
+from serah_terima.forms import DokumenForm
+from laporan.forms import BerkasLaporanForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from account.decorators import admin_kelola_required, anonymous_required
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from laporan.models import BerkasLaporan
 # Create your views here.
 
 @login_required(login_url='/admin_kelola/login')
@@ -106,6 +107,7 @@ def perwakilan_penghuni_tambah(request):
     return render(request, 'admin_kelola/perwakilan_penghuni/tambah.html', context)
 
 
+# SERAH TERIMA
 @login_required(login_url='/admin_kelola/login')
 @admin_kelola_required
 def serah_terima_tambah(request):    
@@ -166,4 +168,65 @@ def serah_terima_hapus(request, id):
 
     dokumen.delete()
     messages.success(request, f'Dokumen berhasil dihapus.', extra_tags='serah_terima')
+    return redirect('admin_kelola:index')
+
+# LAPORAN
+@login_required(login_url='/admin_kelola/login')
+@admin_kelola_required
+def laporan_tambah(request):
+    if request.method == 'POST':
+        form = BerkasLaporanForm(request.POST, request.FILES)
+        if form.is_valid():
+            form_laporan = form.save(commit=False)
+            form_laporan.status_laporan = 'BELUM'
+            form_laporan.user_created = request.user
+            form_laporan.save()
+            nama_psu_laporan = form.cleaned_data.get('nama_psu_laporan')
+            messages.success(request, f'Laporan {nama_psu_laporan} berhasil ditambahkan.', extra_tags='laporan')
+            return redirect('admin_kelola:index')
+    else:
+        form = BerkasLaporanForm()
+
+    return render(request, "admin_kelola/laporan/tambah.html", {
+        'form': form
+    })
+
+@login_required(login_url='/admin_kelola/login')
+@admin_kelola_required
+def laporan_tampil(request, id):
+    laporan = BerkasLaporan.objects.get(id=id)
+    return render(request, "admin_kelola/laporan/tampil.html", {
+        'laporan': laporan
+    })
+    
+
+@login_required(login_url='/admin_kelola/login')
+@admin_kelola_required
+def laporan_ubah(request, id):
+    try:
+        laporan = BerkasLaporan.objects.get(id=id)
+    except BerkasLaporan.DoesNotExist:
+        return redirect('admin_kelola:index')
+    
+    form = BerkasLaporanForm(request.POST or None, request.FILES or None, instance = laporan)
+
+    if form.is_valid():
+        form.save()
+        nama_psu = form.cleaned_data.get('nama_psu_laporan')
+        messages.success(request, f'Laporan {nama_psu} berhasil diperbarui.', extra_tags='laporan')
+        return redirect('admin_kelola:index')
+
+    return render(request, 'admin_kelola/laporan/ubah.html', {
+        'form': form
+    })
+
+@login_required(login_url='/admin_kelola/login')
+@admin_kelola_required
+def laporan_hapus(request, id):
+    try:
+        laporan = BerkasLaporan.objects.get(id=id)
+    except BerkasLaporan.DoesNotExist:
+        return redirect('admin_kelola:index')
+    laporan.delete()
+    messages.success(request, f'Laporan {laporan.nama_psu_laporan} berhasil dihapus.', extra_tags='laporan')
     return redirect('admin_kelola:index')
