@@ -35,3 +35,18 @@ class UpdatePenangananForm(forms.ModelForm):
         fields = ("bentuk_penanganan_laporan",)
 
     bentuk_penanganan_laporan = forms.CharField(widget=forms.Textarea, label="Penanganan Terhadap Laporan")
+
+class PersetujuanLaporan(forms.ModelForm):
+    class Media:
+        js = ['js/persetujuan_laporan.js']
+        
+    class Meta:
+        model = BerkasLaporan
+        fields = ('is_approve', 'alasan_ditolak')
+    
+    is_approve = forms.TypedChoiceField(
+                    label="Pilih Persetujuan",
+                    coerce=bool,
+                    choices=((False, 'Tolak Laporan'), (True, 'Setujui Laporan')),
+                    widget=forms.RadioSelect
+                )

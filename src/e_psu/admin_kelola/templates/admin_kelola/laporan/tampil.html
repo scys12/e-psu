@@ -1,0 +1,64 @@
+{% extends 'header.html' %}
+{% load static %}
+{% block content %}
+    <div class="container py-5">
+        <div class="card">
+            <div class="card-header text-center">
+                <h2>Berkas Laporan {{ laporan.nama_psu }}</h2>
+            </div>
+            <div class="card-body">
+                {% for message in messages %}
+                    <div class="alert alert-success" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+                <h4>Nama PSU</h4>
+                <div>
+                    <p>{{ laporan.nama_psu_laporan }}</p>
+                </div>
+                <h4>Judul Laporan</h4>
+                <div>
+                    <p>{{ laporan.judul_laporan }}</p>
+                </div>
+                <h4>Deskripsi Laporan</h4>
+                <div>
+                    <p>{{ laporan.deskripsi_laporan }}</p>
+                </div>
+                <h4>Status Laporan</h4>
+                {% if laporan.status_laporan == 'BELUM' %}
+                    <div style="background-color: #f34d30;width: max-content;padding: 0px 13px;">
+                        <p style="color:white">Belum Diproses</p>
+                    </div>
+                {% endif %}
+                {% if laporan.status_laporan == 'SEDANG' %}
+                    <div style="background-color: #fbff24;width: max-content;padding: 0px 13px;">
+                        <p style="color:white">Sedang Diproses</p>
+                    </div>
+                {% endif %}
+                {% if laporan.status_laporan == 'SUDAH' %}
+                    <div style="background-color: #03a678;width: max-content;padding: 0px 13px;">
+                        <p style="color:white">Telah Diproses</p>
+                    </div>
+                {% endif %}
+                <!-- <h4>Video</h4>
+                <div class="text-center">
+                    <video width="100%" controls>
+                        <source src="{{ laporan.bukti_video_laporan.url }}" type="video/mp4">
+                    </video>
+                </div>
+                <hr class="my-4"> -->
+                <h4>Foto</h4>
+                <div class="text-center">
+                    {% if laporan.foto_laporan %}
+                        <img style="max-width: 100%" src="{{ laporan.foto_laporan.url }}" alt="Foto laporan {{ laporan.nama_psu_laporan }}">
+                    {% else %}
+                        <p>-</p>
+                    {% endif %}
+                </div>
+                <hr class="my-4">
+                <a href="{% url 'admin_kelola:index' %}" type="button" class="btn btn-success"> Kembali </a>
+                <a href="{% url 'admin_kelola:laporan_ubah' id=laporan.id %}" type="button" class="btn btn-warning"> Ubah </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

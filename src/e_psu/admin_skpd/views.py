@@ -119,7 +119,7 @@ def update_laporan_view(request, id):
         berkas_laporan.admin_status_laporan = admin_skpd
         berkas_laporan.save()
         messages.success(request, f'Laporan {id} berhasil diperbaharui', extra_tags='laporan')
-        return redirect('admin_skpd:index')    
+        return redirect('admin_skpd:index')
     elif update_penanganan_form.is_valid():        
         admin_skpd = AdminSKPD.objects.get(pk=request.user.id)
         berkas_laporan = update_penanganan_form.save(commit=False)

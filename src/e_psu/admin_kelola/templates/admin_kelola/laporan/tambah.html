@@ -1,0 +1,21 @@
+{% extends "header.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="container py-5">
+        <div class="card-header text-center">
+            <h2>Penambahan Laporan Warga</h2>
+        </div>
+        <div class="card-body">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form | crispy }}
+                <a href="{% url 'admin_kelola:index' %}" type="button" class="btn btn-danger">
+                    Batal
+                </a>
+                <button type="submit" class="btn btn-success"> Tambahkan </button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

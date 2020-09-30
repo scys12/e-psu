@@ -1,0 +1,98 @@
+{% extends "header.html" %}
+{% load static %}
+
+{% block content %}
+    <div class="container py-5">
+        <div class="card">
+            <div class="card-header text-center">
+                <h2>Laporan Masyarakat</h2>
+            </div>
+            <div class="card-body">
+                {% for message in messages %}
+                    <div class="alert alert-success" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+                <a href="{% url 'admin_kelola:laporan_tambah' %}" class="btn btn-success">Tambah</a>
+                <table class="mt-2 table">
+                    <thead class="thead-light">
+                        <tr>
+                            <th shape="col">Tanggal Entri</th>
+                            <th shape="col">ID</th>
+                            <th shape="col">Nama PSU</th>
+                            <!-- <th shape="col">Perumahan</th> -->
+                            <th shape="col">Judul Laporan</th>
+                            <th shape="col">Bukti Foto</th>
+                            <!-- <th shape="col">Bukti Video</th> -->
+                            <th shape="col">Opsi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for laporan in laporans %}
+                            <tr>
+                                <td>{{ laporan.tanggal_entri_laporan }}</td>
+                                <td>{{ laporan.id }}</td>
+                                <td>{{ laporan.nama_psu_laporan }}</td>
+                                <td>{{ laporan.judul_laporan }}</td>
+                                <td>
+                                    <a href="{{ laporan.foto_laporan.url }}" class="btn btn-secondary" target="_blank">Unduh Bukti Foto</a>
+                                </td>
+                                <!-- <td>
+                                    <a href="{{ laporan.video.url }}" class="btn btn-secondary" target="_blank">Unduh Bukti Video</a>                                    
+                                </td> -->
+                                <td>
+                                    <a href="{% url 'admin_kelola:laporan_tampil' id=laporan.id %}" type="button" class="btn btn-primary">Lihat</a>
+                                    <a href="{% url 'admin_kelola:laporan_ubah' id=laporan.id %}" type="button" class="btn btn-warning">Ubah</a>
+                                    <a href="{% url 'admin_kelola:laporan_hapus' id=laporan.id %}" type="button" class="btn btn-danger" 
+                                        onclick="return confirm('Apakah Anda yakin untuk menghapus laporan {{ laporan.judul_laporan }}?')">
+                                        Hapus
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                {% if laporans.has_other_pages %}
+                <ul class="pagination">
+                    {% if laporans.has_previous %}
+                    <li class="page-item">
+                        <a href="?page={{ laporans.previous_page_number }}" class="page-link"> &laquo;</a>
+                    </li>
+
+                    {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link"> &laquo; </span>
+                    </li>
+                    {% endif %}
+
+                    {% for i in laporans.paginator.page_range %}
+                        {% if laporans.number == i %}
+                            <li class="page-item active">
+                                <span class="page-link">
+                                    {{ i }}
+                                    <span class="sr-only">(current)</span>
+                                </span>
+                            </li>
+                        {% else %}
+                            <li class="page-item">
+                                <a href="?page={{ i }}" class="page-link"> {{ i }} </a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if laporans.has_next %}
+                        <li class="page-item">
+                            <a href="?page={{ laporans.next_page_number }}" class="page-link"> &raquo; </a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled">
+                            <span class="page-link"> &raquo; </span>
+                        </li>
+                    {% endif %}
+                </ul>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
