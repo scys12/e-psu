@@ -3,29 +3,22 @@ from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import AdminSKPDRegistrationForm
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from account.forms import RegisterForm, LoginForm, EditAccountForm
 from account.decorators import admin_skpd_required, anonymous_required
 from django.db import transaction
 from laporan.models import BerkasLaporan
 from laporan.forms import UpdateStatusForm, UpdatePenangananForm
 from .models import AdminSKPD
+from e_psu.helpers import paginate_object
 # Create your views here.
+
+semua_laporan = BerkasLaporan.objects.filter(is_approve=1)
 
 @login_required(login_url='/admin_skpd/login')
 @admin_skpd_required
 def index_view(request):    
-    page = request.GET.get('page', 1)
-
-    semua_laporan = BerkasLaporan.objects.all()  
-    paginator_laporan = Paginator(semua_laporan, 10)
-    try:
-        laporans = paginator_laporan.page(page)
-    except PageNotAnInteger:
-        laporans = paginator_laporan.page(1)
-    except EmptyPage:
-        laporans = paginator_laporan.page(paginator_laporan.num_pages)
-
+    page = request.GET.get('page', 1)    
+    laporans = paginate_object(semua_laporan, 10, page)    
     return render(request, "admin_skpd/index.html", {
         'laporans': laporans,
     })
@@ -67,7 +60,7 @@ def logout_view(request):
 @login_required(login_url='/admin_skpd/login')
 @admin_skpd_required
 def display_profile_view(request):
-    admin_skpd = AdminSKPD.objects.get(pk=request.user.id)
+    admin_skpd = AdminSKPD.objects.get(user_id=request.user.id)
     context = {
         "admin_skpd" : admin_skpd
     }
@@ -76,7 +69,7 @@ def display_profile_view(request):
 @login_required(login_url='/admin_skpd/login')
 @admin_skpd_required
 def change_profile_view(request):
-    admin_skpd = AdminSKPD.objects.get(pk=request.user.id)
+    admin_skpd = AdminSKPD.objects.get(user_id=request.user.id)
     account = EditAccountForm(request.POST or None, prefix='account', instance= request.user)
     admin_skpd_form = AdminSKPDRegistrationForm(request.POST or None, prefix='admin_skpd',instance = admin_skpd)
     if admin_skpd_form.is_valid() and account.is_valid():
@@ -93,6 +86,9 @@ def change_profile_view(request):
 @login_required(login_url='/admin_skpd/login')
 @admin_skpd_required
 def detail_laporan_view(request, id):
+    query_laporan = semua_laporan.filter(id=id)
+    if query_laporan.count() < 1:
+        return redirect('admin_skpd:index')
     try:
         laporan = BerkasLaporan.objects.get(id=id)
     except BerkasLaporan.DoesNotExist:
@@ -114,14 +110,14 @@ def update_laporan_view(request, id):
     update_penanganan_form = UpdatePenangananForm(request.POST or None, instance=berkas_laporan)
 
     if update_status_form.is_valid():
-        admin_skpd = AdminSKPD.objects.get(pk=request.user.id)
+        admin_skpd = AdminSKPD.objects.get(user_id=request.user.id)
         berkas_laporan = update_status_form.save(commit=False)
         berkas_laporan.admin_status_laporan = admin_skpd
         berkas_laporan.save()
         messages.success(request, f'Laporan {id} berhasil diperbaharui', extra_tags='laporan')
-        return redirect('admin_skpd:index')    
+        return redirect('admin_skpd:index')
     elif update_penanganan_form.is_valid():        
-        admin_skpd = AdminSKPD.objects.get(pk=request.user.id)
+        admin_skpd = AdminSKPD.objects.get(user_id=request.user.id)
         berkas_laporan = update_penanganan_form.save(commit=False)
         berkas_laporan.admin_penanganan_laporan = admin_skpd
         berkas_laporan.save()

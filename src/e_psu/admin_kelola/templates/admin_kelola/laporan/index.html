@@ -9,19 +9,18 @@
             </div>
             <div class="card-body">
                 {% for message in messages %}
-                    {% if message.extra_tags == 'laporan' %}
-                        <div class="alert alert-success" role="alert">
-                            {{ message }}
-                        </div>
-                    {% endif %}
+                    <div class="alert alert-success" role="alert">
+                        {{ message }}
+                    </div>
                 {% endfor %}
+                <a href="{% url 'admin_kelola:laporan_tambah' %}" class="btn btn-success">Tambah</a>
                 <table class="mt-2 table">
                     <thead class="thead-light">
                         <tr>
                             <th shape="col">Tanggal Entri</th>
                             <th shape="col">ID</th>
-                            <th shape="col">Status Laporan</th>
                             <th shape="col">Nama PSU</th>
+                            <!-- <th shape="col">Perumahan</th> -->
                             <th shape="col">Judul Laporan</th>
                             <th shape="col">Bukti Foto</th>
                             <!-- <th shape="col">Bukti Video</th> -->
@@ -33,41 +32,21 @@
                             <tr>
                                 <td>{{ laporan.tanggal_entri_laporan }}</td>
                                 <td>{{ laporan.id }}</td>
+                                <td>{{ laporan.nama_psu_laporan }}</td>
+                                <td>{{ laporan.judul_laporan }}</td>
                                 <td>
-                                    {% if laporan.status_laporan == 'BELUM' %}
-                                        <span style="background-color: #f34d30;width: max-content;padding: 10px;border-radius:4px;color:white">
-                                            Belum Diproses
-                                        </span>
-                                    {% endif %}
-                                    {% if laporan.status_laporan == 'SEDANG' %}
-                                        <span style="background-color: #fbff24;width: max-content;padding: 10px;border-radius:4px;color:white">
-                                            Sedang Diproses
-                                        </span>
-                                    {% endif %}
-                                    {% if laporan.status_laporan == 'SUDAH' %}
-                                        <span style="background-color: #03a678;width: max-content;padding: 10px;border-radius:4px;color:white">
-                                            Telah Diproses
-                                        </span>
-                                    {% endif %}
+                                    <a href="{{ laporan.foto_laporan.url }}" class="btn btn-secondary" target="_blank">Unduh Bukti Foto</a>
                                 </td>
+                                <!-- <td>
+                                    <a href="{{ laporan.video.url }}" class="btn btn-secondary" target="_blank">Unduh Bukti Video</a>                                    
+                                </td> -->
                                 <td>
-                                    <span class="text-limit">{{ laporan.nama_psu_laporan }}</span>
-                                </td>
-                                <td>
-                                    <span class="text-limit">{{ laporan.judul_laporan }}</span>
-                                </td>
-                                {% if laporan.foto_laporan %}
-                                    <td>
-                                        <a href="{{ laporan.foto_laporan.url }}" class="btn btn-secondary" target="_blank">Unduh Bukti Foto</a>
-                                    </td>
-                                {% else %}
-                                    <td>
-                                        <p>-</p>
-                                    </td>
-                                {% endif %}
-                                <td>
-                                    <a href="{% url 'admin_skpd:detail_laporan' id=laporan.id %}" type="button" class="btn btn-info">Lihat Laporan</a>
-                                    <a href="{% url 'admin_skpd:update_laporan' id=laporan.id %}" type="button" class="btn btn-warning">Update Laporan</a>
+                                    <a href="{% url 'admin_kelola:laporan_tampil' id=laporan.id %}" type="button" class="btn btn-primary">Lihat</a>
+                                    <a href="{% url 'admin_kelola:laporan_ubah' id=laporan.id %}" type="button" class="btn btn-warning">Ubah</a>
+                                    <a href="{% url 'admin_kelola:laporan_hapus' id=laporan.id %}" type="button" class="btn btn-danger" 
+                                        onclick="return confirm('Apakah Anda yakin untuk menghapus laporan {{ laporan.judul_laporan }}?')">
+                                        Hapus
+                                    </a>
                                 </td>
                             </tr>
                         {% endfor %}
@@ -114,6 +93,6 @@
                 </ul>
                 {% endif %}
             </div>
-        </div>        
+        </div>
     </div>
 {% endblock %}

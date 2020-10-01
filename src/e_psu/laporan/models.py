@@ -1,6 +1,6 @@
 from django.db import models
 from account.models import Account
-from serah_terima.models import PathAndRename
+from e_psu.helpers import PathAndRename
 from smartfields import fields
 from admin_skpd.models import AdminSKPD
 #Belum tau bentuk laporannya seperti apa
@@ -9,7 +9,11 @@ class BerkasLaporan(models.Model):
     status_laporan_choices = (
         ('BELUM', 'Belum Diproses'),
         ('SEDANG', 'Sedang Diproses'),
+<<<<<<< HEAD
         ('SUDAH', 'Selesai Diproses'),
+=======
+        ('SUDAH', 'SUDAH Diproses'),
+>>>>>>> 2d36d7e9e431a74f05f965617f4f775c895fbbd5
     )
 
     tanggal_entri_laporan = models.DateField(auto_now_add=True)
@@ -21,6 +25,8 @@ class BerkasLaporan(models.Model):
     admin_status_laporan = models.ForeignKey(AdminSKPD,on_delete=models.CASCADE, related_name='+',blank=True, null=True)
     bentuk_penanganan_laporan = models.TextField(null=True, blank=True)
     admin_penanganan_laporan = models.ForeignKey(AdminSKPD,on_delete=models.CASCADE, related_name='+',blank=True, null=True)
+    is_approve = models.BooleanField(null=True, blank=True)
+    alasan_ditolak = models.TextField(null=True, blank=True)
     user_created = models.ForeignKey(Account,on_delete=models.CASCADE, related_name='+')
 
     created_at = models.DateTimeField(auto_now_add=True)

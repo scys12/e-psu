@@ -4,7 +4,7 @@ from django.db.models.signals import post_save
 
 # Create your models here.
 class PerwakilanPenghuni(models.Model):
-    user = models.OneToOneField(Account,on_delete=models.CASCADE, primary_key = True)
+    user = models.OneToOneField(Account,on_delete=models.CASCADE)
     nama = models.CharField(max_length=30)
     alamat_rumah = models.CharField(max_length=100)
     no_ktp = models.CharField(max_length=16)
@@ -12,8 +12,8 @@ class PerwakilanPenghuni(models.Model):
     class Meta:
         db_table= "kelola_perwakilanpenghuni"
 
-    def create_user_profile(sender, instance, created, **kwargs):  
-        if created:            
-            profile, created = PerwakilanPenghuni.objects.get_or_create(user=instance)
+    # def create_user_profile(sender, instance, created, **kwargs):  
+    #     if created:            
+    #         profile, created = PerwakilanPenghuni.objects.get_or_create(user=instance)
 
-    post_save.connect(create_user_profile, sender=Account)
+    # post_save.connect(create_user_profile, sender=Account)

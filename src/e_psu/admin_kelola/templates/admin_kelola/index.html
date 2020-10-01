@@ -5,7 +5,7 @@
     <div class="container py-5">
         <div class="card">
             <div class="card-header text-center">
-                <h2>Laporan Masyarakat</h2>
+                <h2 style="color:black;font-size:20px">Laporan Masyarakat yang belum disetujui</h2>
             </div>
             <div class="card-body">
                 {% for message in messages %}
@@ -15,12 +15,14 @@
                         </div>
                     {% endif %}
                 {% endfor %}
-                <a href="{% url 'laporan:tambah' %}" class="btn btn-success">Tambah</a>
+                <a href="{% url 'admin_kelola:laporan_tambah' %}" class="btn btn-success">Tambah</a>
                 <table class="mt-2 table">
                     <thead class="thead-light">
                         <tr>
                             <th shape="col">Tanggal Entri</th>
                             <th shape="col">ID</th>
+                            <th shape="col">Status Persetujuan</th>
+                            <th shape="col">Status Laporan</th>
                             <th shape="col">Nama PSU</th>
                             <!-- <th shape="col">Perumahan</th> -->
                             <th shape="col">Judul Laporan</th>
@@ -30,36 +32,70 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for laporan in laporans %}
+                        {% for laporan in laporans_null_approve %}
                             <tr>
                                 <td>{{ laporan.tanggal_entri_laporan }}</td>
                                 <td>{{ laporan.id }}</td>
-                                <td>{{ laporan.nama_psu_laporan }}</td>
-                                <td>{{ laporan.judul_laporan }}</td>
                                 <td>
-                                    <a href="{{ laporan.foto_laporan.url }}" class="btn btn-secondary" download>Unduh Bukti Foto</a>
+                                    {% if laporan.is_approve is None %}
+                                        <span style="background-color: #87847a;width: max-content;padding: 10px;border-radius:4px;color:white">
+                                            Belum Disetujui
+                                        </span>
+                                    {% endif %}
+                                    {% if laporan.is_approve == 1 %}
+                                        <span style="background-color: #5de038;width: max-content;padding: 10px;border-radius:4px;color:white">
+                                            Sudah Disetujui
+                                        </span>
+                                    {% endif %}
+                                    {% if laporan.is_approve == 0 %}
+                                        <span style="background-color: #f0765b;width: max-content;padding: 10px;border-radius:4px;color:white">
+                                            Gagal Disetujui
+                                        </span>
+                                    {% endif %}
                                 </td>
-                                <!-- <td>
-                                    <a href="{{ laporan.video.url }}" class="btn btn-secondary" download>Unduh Bukti Video</a>                                    
-                                </td> -->
                                 <td>
-                                    <a href="{% url 'laporan:tampil' id=laporan.id %}" type="button" class="btn btn-primary">Lihat</a>
-                                    <a href="{% url 'laporan:ubah' id=laporan.id %}" type="button" class="btn btn-warning">Ubah</a>
-                                    <a href="{% url 'laporan:hapus' id=laporan.id %}" type="button" class="btn btn-danger" 
-                                        onclick="return confirm('Apakah Anda yakin untuk menghapus laporan {{ laporan.judul_laporan }}?')">
-                                        Hapus
-                                    </a>
+                                    {% if laporan.status_laporan == 'BELUM' %}
+                                        <span style="background-color: #f34d30;width: max-content;padding: 10px;border-radius:4px;color:white">
+                                            Belum Diproses
+                                        </span>
+                                    {% endif %}
+                                    {% if laporan.status_laporan == 'SEDANG' %}
+                                        <span style="background-color: #fbff24;width: max-content;padding: 10px;border-radius:4px;color:white">
+                                            Sedang Diproses
+                                        </span>
+                                    {% endif %}
+                                    {% if laporan.status_laporan == 'SUDAH' %}
+                                        <span style="background-color: #03a678;width: max-content;padding: 10px;border-radius:4px;color:white">
+                                            Telah Diproses
+                                        </span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <span class="text-limit">{{ laporan.nama_psu_laporan }}</span>
+                                </td>
+                                <td>
+                                    <span class="text-limit">{{ laporan.judul_laporan }}</span>
+                                </td>
+                                <td>
+                                    {% if laporan.foto_laporan %}
+                                        <a href="{{ laporan.foto_laporan.url }}" style="padding:9px" class="btn btn-secondary" download>Unduh Bukti Foto</a>
+                                    {% else %}
+                                        <p>-</p>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <a href="{% url 'admin_kelola:laporan_persetujuan' id=laporan.id %}" style="padding:9px" type="button" class="btn btn-info">Form Persetujuan</a>
                                 </td>
                             </tr>
                         {% endfor %}
                     </tbody>
                 </table>
 
-                {% if laporans.has_other_pages %}
+                {% if laporans_null_approve.has_other_pages %}
                 <ul class="pagination">
-                    {% if laporans.has_previous %}
+                    {% if laporans_null_approve.has_previous %}
                     <li class="page-item">
-                        <a href="?page={{ laporans.previous_page_number }}" class="page-link"> &laquo;</a>
+                        <a href="?page={{ laporans_null_approve.previous_page_number }}" class="page-link"> &laquo;</a>
                     </li>
 
                     {% else %}
@@ -68,8 +104,8 @@
                     </li>
                     {% endif %}
 
-                    {% for i in laporans.paginator.page_range %}
-                        {% if laporans.number == i %}
+                    {% for i in laporans_null_approve.paginator.page_range %}
+                        {% if laporans_null_approve.number == i %}
                             <li class="page-item active">
                                 <span class="page-link">
                                     {{ i }}
@@ -83,9 +119,9 @@
                         {% endif %}
                     {% endfor %}
 
-                    {% if laporans.has_next %}
+                    {% if laporans_null_approve.has_next %}
                         <li class="page-item">
-                            <a href="?page={{ laporans.next_page_number }}" class="page-link"> &raquo; </a>
+                            <a href="?page={{ laporans_null_approve.next_page_number }}" class="page-link"> &raquo; </a>
                         </li>
                     {% else %}
                         <li class="page-item disabled">
@@ -96,14 +132,243 @@
                 {% endif %}
             </div>
         </div>
+
         <div class="py-5">
             <div class="card">
                 <div class="card-header text-center">
-                    <h2>Sosialisasi Serah Terima PSU</h2>
+                    <h2 style="color:black;font-size:20px">Laporan Masyarakat yang disetujui</h2>
+                </div>
+                <div class="card-body">
+                    <table class="mt-2 table">
+                        <thead class="thead-light">
+                            <tr>
+                                <th shape="col">Tanggal Entri</th>
+                                <th shape="col">ID</th>
+                                <th shape="col">Status Laporan</th>
+                                <th shape="col">Nama PSU</th>
+                                <!-- <th shape="col">Perumahan</th> -->
+                                <th shape="col">Judul Laporan</th>
+                                <th shape="col">Bukti Foto</th>
+                                <!-- <th shape="col">Bukti Video</th> -->
+                                <th shape="col">Opsi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for laporan in laporans_accepted %}
+                                <tr>
+                                    <td>{{ laporan.tanggal_entri_laporan }}</td>
+                                    <td>{{ laporan.id }}</td>
+                                    <td>
+                                        {% if laporan.status_laporan == 'BELUM' %}
+                                            <span style="background-color: #f34d30;width: max-content;padding: 10px;border-radius:4px;color:white">
+                                                Belum Diproses
+                                            </span>
+                                        {% endif %}
+                                        {% if laporan.status_laporan == 'SEDANG' %}
+                                            <span style="background-color: #fbff24;width: max-content;padding: 10px;border-radius:4px;color:white">
+                                                Sedang Diproses
+                                            </span>
+                                        {% endif %}
+                                        {% if laporan.status_laporan == 'SUDAH' %}
+                                            <span style="background-color: #03a678;width: max-content;padding: 10px;border-radius:4px;color:white">
+                                                Telah Diproses
+                                            </span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <span class="text-limit">{{ laporan.nama_psu_laporan }}</span>
+                                    </td>
+                                    <td>
+                                        <span class="text-limit">{{ laporan.judul_laporan }}</span>
+                                    </td>
+                                    <td>
+                                        {% if laporan.foto_laporan %}
+                                            <a href="{{ laporan.foto_laporan.url }}" class="btn btn-secondary" download>Unduh Bukti Foto</a>
+                                        {% else %}
+                                            <p>-</p>
+                                        {% endif %}
+                                    </td>
+                                    <!-- <td>
+                                        <a href="{{ laporan.video.url }}" class="btn btn-secondary" download>Unduh Bukti Video</a>                                    
+                                    </td> -->
+                                    <td>
+                                        <a href="{% url 'admin_kelola:laporan_tampil' id=laporan.id %}" type="button" class="btn btn-primary">Lihat</a>
+                                        <a href="{% url 'admin_kelola:laporan_ubah' id=laporan.id %}" type="button" class="btn btn-warning">Ubah</a>
+                                        <a href="{% url 'admin_kelola:laporan_hapus' id=laporan.id %}" type="button" class="btn btn-danger" 
+                                            onclick="return confirm('Apakah Anda yakin untuk menghapus laporan {{ laporan.judul_laporan }}?')">
+                                            Hapus
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+
+                    {% if laporans_accepted.has_other_pages %}
+                    <ul class="pagination">
+                        {% if laporans_accepted.has_previous %}
+                        <li class="page-item">
+                            <a href="?page={{ laporans_accepted.previous_page_number }}" class="page-link"> &laquo;</a>
+                        </li>
+
+                        {% else %}
+                        <li class="page-item disabled">
+                            <span class="page-link"> &laquo; </span>
+                        </li>
+                        {% endif %}
+
+                        {% for i in laporans_accepted.paginator.page_range %}
+                            {% if laporans_accepted.number == i %}
+                                <li class="page-item active">
+                                    <span class="page-link">
+                                        {{ i }}
+                                        <span class="sr-only">(current)</span>
+                                    </span>
+                                </li>
+                            {% else %}
+                                <li class="page-item">
+                                    <a href="?page={{ i }}" class="page-link"> {{ i }} </a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+
+                        {% if laporans_accepted.has_next %}
+                            <li class="page-item">
+                                <a href="?page={{ laporans_accepted.next_page_number }}" class="page-link"> &raquo; </a>
+                            </li>
+                        {% else %}
+                            <li class="page-item disabled">
+                                <span class="page-link"> &raquo; </span>
+                            </li>
+                        {% endif %}
+                    </ul>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <div class="py-5">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h2 style="color:black;font-size:20px">Laporan Masyarakat yang ditolak</h2>
+                </div>
+                <div class="card-body">
+                    <table class="mt-2 table">
+                        <thead class="thead-light">
+                            <tr>
+                                <th shape="col">Tanggal Entri</th>
+                                <th shape="col">ID</th>
+                                <th shape="col">Status Laporan</th>
+                                <th shape="col">Nama PSU</th>
+                                <!-- <th shape="col">Perumahan</th> -->
+                                <th shape="col">Judul Laporan</th>
+                                <th shape="col">Bukti Foto</th>
+                                <!-- <th shape="col">Bukti Video</th> -->
+                                <th shape="col">Opsi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for laporan in laporans_reject %}
+                                <tr>
+                                    <td>{{ laporan.tanggal_entri_laporan }}</td>
+                                    <td>{{ laporan.id }}</td>
+                                    <td>
+                                        {% if laporan.status_laporan == 'BELUM' %}
+                                            <span style="background-color: #f34d30;width: max-content;padding: 10px;border-radius:4px;color:white">
+                                                Belum Diproses
+                                            </span>
+                                        {% endif %}
+                                        {% if laporan.status_laporan == 'SEDANG' %}
+                                            <span style="background-color: #fbff24;width: max-content;padding: 10px;border-radius:4px;color:white">
+                                                Sedang Diproses
+                                            </span>
+                                        {% endif %}
+                                        {% if laporan.status_laporan == 'SUDAH' %}
+                                            <span style="background-color: #03a678;width: max-content;padding: 10px;border-radius:4px;color:white">
+                                                Telah Diproses
+                                            </span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <span class="text-limit">{{ laporan.nama_psu_laporan }}</span>
+                                    </td>
+                                    <td>
+                                        <span class="text-limit">{{ laporan.judul_laporan }}</span>
+                                    </td>
+                                    <td>
+                                        {% if laporan.foto_laporan %}
+                                            <a href="{{ laporan.foto_laporan.url }}" class="btn btn-secondary" download>Unduh Bukti Foto</a>
+                                        {% else %}
+                                            <p>-</p>
+                                        {% endif %}
+                                    </td>
+                                    <!-- <td>
+                                        <a href="{{ laporan.video.url }}" class="btn btn-secondary" download>Unduh Bukti Video</a>                                    
+                                    </td> -->
+                                    <td>
+                                        <a href="{% url 'admin_kelola:laporan_tampil' id=laporan.id %}" type="button" class="btn btn-primary">Lihat</a>
+                                        <a href="{% url 'admin_kelola:laporan_ubah' id=laporan.id %}" type="button" class="btn btn-warning">Ubah</a>
+                                        <a href="{% url 'admin_kelola:laporan_hapus' id=laporan.id %}" type="button" class="btn btn-danger" 
+                                            onclick="return confirm('Apakah Anda yakin untuk menghapus laporan {{ laporan.judul_laporan }}?')">
+                                            Hapus
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+
+                    {% if laporans_reject.has_other_pages %}
+                    <ul class="pagination">
+                        {% if laporans_reject.has_previous %}
+                        <li class="page-item">
+                            <a href="?page={{ laporans_reject.previous_page_number }}" class="page-link"> &laquo;</a>
+                        </li>
+
+                        {% else %}
+                        <li class="page-item disabled">
+                            <span class="page-link"> &laquo; </span>
+                        </li>
+                        {% endif %}
+
+                        {% for i in laporans_reject.paginator.page_range %}
+                            {% if laporans_reject.number == i %}
+                                <li class="page-item active">
+                                    <span class="page-link">
+                                        {{ i }}
+                                        <span class="sr-only">(current)</span>
+                                    </span>
+                                </li>
+                            {% else %}
+                                <li class="page-item">
+                                    <a href="?page={{ i }}" class="page-link"> {{ i }} </a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+
+                        {% if laporans_reject.has_next %}
+                            <li class="page-item">
+                                <a href="?page={{ laporans_reject.next_page_number }}" class="page-link"> &raquo; </a>
+                            </li>
+                        {% else %}
+                            <li class="page-item disabled">
+                                <span class="page-link"> &raquo; </span>
+                            </li>
+                        {% endif %}
+                    </ul>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="py-5">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h2 style="color:black;font-size:20px">Sosialisasi Serah Terima PSU</h2>
                 </div>
                 <div class="card-body">
                     {% for message in messages %}
-                        {% if message.extra_tags == 'admin_kelola' %}
+                        {% if message.extra_tags == 'serah_terima' %}
                             <div class="alert alert-success" role="alert">
                                 {{ message }}
                             </div>
@@ -206,7 +471,7 @@
         <div class="py-5">
             <div class="card">
                 <div class="card-header text-center">
-                    <h2>Perwakilan Penghuni</h2>
+                    <h2 style="color:black;font-size:20px">Perwakilan Penghuni</h2>
                 </div>
                 <div class="card-body">
                     {% for message in messages %}

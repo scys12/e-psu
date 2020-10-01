@@ -1,5 +1,7 @@
 {% extends 'header.html' %}
 {% load static %}
+{% load crispy_forms_tags %}
+
 {% block content %}
     <div class="container py-5">
         <div class="card">
@@ -93,8 +95,24 @@
                     {% endif %}
                 </div>                
                 <hr class="my-4">
-                <a href="{% url 'warga:index' %}" type="button" class="btn btn-success"> Kembali </a>
+                
+                <div class="card">
+                    <div class="card-header text-center">
+                        <h2>Form Persetujuan</h2>
+                    </div>
+                    <div class="card-body">
+                        <form method="post">
+                            {% csrf_token %}                    
+                            {{ persetujuan_laporan_form | crispy }}
+                            <a href="{% url 'admin_kelola:index' %}" type="button" class="btn btn-danger">
+                                Batal
+                            </a>
+                            <button type="submit" class="btn btn-success"> Update Persetujuan </button>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+    {{persetujuan_laporan_form.media}}
 {% endblock %}

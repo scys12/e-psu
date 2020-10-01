@@ -8,49 +8,40 @@ from perwakilan_penghuni.models import PerwakilanPenghuni
 from serah_terima.models import Dokumen
 from laporan.models import BerkasLaporan
 from serah_terima.forms import DokumenForm
-from laporan.forms import BerkasLaporanForm
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from laporan.forms import BerkasLaporanForm, PersetujuanLaporan
 from account.decorators import admin_kelola_required, anonymous_required
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from e_psu.helpers import paginate_object
+from .models import AdminKelola
 # Create your views here.
+dokumen_list = Dokumen.objects.select_related()
+laporan_reject_list = BerkasLaporan.objects.filter(is_approve=False)
+laporan_accepted_list = BerkasLaporan.objects.filter(is_approve=True)
+perwakilan_penghuni_list = PerwakilanPenghuni.objects.all()  
+laporan_null_approve_list = BerkasLaporan.objects.filter(is_approve=None)
 
 @login_required(login_url='/admin_kelola/login')
 @admin_kelola_required
 def index(request):    
     page = request.GET.get('page', 1)
 
-    dokumen_list = Dokumen.objects.select_related()
-    paginator = Paginator(dokumen_list, 10)
-    try:
-        dokumens = paginator.page(page)
-    except PageNotAnInteger:
-        dokumens = paginator.page(1)
-    except EmptyPage:
-        dokumens = paginator.page(paginator.num_pages)
+    page_dokumens = paginate_object(dokumen_list, 10, page)
+
+    page_laporans_reject = paginate_object(laporan_reject_list, 10, page)
+
+    page_laporans_accepted = paginate_object(laporan_accepted_list, 10, page)
+
+    page_perwakilan_penghunis = paginate_object(perwakilan_penghuni_list, 10, page)
+
+    page_laporans_null_approve = paginate_object(laporan_null_approve_list, 10, page)
     
-    semua_laporan = BerkasLaporan.objects.all()  
-    paginator_laporan = Paginator(semua_laporan, 10)
-    try:
-        laporans = paginator_laporan.page(page)
-    except PageNotAnInteger:
-        laporans = paginator_laporan.page(1)
-    except EmptyPage:
-        laporans = paginator_laporan.page(paginator_laporan.num_pages)
-
-    semua_perwakilan_penghuni = PerwakilanPenghuni.objects.all()  
-    paginator_penghuni = Paginator(semua_perwakilan_penghuni, 10)
-    try:
-        perwakilan_penghunis = paginator_penghuni.page(page)
-    except PageNotAnInteger:
-        perwakilan_penghunis = paginator_penghuni.page(1)
-    except EmptyPage:
-        perwakilan_penghunis = paginator_penghuni.page(paginator_penghuni.num_pages)
-
     return render(request, "admin_kelola/index.html", {
-        'dokumens' : dokumens,
-        'laporans': laporans,
-        'perwakilan_penghunis': perwakilan_penghunis
+        'dokumens' : page_dokumens,
+        'laporans_reject': page_laporans_reject,
+        'laporans_accepted': page_laporans_accepted,
+        'perwakilan_penghunis': page_perwakilan_penghunis,
+        'laporans_null_approve': page_laporans_null_approve
     })
 
 @transaction.atomic
@@ -130,7 +121,10 @@ def serah_terima_tambah(request):
 @login_required(login_url='/admin_kelola/login')
 @admin_kelola_required
 def serah_terima_tampil(request, id):
-    dokumen = Dokumen.objects.get(id=id)
+    try:
+        dokumen = Dokumen.objects.get(id=id)
+    except BerkasLaporan.DoesNotExist:
+        return redirect('admin_kelola:index')    
     return render(request, "admin_kelola/serah_terima/tampil.html", {
         'dokumen' : dokumen
     })
@@ -194,7 +188,10 @@ def laporan_tambah(request):
 @login_required(login_url='/admin_kelola/login')
 @admin_kelola_required
 def laporan_tampil(request, id):
-    laporan = BerkasLaporan.objects.get(id=id)
+    try:
+        laporan = BerkasLaporan.objects.get(id=id)
+    except BerkasLaporan.DoesNotExist:
+        return redirect('admin_kelola:index')
     return render(request, "admin_kelola/laporan/tampil.html", {
         'laporan': laporan
     })
@@ -230,3 +227,24 @@ def laporan_hapus(request, id):
     laporan.delete()
     messages.success(request, f'Laporan {laporan.nama_psu_laporan} berhasil dihapus.', extra_tags='laporan')
     return redirect('admin_kelola:index')
+
+@login_required(login_url='/admin_kelola/login')
+@admin_kelola_required
+def detail_form_persetujuan_view(request, id):
+    query_laporan = laporan_null_approve_list.filter(id=id)
+    if query_laporan.count() < 1:
+        return redirect('admin_kelola:index')
+    try:
+        laporan = BerkasLaporan.objects.get(id=id)
+    except BerkasLaporan.DoesNotExist:
+        return redirect('admin_kelola:index')
+    persetujuan_laporan_form = PersetujuanLaporan(request.POST or None, instance=laporan)
+    if persetujuan_laporan_form.is_valid():
+        persetujuan_laporan_form.save()
+        nama_psu = laporan.nama_psu_laporan
+        messages.success(request, f'Laporan {nama_psu} berhasil diperbarui.', extra_tags='laporan')
+        return redirect('admin_kelola:index')
+    return render(request, "admin_kelola/laporan/detail_persetujuan.html", {
+        'laporan': laporan,
+        'persetujuan_laporan_form' : persetujuan_laporan_form
+    })

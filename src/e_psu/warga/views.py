@@ -5,27 +5,25 @@ from account.forms import RegisterForm, LoginForm, EditAccountForm
 from account.decorators import anonymous_required, warga_required
 from django.db import transaction
 from django.contrib.auth.decorators import login_required
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from laporan.models import BerkasLaporan
 from django.contrib.auth import logout
 from laporan.forms import BerkasLaporanForm
+from e_psu.helpers import paginate_object
 from .models import Warga
 # Create your views here.
 @login_required(login_url='/warga/login')
 @warga_required
 def index_view(request):
     page = request.GET.get('page', 1)
-    semua_laporan = BerkasLaporan.objects.all()  
-    paginator_laporan = Paginator(semua_laporan, 10)
-    try:
-        laporans = paginator_laporan.page(page)
-    except PageNotAnInteger:
-        laporans = paginator_laporan.page(1)
-    except EmptyPage:
-        laporans = paginator_laporan.page(paginator_laporan.num_pages)
+    semua_laporan = BerkasLaporan.objects.filter(user_created_id=request.user.id)
+    laporans = paginate_object(semua_laporan, 10, page)
+
+    all_laporan = BerkasLaporan.objects.exclude(user_created_id=request.user.id)
+    all_laporan_masyarakat = paginate_object(all_laporan, 10, page)
 
     return render(request, "warga/index.html", {
-        'laporans': laporans
+        'laporans': laporans,
+        'all_laporan_masyarakat': all_laporan_masyarakat
     })
 
 @login_required(login_url='/warga/login')
@@ -65,7 +63,10 @@ def login_view(request):
 @login_required(login_url='/warga/login')
 @warga_required
 def detail_laporan_view(request, id):
-    laporan = BerkasLaporan.objects.get(id=id)
+    try:
+        laporan = BerkasLaporan.objects.get(id=id)
+    except BerkasLaporan.DoesNotExist:
+        return redirect('warga:index')
     return render(request, "warga/laporan/detail_laporan.html", {
         'laporan': laporan
     })
@@ -89,7 +90,7 @@ def add_laporan_view(request):
 @login_required(login_url='/warga/login')
 @warga_required
 def change_profile_view(request):
-    warga = Warga.objects.get(pk=request.user.id)
+    warga = Warga.objects.get(user_id=request.user.id)
     warga_form = WargaRegistrationForm(request.POST or None, prefix='warga',instance = warga)
     account = EditAccountForm(request.POST or None, prefix='account', instance= request.user)
     if warga_form.is_valid() and account.is_valid():
@@ -106,7 +107,7 @@ def change_profile_view(request):
 @login_required(login_url='/warga/login')
 @warga_required
 def display_profile_view(request):
-    warga = Warga.objects.get(pk=request.user.id)
+    warga = Warga.objects.get(user_id=request.user.id)
     context = {
         "warga" : warga
     }
