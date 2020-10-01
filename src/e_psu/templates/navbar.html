@@ -60,16 +60,18 @@
 
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                         {% if user.user_type == 1 %}
-                            <a class="dropdown-item" href="#">Ganti profile</a>
+                            <a class="dropdown-item" href="#">Profile</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{% url 'admin_kelola:logout' %}">Logout</a>
                         {% endif %}
                         {% if user.user_type == 3 %}
+                            <a class="dropdown-item" href="{% url 'admin_skpd:index' %}">Dashboard</a>
                             <a class="dropdown-item" href="{% url 'admin_skpd:display_profile' %}">Profile</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{% url 'admin_skpd:logout' %}">Logout</a>
                         {% endif %}
                         {% if user.user_type == 4 %}
+                            <a class="dropdown-item" href="{% url 'warga:index' %}">Dashboard</a>
                             <a class="dropdown-item" href="{% url 'warga:display_profile' %}">Profile</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{% url 'warga:logout' %}">Logout</a>

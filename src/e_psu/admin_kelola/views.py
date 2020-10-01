@@ -36,7 +36,6 @@ def index(request):
     laporan_null_approve_list = BerkasLaporan.objects.filter(is_approve=None)
     page_laporans_null_approve = paginate_object(laporan_null_approve_list, 10, page)
     
-
     return render(request, "admin_kelola/index.html", {
         'dokumens' : page_dokumens,
         'laporans_reject': page_laporans_reject,

@@ -3,13 +3,13 @@ from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import AdminSKPDRegistrationForm
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from account.forms import RegisterForm, LoginForm, EditAccountForm
 from account.decorators import admin_skpd_required, anonymous_required
 from django.db import transaction
 from laporan.models import BerkasLaporan
 from laporan.forms import UpdateStatusForm, UpdatePenangananForm
 from .models import AdminSKPD
+from e_psu.helpers import paginate_object
 # Create your views here.
 
 @login_required(login_url='/admin_skpd/login')
@@ -18,13 +18,8 @@ def index_view(request):
     page = request.GET.get('page', 1)
 
     semua_laporan = BerkasLaporan.objects.all()  
-    paginator_laporan = Paginator(semua_laporan, 10)
-    try:
-        laporans = paginator_laporan.page(page)
-    except PageNotAnInteger:
-        laporans = paginator_laporan.page(1)
-    except EmptyPage:
-        laporans = paginator_laporan.page(paginator_laporan.num_pages)
+    laporans = paginate_object(semua_laporan, 10, page)
+    
 
     return render(request, "admin_skpd/index.html", {
         'laporans': laporans,

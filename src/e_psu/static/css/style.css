@@ -449,3 +449,11 @@ input[type=text]:placeholder{
 .login-group{
   margin: 10px 0 0 0;
 }
+
+.text-limit{
+  display: block;
+  width: 100px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
