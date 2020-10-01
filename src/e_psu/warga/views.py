@@ -63,7 +63,10 @@ def login_view(request):
 @login_required(login_url='/warga/login')
 @warga_required
 def detail_laporan_view(request, id):
-    laporan = BerkasLaporan.objects.get(id=id)
+    try:
+        laporan = BerkasLaporan.objects.get(id=id)
+    except BerkasLaporan.DoesNotExist:
+        return redirect('warga:index')
     return render(request, "warga/laporan/detail_laporan.html", {
         'laporan': laporan
     })

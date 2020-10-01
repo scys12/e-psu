@@ -9,10 +9,10 @@
                 <h2>Update Bentuk Penanganan Terhadap Laporan</h2>
             </div>
             <div class="card-body">
-                <form method="post" enctype="multipart/form-data" id="form_laporan_warga">
+                <form method="post" enctype="multipart/form-data" id="form_laporan_admin_skpd">
                     {% csrf_token %}                    
                     {{ update_penanganan_form | crispy }}                    
-                    <a href="{% url 'warga:index' %}" type="button" class="btn btn-danger">
+                    <a href="{% url 'admin_skpd:index' %}" type="button" class="btn btn-danger">
                         Batal
                     </a>
                     <button type="submit" class="btn btn-success"> Update Bentuk Penanganan </button>
@@ -26,7 +26,7 @@
                 <h2>Update Status Laporan</h2>
             </div>
             <div class="card-body">
-                <form method="post" enctype="multipart/form-data" id="form_laporan_warga">
+                <form method="post" enctype="multipart/form-data" id="form_laporan_admin_skpd">
                     {% csrf_token %}
                     <h4>Status Laporan</h4>
                     {% if update_status_form.status_laporan.value == 'BELUM' %}
@@ -45,7 +45,7 @@
                         </div>
                     {% endif %}
                     {{ update_status_form | crispy }}                    
-                    <a href="{% url 'warga:index' %}" type="button" class="btn btn-danger">
+                    <a href="{% url 'admin_skpd:index' %}" type="button" class="btn btn-danger">
                         Batal
                     </a>
                     <button type="submit" class="btn btn-success"> Update Status </button>

@@ -21,6 +21,7 @@
                         <tr>
                             <th shape="col">Tanggal Entri</th>
                             <th shape="col">ID</th>
+                            <th shape="col">Status Persetujuan</th>
                             <th shape="col">Status Laporan</th>
                             <th shape="col">Nama PSU</th>
                             <!-- <th shape="col">Perumahan</th> -->
@@ -35,6 +36,23 @@
                             <tr>
                                 <td>{{ laporan.tanggal_entri_laporan }}</td>
                                 <td>{{ laporan.id }}</td>
+                                <td>
+                                    {% if laporan.is_approve is None %}
+                                        <span style="background-color: #87847a;width: max-content;padding: 10px;border-radius:4px;color:white">
+                                            Belum Disetujui
+                                        </span>
+                                    {% endif %}
+                                    {% if laporan.is_approve == 1 %}
+                                        <span style="background-color: #5de038;width: max-content;padding: 10px;border-radius:4px;color:white">
+                                            Sudah Disetujui
+                                        </span>
+                                    {% endif %}
+                                    {% if laporan.is_approve == 0 %}
+                                        <span style="background-color: #f0765b;width: max-content;padding: 10px;border-radius:4px;color:white">
+                                            Gagal Disetujui
+                                        </span>
+                                    {% endif %}
+                                </td>
                                 <td>
                                     {% if laporan.status_laporan == 'BELUM' %}
                                         <span style="background-color: #f34d30;width: max-content;padding: 10px;border-radius:4px;color:white">
@@ -52,20 +70,21 @@
                                         </span>
                                     {% endif %}
                                 </td>
-                                <td>{{ laporan.nama_psu_laporan }}</td>
-                                <td>{{ laporan.judul_laporan }}</td>
+                                <td>
+                                    <span class="text-limit">{{ laporan.nama_psu_laporan }}</span>
+                                </td>
+                                <td>
+                                    <span class="text-limit">{{ laporan.judul_laporan }}</span>
+                                </td>
                                 <td>
                                     {% if laporan.foto_laporan %}
-                                        <a href="{{ laporan.foto_laporan.url }}" class="btn btn-secondary" download>Unduh Bukti Foto</a>
+                                        <a href="{{ laporan.foto_laporan.url }}" style="padding:9px" class="btn btn-secondary" download>Unduh Bukti Foto</a>
                                     {% else %}
                                         <p>-</p>
                                     {% endif %}
                                 </td>
-                                <!-- <td>
-                                    <a href="{{ laporan.video.url }}" class="btn btn-secondary" download>Unduh Bukti Video</a>                                    
-                                </td> -->
                                 <td>
-                                    <a href="{% url 'admin_kelola:laporan_persetujuan' id=laporan.id %}" type="button" class="btn btn-info">Lihat Form Persetujuan</a>
+                                    <a href="{% url 'admin_kelola:laporan_persetujuan' id=laporan.id %}" style="padding:9px" type="button" class="btn btn-info">Form Persetujuan</a>
                                 </td>
                             </tr>
                         {% endfor %}
@@ -156,8 +175,12 @@
                                             </span>
                                         {% endif %}
                                     </td>
-                                    <td>{{ laporan.nama_psu_laporan }}</td>
-                                    <td>{{ laporan.judul_laporan }}</td>
+                                    <td>
+                                        <span class="text-limit">{{ laporan.nama_psu_laporan }}</span>
+                                    </td>
+                                    <td>
+                                        <span class="text-limit">{{ laporan.judul_laporan }}</span>
+                                    </td>
                                     <td>
                                         {% if laporan.foto_laporan %}
                                             <a href="{{ laporan.foto_laporan.url }}" class="btn btn-secondary" download>Unduh Bukti Foto</a>
@@ -266,8 +289,12 @@
                                             </span>
                                         {% endif %}
                                     </td>
-                                    <td>{{ laporan.nama_psu_laporan }}</td>
-                                    <td>{{ laporan.judul_laporan }}</td>
+                                    <td>
+                                        <span class="text-limit">{{ laporan.nama_psu_laporan }}</span>
+                                    </td>
+                                    <td>
+                                        <span class="text-limit">{{ laporan.judul_laporan }}</span>
+                                    </td>
                                     <td>
                                         {% if laporan.foto_laporan %}
                                             <a href="{{ laporan.foto_laporan.url }}" class="btn btn-secondary" download>Unduh Bukti Foto</a>
@@ -341,7 +368,7 @@
                 </div>
                 <div class="card-body">
                     {% for message in messages %}
-                        {% if message.extra_tags == 'admin_kelola' %}
+                        {% if message.extra_tags == 'serah_terima' %}
                             <div class="alert alert-success" role="alert">
                                 {{ message }}
                             </div>

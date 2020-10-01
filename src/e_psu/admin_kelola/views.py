@@ -15,25 +15,25 @@ from django.contrib.auth.decorators import login_required
 from e_psu.helpers import paginate_object
 from .models import AdminKelola
 # Create your views here.
+dokumen_list = Dokumen.objects.select_related()
+laporan_reject_list = BerkasLaporan.objects.filter(is_approve=False)
+laporan_accepted_list = BerkasLaporan.objects.filter(is_approve=True)
+perwakilan_penghuni_list = PerwakilanPenghuni.objects.all()  
+laporan_null_approve_list = BerkasLaporan.objects.filter(is_approve=None)
 
 @login_required(login_url='/admin_kelola/login')
 @admin_kelola_required
 def index(request):    
     page = request.GET.get('page', 1)
 
-    dokumen_list = Dokumen.objects.select_related()
     page_dokumens = paginate_object(dokumen_list, 10, page)
 
-    laporan_reject_list = BerkasLaporan.objects.filter(is_approve=False)
     page_laporans_reject = paginate_object(laporan_reject_list, 10, page)
 
-    laporan_accepted_list = BerkasLaporan.objects.filter(is_approve=True)
     page_laporans_accepted = paginate_object(laporan_accepted_list, 10, page)
 
-    perwakilan_penghuni_list = PerwakilanPenghuni.objects.all()  
     page_perwakilan_penghunis = paginate_object(perwakilan_penghuni_list, 10, page)
 
-    laporan_null_approve_list = BerkasLaporan.objects.filter(is_approve=None)
     page_laporans_null_approve = paginate_object(laporan_null_approve_list, 10, page)
     
     return render(request, "admin_kelola/index.html", {
@@ -121,7 +121,10 @@ def serah_terima_tambah(request):
 @login_required(login_url='/admin_kelola/login')
 @admin_kelola_required
 def serah_terima_tampil(request, id):
-    dokumen = Dokumen.objects.get(id=id)
+    try:
+        dokumen = Dokumen.objects.get(id=id)
+    except BerkasLaporan.DoesNotExist:
+        return redirect('admin_kelola:index')    
     return render(request, "admin_kelola/serah_terima/tampil.html", {
         'dokumen' : dokumen
     })
@@ -185,7 +188,10 @@ def laporan_tambah(request):
 @login_required(login_url='/admin_kelola/login')
 @admin_kelola_required
 def laporan_tampil(request, id):
-    laporan = BerkasLaporan.objects.get(id=id)
+    try:
+        laporan = BerkasLaporan.objects.get(id=id)
+    except BerkasLaporan.DoesNotExist:
+        return redirect('admin_kelola:index')
     return render(request, "admin_kelola/laporan/tampil.html", {
         'laporan': laporan
     })
@@ -225,7 +231,13 @@ def laporan_hapus(request, id):
 @login_required(login_url='/admin_kelola/login')
 @admin_kelola_required
 def detail_form_persetujuan_view(request, id):
-    laporan = BerkasLaporan.objects.get(id=id)
+    query_laporan = laporan_null_approve_list.filter(id=id)
+    if query_laporan.count() < 1:
+        return redirect('admin_kelola:index')
+    try:
+        laporan = BerkasLaporan.objects.get(id=id)
+    except BerkasLaporan.DoesNotExist:
+        return redirect('admin_kelola:index')
     persetujuan_laporan_form = PersetujuanLaporan(request.POST or None, instance=laporan)
     if persetujuan_laporan_form.is_valid():
         persetujuan_laporan_form.save()

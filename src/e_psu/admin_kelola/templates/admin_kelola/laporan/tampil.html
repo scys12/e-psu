@@ -16,14 +16,44 @@
                 <div>
                     <p>{{ laporan.nama_psu_laporan }}</p>
                 </div>
+                <hr class="my-4">
+
                 <h4>Judul Laporan</h4>
                 <div>
                     <p>{{ laporan.judul_laporan }}</p>
                 </div>
+                <hr class="my-4">
+
                 <h4>Deskripsi Laporan</h4>
-                <div>
-                    <p>{{ laporan.deskripsi_laporan }}</p>
+                <div style="border: 1px solid #ddd;padding: 10px 19px;margin-bottom:15px">
+                    <p style="font-size:17px;">{{ laporan.deskripsi_laporan }}</p>
                 </div>
+                <hr class="my-4">
+
+                <h4>Status Persetujuan</h4>
+                {% if laporan.is_approve is None %}
+                    <div style="background-color: #87847a;width: max-content;padding: 0px 13px;">
+                        <p style="color:white">Belum Disetujui</p>
+                    </div>
+                {% endif %}
+                {% if laporan.is_approve == 1 %}
+                    <div style="background-color: #5de038;width: max-content;padding: 0px 13px;">
+                        <p style="color:white">Sudah Disetujui</p>
+                    </div>                    
+                {% endif %}
+                {% if laporan.is_approve == 0 %}
+                    <div style="background-color: #f0765b;width: max-content;padding: 0px 13px;">
+                        <p style="color:white">Gagal Disetujui</p>
+                    </div>
+                    <hr class="my-4">
+
+                    <h4>Alasan Ditolak</h4>
+                    <div style="border: 1px solid #ddd;padding: 10px 19px;margin-bottom:15px">
+                        <p style="font-size:17px;">{{ laporan.alasan_ditolak }}</p>
+                    </div>
+                {% endif %}
+                <hr class="my-4">
+
                 <h4>Status Laporan</h4>
                 {% if laporan.status_laporan == 'BELUM' %}
                     <div style="background-color: #f34d30;width: max-content;padding: 0px 13px;">
@@ -40,24 +70,30 @@
                         <p style="color:white">Telah Diproses</p>
                     </div>
                 {% endif %}
-                <!-- <h4>Video</h4>
-                <div class="text-center">
-                    <video width="100%" controls>
-                        <source src="{{ laporan.bukti_video_laporan.url }}" type="video/mp4">
-                    </video>
-                </div>
-                <hr class="my-4"> -->
-                <h4>Foto</h4>
-                <div class="text-center">
-                    {% if laporan.foto_laporan %}
-                        <img style="max-width: 100%" src="{{ laporan.foto_laporan.url }}" alt="Foto laporan {{ laporan.nama_psu_laporan }}">
+                <hr class="my-4">
+
+                <h4>Bentuk Penanganan Terhadap Laporan</h4>
+                <div>
+                    {% if laporan.bentuk_penanganan_laporan is None %}
+                        <p style="color:#ccc;font-style:italic">Belum ada Penanganan</p>
                     {% else %}
-                        <p>-</p>
+                    <div style="border: 1px solid #ddd;padding: 10px 19px;margin-bottom:15px">
+                        <p style="font-size:17px;">{{ laporan.bentuk_penanganan_laporan }}</p>
+                    </div>
                     {% endif %}
                 </div>
                 <hr class="my-4">
+
+                <h4>Foto</h4>
+                <div>
+                    {% if laporan.foto_laporan %}
+                        <img style="max-width: 100%" src="{{ laporan.foto_laporan.url }}" alt="Foto laporan {{ laporan.nama_psu_laporan }}">
+                    {% else %}
+                        <p style="color:#ccc;font-style:italic">Tidak ada foto</p>
+                    {% endif %}
+                </div>                
+                <hr class="my-4">
                 <a href="{% url 'admin_kelola:index' %}" type="button" class="btn btn-success"> Kembali </a>
-                <a href="{% url 'admin_kelola:laporan_ubah' id=laporan.id %}" type="button" class="btn btn-warning"> Ubah </a>
             </div>
         </div>
     </div>

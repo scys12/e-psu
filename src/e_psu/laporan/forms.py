@@ -46,7 +46,7 @@ class PersetujuanLaporan(forms.ModelForm):
     
     is_approve = forms.TypedChoiceField(
                     label="Pilih Persetujuan",
-                    coerce=bool,
+                    coerce=lambda x: x =='True',
                     choices=((False, 'Tolak Laporan'), (True, 'Setujui Laporan')),
                     widget=forms.RadioSelect
                 )

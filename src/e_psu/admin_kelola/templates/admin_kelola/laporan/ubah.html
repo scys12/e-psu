@@ -15,16 +15,20 @@
                     {{ form.nama_psu_laporan | as_crispy_field }}
                     {{ form.judul_laporan | as_crispy_field }}
                     {{ form.deskripsi_laporan | as_crispy_field }}
-                                        
+                    
                     <div id="div_id_foto" class="form-group mb-4">
                         <label for="id_foto" class=" requiredField">
                             Foto<span class="asteriskField">*</span> 
                         </label> 
                         <div>
                             Saat ini: <br>
-                            <div class="text-center">
-                                <img style="max-width: 100%" src="{{ form.foto_laporan.value.url }}" alt="Foto {{ form.nama_psu_laporan.value }}">
-                            </div>
+                            {% if laporan.foto_laporan %}
+                                <div class="text-center">
+                                    <img style="max-width: 100%" src="{{ form.foto_laporan.value.url }}" alt="Foto {{ form.nama_psu_laporan.value }}">
+                                </div>
+                            {% else %}
+                                <p style="color:#ccc;font-style:italic">Tidak ada foto</p>
+                            {% endif %}                            
                             Ubah: <br>
                             <input type="file" name="foto" accept="image/*" class="berkaslaporanclearablefileinput form-control-file" id="id_foto"> 
                         </div>
