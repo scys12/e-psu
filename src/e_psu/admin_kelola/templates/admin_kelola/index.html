@@ -490,9 +490,8 @@
                         <thead class="thead-light">
                             <tr>
                                 <th shape="col">ID</th>
-                                <th shape="col">Nama</th>
-                                <th shape="col">Alamat Rumah</th>
-                                <th shape="col">No KTP</th>
+                                <th shape="col">Username</th>
+                                <th shape="col">Lokasi Proyek</th>
                                 <th shape="col">Opsi</th>
                             </tr>
                         </thead>
@@ -500,28 +499,24 @@
                             {% for perwakilan_penghuni in perwakilan_penghunis %}
                                 <tr>
                                     <td>
-                                        {{ perwakilan_penghuni.user_id }}
+                                        {{ perwakilan_penghuni.id }}
                                     </td>
                                     <td>
-                                        {{ perwakilan_penghuni.nama }}
+                                        {{ perwakilan_penghuni.warga }}
                                     </td>
                                     <td>
-                                        {{ perwakilan_penghuni.alamat_rumah }}
+                                        {{ perwakilan_penghuni.data_proyek }}
                                     </td>
                                     <td>
-                                        {{ perwakilan_penghuni.no_ktp }}
-                                    </td>
-                                    <td>
-                                        {% comment %}
-                                        <a href="{% url 'admin_kelola:perwakilam_penghuni' id=perwakilan_penghuni.id %}" type="button" class="btn btn-primary">Lihat</a>
                                         {% if request.user.user_type == 1 %}
+                                            {% comment %}
                                             <a href="{% url 'admin_kelola:serah_terima_ubah' id=perwakilan_penghuni.id %}" type="button" class="btn btn-warning">Ubah</a>
-                                            <a href="{% url 'admin_kelola:serah_terima_hapus' id=perwakilan_penghuni.id %}" type="button" class="btn btn-danger" 
-                                                onclick="return confirm('Apakah Anda yakin untuk menghapus perwakilan_penghuni {{ perwakilan_penghuni.nama_psu }}?')">
+                                            {% endcomment %}
+                                            <a href="{% url 'admin_kelola:perwakilan_penghuni_hapus' id=perwakilan_penghuni.id %}" type="button" class="btn btn-danger" 
+                                                onclick="return confirm('Apakah Anda yakin untuk menghapus perwakilan_penghuni {{ perwakilan_penghuni.warga.nama }}?')">
                                                 Hapus
                                             </a>
                                         {% endif %}
-                                        {% endcomment %}
                                     </td>
                                 </tr>
                             {% endfor %}

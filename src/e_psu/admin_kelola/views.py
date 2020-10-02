@@ -81,22 +81,31 @@ def logout_admin_kelola(request):
 @login_required(login_url='/admin_kelola/login')
 @admin_kelola_required
 def perwakilan_penghuni_tambah(request):    
-    account = RegisterForm(request.POST or None, prefix='account')
     perwakilan_penghuni = PerwakilanPenghuniForm(request.POST or None, prefix='perwakilan_penghuni')
     context = {
-        "perwakilan_penghuni_form" : perwakilan_penghuni,
-        "account_form" : account
+        "perwakilan_penghuni_form" : perwakilan_penghuni
     }
-    if account.is_valid() and perwakilan_penghuni.is_valid():
-        user = account.save(commit=False)
-        user.user_type = 2
-        user.save()
-        perwakilan_penghuni_data = perwakilan_penghuni.save(commit=False)
-        perwakilan_penghuni_data.user = user
-        perwakilan_penghuni_data.save()
-        return redirect('admin_kelola:index')
+
+    if request.method == 'POST':
+        form = DokumenForm(request.POST)
+        if perwakilan_penghuni.is_valid():
+            perwakilan_penghuni.save()
+            messages.success(request, f'Perwakilan penghuni berhasil ditambahkan.', extra_tags='perwakilan_penghuni')
+            return redirect('admin_kelola:index')
+
     return render(request, 'admin_kelola/perwakilan_penghuni/tambah.html', context)
 
+@login_required(login_url='/admin_kelola/login')
+@admin_kelola_required
+def perwakilan_penghuni_hapus(request, id):
+    try:
+        perwakilan_penghuni = PerwakilanPenghuni.objects.get(id=id)
+    except PerwakilanPenghuni.DoesNotExist:
+        return redirect('admin_kelola:index')
+
+    perwakilan_penghuni.delete()
+    messages.success(request, f'Dokumen berhasil dihapus.', extra_tags='perwakilan_penghuni')
+    return redirect('admin_kelola:index')
 
 # SERAH TERIMA
 @login_required(login_url='/admin_kelola/login')

@@ -5,4 +5,4 @@ from .models import PerwakilanPenghuni
 class PerwakilanPenghuniForm(forms.ModelForm):
     class Meta:
         model = PerwakilanPenghuni
-        exclude = ['user',]
+        fields = '__all__'

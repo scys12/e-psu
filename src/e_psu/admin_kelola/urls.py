@@ -9,6 +9,7 @@ urlpatterns = [
     path("logout", views.logout_admin_kelola, name="logout"),
     path("dashboard", views.index, name="index"),
     path("perwakilan_penghuni/tambah", views.perwakilan_penghuni_tambah, name="perwakilan_penghuni_tambah"),
+    path("perwakilan_penghuni/hapus/<int:id>", views.perwakilan_penghuni_hapus, name="perwakilan_penghuni_hapus"),
     path("laporan/tambah", views.laporan_tambah, name="laporan_tambah"),
     path("laporan/persetujuan/<int:id>", views.detail_form_persetujuan_view, name="laporan_persetujuan"),
     path("laporan/tampil/<int:id>", views.laporan_tampil, name="laporan_tampil"),

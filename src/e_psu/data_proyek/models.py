@@ -1,7 +1,7 @@
 from django.db import models
 
 # Create your models here.
-class SerahTerima(models.Model):
+class DataProyek(models.Model):
     lokasi_proyek = models.CharField(max_length=255, blank=True)
     luas_total_area_proyek = models.FloatField()
     jumlah_total_unit = models.IntegerField()
@@ -20,3 +20,6 @@ class SerahTerima(models.Model):
 
     class Meta:
         db_table= "pelaporan_dataproyek"
+
+    def __str__(self):
+        return self.lokasi_proyek

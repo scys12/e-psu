@@ -12,6 +12,9 @@ class Warga(models.Model):
     class Meta:
         db_table= "kelola_warga"
     
+    def __str__(self):
+        return self.user.username
+
     # def create_user_profile(sender, instance, created, **kwargs):  
     #     if created:            
     #         profile, created = Warga.objects.get_or_create(user=instance)

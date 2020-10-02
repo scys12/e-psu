@@ -1,13 +1,12 @@
 from django.db import models
-from account.models import Account
+from warga.models import Warga
+from data_proyek.models import DataProyek
 from django.db.models.signals import post_save
 
 # Create your models here.
 class PerwakilanPenghuni(models.Model):
-    user = models.OneToOneField(Account,on_delete=models.CASCADE)
-    nama = models.CharField(max_length=30)
-    alamat_rumah = models.CharField(max_length=100)
-    no_ktp = models.CharField(max_length=16)
+    warga = models.ForeignKey(Warga, on_delete=models.CASCADE)
+    data_proyek = models.ForeignKey(DataProyek, on_delete=models.CASCADE)
 
     class Meta:
         db_table= "kelola_perwakilanpenghuni"
