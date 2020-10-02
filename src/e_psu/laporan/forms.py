@@ -25,11 +25,7 @@ class UpdateStatusForm(forms.ModelForm):
     status_laporan_choices = [
         ('BELUM', 'Belum Diproses'),
         ('SEDANG', 'Sedang Diproses'),
-<<<<<<< HEAD
         ('SUDAH', 'Selesai Diproses')
-=======
-        ('SUDAH', 'Sudah Diproses')
->>>>>>> 2d36d7e9e431a74f05f965617f4f775c895fbbd5
     ]
     status_laporan = forms.ChoiceField(widget=forms.RadioSelect, choices=status_laporan_choices, label="Status Laporan")
 

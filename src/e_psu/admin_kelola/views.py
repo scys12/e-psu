@@ -173,6 +173,7 @@ def laporan_tambah(request):
         if form.is_valid():
             form_laporan = form.save(commit=False)
             form_laporan.status_laporan = 'BELUM'
+            form_laporan.is_approve = True
             form_laporan.user_created = request.user
             form_laporan.save()
             nama_psu_laporan = form.cleaned_data.get('nama_psu_laporan')

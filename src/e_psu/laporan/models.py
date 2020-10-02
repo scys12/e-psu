@@ -9,11 +9,7 @@ class BerkasLaporan(models.Model):
     status_laporan_choices = (
         ('BELUM', 'Belum Diproses'),
         ('SEDANG', 'Sedang Diproses'),
-<<<<<<< HEAD
         ('SUDAH', 'Selesai Diproses'),
-=======
-        ('SUDAH', 'SUDAH Diproses'),
->>>>>>> 2d36d7e9e431a74f05f965617f4f775c895fbbd5
     )
 
     tanggal_entri_laporan = models.DateField(auto_now_add=True)
