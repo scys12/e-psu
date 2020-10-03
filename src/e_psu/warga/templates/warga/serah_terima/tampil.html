@@ -1,0 +1,70 @@
+{% extends 'header.html' %}
+{% load static %}
+
+<!-- Masthead -->
+{% block content %}
+    <div class="container py-5">
+        <div class="card">
+            <div class="card-header text-center">
+                <h2>Dokumen Serah Terima {{ dokumen.id }}</h2>
+            </div>
+            <div class="card-body">
+                {% for message in messages %}
+                    <div class="alert alert-success" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+                <h4>Video</h4>
+                <div class="text-center">
+                    <video width="100%" controls>
+                        <source src="{{ dokumen.video.url }}" type="video/mp4">
+                    </video>
+                </div>
+                <hr class="my-4">
+                <h4>Foto</h4>
+                <div class="text-center">
+                    <img style="max-width: 100%" src="{{ dokumen.foto.url }}" alt="Foto {{ dokumen.id }}">
+                </div>
+                <hr class="my-4">
+                <h4>Salinan Laporan</h4>
+                <a href="{{ dokumen.salinan_laporan.url }}" class="btn btn-primary" download>Unduh Salinan Laporan</a>
+                
+                {% if dokumen.status_pengelolaan_text %}
+                    <hr class="my-4">
+                    <h4>Status Pengelolaan Teks</h4>
+                    {{ dokumen.status_pengelolaan_text }}
+                {% endif %}
+                {% if dokumen.status_pengelolaan %}
+                    <hr class="my-4">
+                    <h4>Status Pengelolaan File</h4>
+                    <a href="{{ dokumen.status_pengelolaan.url }}" class="btn btn-primary" download>Unduh File Status Pengelolaan</a>
+                {% endif %}
+
+                {% if dokumen.pola_pengelolaan_text %}
+                    <hr class="my-4">
+                    <h4>Pola Pengelolaan Teks</h4>
+                    {{ dokumen.pola_pengelolaan_text }}
+                {% endif %}
+                {% if dokumen.pola_pengelolaan %}
+                    <hr class="my-4">
+                    <h4>Pola Pengelolaan File</h4>
+                    <a href="{{ dokumen.pola_pengelolaan.url }}" class="btn btn-primary" download>Unduh File Pola Pengelolaan</a>
+                {% endif %}
+
+                {% if dokumen.regulasi_pemanfaatan_psu_text %}
+                    <hr class="my-4">
+                    <h4>Regulasi Pemanfaatan PSU Teks</h4>
+                    {{ dokumen.regulasi_pemanfaatan_psu_text }}
+                {% endif %}
+                {% if dokumen.regulasi_pemanfaatan_psu %}
+                    <hr class="my-4">
+                    <h4>Regulasi Pemanfaatan PSU File</h4>
+                    <a href="{{ dokumen.regulasi_pemanfaatan_psu.url }}" class="btn btn-primary" download>Unduh File Regulasi Pemanfaatan PSU</a>
+                {% endif %}
+
+                <hr class="my-3">
+                <a href="{% url 'warga:index' %}" type="button" class="btn btn-success">Kembali</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

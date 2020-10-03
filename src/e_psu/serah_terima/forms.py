@@ -2,6 +2,7 @@ from django import forms
 from django.forms.widgets import ClearableFileInput
 
 from .models import Dokumen
+from data_proyek.models import DataProyek
 
 class DokumenClearableFileInput(ClearableFileInput):
     initial_text = 'Saat ini'
@@ -25,6 +26,7 @@ class DokumenForm(forms.ModelForm):
     status_pengelolaan = forms.FileField(required=False,widget=DokumenClearableFileInput(attrs={'accept': 'application/pdf'}))
     pola_pengelolaan = forms.FileField(required=False,widget=DokumenClearableFileInput(attrs={'accept': 'application/pdf'}))
     regulasi_pemanfaatan_psu = forms.FileField(required=False,widget=DokumenClearableFileInput(attrs={'accept': 'application/pdf'}))
+    data_proyek = forms.ModelChoiceField(queryset=DataProyek.objects.all(),label="Lokasi Proyek")
 
     def clean(self):
         super().clean()

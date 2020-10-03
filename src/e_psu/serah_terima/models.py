@@ -1,5 +1,6 @@
 from django.db import models
 from admin_kelola.models import AdminKelola
+from data_proyek.models import DataProyek
 from smartfields import fields
 from e_psu.helpers import PathAndRename
 class Dokumen(models.Model):
@@ -13,6 +14,7 @@ class Dokumen(models.Model):
     status_pengelolaan = fields.FileField(upload_to=PathAndRename("serah_terima/dokumen/status_pengelolaan/"),blank=True, null=True)
     pola_pengelolaan = fields.FileField(upload_to=PathAndRename("serah_terima/dokumen/pola_pengelolaan/"),blank=True, null=True)
     regulasi_pemanfaatan_psu = fields.FileField(upload_to=PathAndRename("serah_terima/dokumen/regulasi_pemanfaatan_psu/"),blank=True, null=True)
+    data_proyek = models.ForeignKey(DataProyek, on_delete=models.CASCADE)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

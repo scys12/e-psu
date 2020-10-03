@@ -132,7 +132,7 @@ def serah_terima_tambah(request):
 def serah_terima_tampil(request, id):
     try:
         dokumen = Dokumen.objects.get(id=id)
-    except BerkasLaporan.DoesNotExist:
+    except dokumen.DoesNotExist:
         return redirect('admin_kelola:index')    
     return render(request, "admin_kelola/serah_terima/tampil.html", {
         'dokumen' : dokumen

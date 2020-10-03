@@ -393,6 +393,7 @@
                                 <th shape="col">Video</th>
                                 <th shape="col">Foto</th>
                                 <th shape="col">Salinan Laporan</th>
+                                <th shape="col">Lokasi Proyek</th>
                                 <th shape="col">Opsi</th>
                             </tr>
                         </thead>
@@ -413,6 +414,9 @@
                                     </td>
                                     <td>
                                         <a href="{{ dokumen.salinan_laporan.url }}" class="btn btn-secondary" download>Unduh Salinan</a>                                    
+                                    </td>
+                                    <td>
+                                        {{ dokumen.data_proyek }}
                                     </td>
                                     <td>
                                         <a href="{% url 'admin_kelola:serah_terima_tampil' id=dokumen.id %}" type="button" class="btn btn-primary">Lihat</a>
@@ -490,6 +494,7 @@
                         <thead class="thead-light">
                             <tr>
                                 <th shape="col">ID</th>
+                                <th shape="col">Email</th>
                                 <th shape="col">Username</th>
                                 <th shape="col">Lokasi Proyek</th>
                                 <th shape="col">Opsi</th>
@@ -502,6 +507,9 @@
                                         {{ perwakilan_penghuni.id }}
                                     </td>
                                     <td>
+                                        {{ perwakilan_penghuni.warga.user }}
+                                    </td>
+                                    <td>
                                         {{ perwakilan_penghuni.warga }}
                                     </td>
                                     <td>
@@ -509,9 +517,6 @@
                                     </td>
                                     <td>
                                         {% if request.user.user_type == 1 %}
-                                            {% comment %}
-                                            <a href="{% url 'admin_kelola:serah_terima_ubah' id=perwakilan_penghuni.id %}" type="button" class="btn btn-warning">Ubah</a>
-                                            {% endcomment %}
                                             <a href="{% url 'admin_kelola:perwakilan_penghuni_hapus' id=perwakilan_penghuni.id %}" type="button" class="btn btn-danger" 
                                                 onclick="return confirm('Apakah Anda yakin untuk menghapus perwakilan_penghuni {{ perwakilan_penghuni.warga.nama }}?')">
                                                 Hapus

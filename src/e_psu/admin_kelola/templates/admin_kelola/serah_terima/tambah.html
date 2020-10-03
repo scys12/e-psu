@@ -63,6 +63,7 @@
                     {{ form.video | as_crispy_field }}
                     {{ form.foto | as_crispy_field }}
                     {{ form.salinan_laporan | as_crispy_field }}
+                    {{ form.data_proyek | as_crispy_field }}
                     <a href="{% url 'admin_kelola:index' %}" type="button" class="btn btn-danger">Batal</a>
                     <button type="submit" class="btn btn-success">Tambahkan</button>
                 </form>

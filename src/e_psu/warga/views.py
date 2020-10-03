@@ -10,6 +10,8 @@ from django.contrib.auth import logout
 from laporan.forms import BerkasLaporanForm
 from e_psu.helpers import paginate_object
 from .models import Warga
+from serah_terima.models import Dokumen
+from perwakilan_penghuni.models import PerwakilanPenghuni
 # Create your views here.
 @login_required(login_url='/warga/login')
 @warga_required
@@ -21,9 +23,27 @@ def index_view(request):
     all_laporan = BerkasLaporan.objects.exclude(user_created_id=request.user.id)
     all_laporan_masyarakat = paginate_object(all_laporan, 10, page)
 
+    warga = Warga.objects.get(user_id=request.user.id)
+    data_proyek_ids = set(PerwakilanPenghuni.objects.values_list('data_proyek', flat=True).distinct())
+    
+    semua_data_serah_terima = Dokumen.objects.filter(data_proyek_id__in=[id for id in data_proyek_ids])
+    all_dokumen_serah_terima = paginate_object(semua_data_serah_terima, 10, page)
+
     return render(request, "warga/index.html", {
         'laporans': laporans,
-        'all_laporan_masyarakat': all_laporan_masyarakat
+        'all_laporan_masyarakat': all_laporan_masyarakat,
+        'dokumens' : all_dokumen_serah_terima
+    })
+
+@login_required(login_url='/warga/login')
+@warga_required
+def serah_terima_tampil(request, id):
+    try:
+        dokumen = Dokumen.objects.get(id=id)
+    except Dokumen.DoesNotExist:
+        return redirect('warga:index')    
+    return render(request, "warga/serah_terima/tampil.html", {
+        'dokumen' : dokumen
     })
 
 @login_required(login_url='/warga/login')
