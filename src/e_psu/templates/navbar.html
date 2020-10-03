@@ -61,7 +61,7 @@
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                         {% if user.user_type == 1 %}                        
                             <a class="dropdown-item" href="{% url 'admin_kelola:index' %}">Dashboard</a>
-                            <a class="dropdown-item" href="#">Profile</a>
+                            <a class="dropdown-item" href="{% url 'admin_kelola:display_profile' %}">Profile</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{% url 'admin_kelola:logout' %}">Logout</a>
                         {% endif %}

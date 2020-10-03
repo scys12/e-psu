@@ -19,3 +19,4 @@ class Dokumen(models.Model):
 
     class Meta:
         db_table= "kelola_serahterima"
+        ordering = ['-id']

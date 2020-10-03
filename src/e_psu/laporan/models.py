@@ -30,3 +30,4 @@ class BerkasLaporan(models.Model):
 
     class Meta:
         db_table = "kelola_berkaslaporan"
+        ordering = ['-id']

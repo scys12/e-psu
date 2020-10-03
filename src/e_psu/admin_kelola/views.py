@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import logout
 from .forms import AdminKelolaRegistrationForm
 from perwakilan_penghuni.forms import PerwakilanPenghuniForm
-from account.forms import RegisterForm, LoginForm
+from account.forms import RegisterForm, LoginForm, EditAccountForm
 from django.db import transaction
 from perwakilan_penghuni.models import PerwakilanPenghuni
 from serah_terima.models import Dokumen
@@ -156,7 +156,6 @@ def serah_terima_ubah(request, id):
         messages.success(request, f'Dokumen berhasil diperbarui.', extra_tags='serah_terima')
         return redirect('admin_kelola:index')
 
-    print(form.errors)
     return render(request, "admin_kelola/serah_terima/ubah.html", {
         'form' : form, 'dokumen' : dokumen
     })
@@ -258,3 +257,29 @@ def detail_form_persetujuan_view(request, id):
         'laporan': laporan,
         'persetujuan_laporan_form' : persetujuan_laporan_form
     })
+
+@login_required(login_url='/admin_kelola/login')
+@admin_kelola_required
+def change_profile_view(request):
+    admin_kelola = AdminKelola.objects.get(user_id=request.user.id)
+    admin_kelola_form = AdminKelolaRegistrationForm(request.POST or None, prefix='admin_kelola',instance = admin_kelola)
+    account = EditAccountForm(request.POST or None, prefix='account', instance= request.user)
+    if admin_kelola_form.is_valid() and account.is_valid():
+        admin_kelola_form.save()
+        account.save()
+        messages.success(request, f'Profile berhasil diperbarui.')
+        return redirect('admin_kelola:display_profile')
+    context = {
+        "admin_kelola_form" : admin_kelola_form,
+        "account" : account,
+    }
+    return render(request, 'admin_kelola/auth/change_profile.html', context)
+
+@login_required(login_url='/admin_kelola/login')
+@admin_kelola_required
+def display_profile_view(request):
+    admin_kelola = AdminKelola.objects.get(user_id=request.user.id)
+    context = {
+        "admin_kelola" : admin_kelola
+    }
+    return render(request, 'admin_kelola/auth/display_profile.html', context)

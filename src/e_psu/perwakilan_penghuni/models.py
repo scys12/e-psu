@@ -10,6 +10,7 @@ class PerwakilanPenghuni(models.Model):
 
     class Meta:
         db_table= "kelola_perwakilanpenghuni"
+        ordering = ['-id']
 
     # def create_user_profile(sender, instance, created, **kwargs):  
     #     if created:            
