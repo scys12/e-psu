@@ -89,7 +89,8 @@ def perwakilan_penghuni_tambah(request):
     if request.method == 'POST':
         form = DokumenForm(request.POST)
         if perwakilan_penghuni.is_valid():
-            perwakilan_penghuni.save()
+            if not PerwakilanPenghuni.objects.filter(warga=request.POST['perwakilan_penghuni-warga'], data_proyek=request.POST['perwakilan_penghuni-data_proyek']):
+                perwakilan_penghuni.save()
             messages.success(request, f'Perwakilan penghuni berhasil ditambahkan.', extra_tags='perwakilan_penghuni')
             return redirect('admin_kelola:index')
 
