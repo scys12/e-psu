@@ -1,5 +1,5 @@
-pip install django-smartfields
-pip install django-crispy-forms
-pip install Pillow
-pip install whitenoise
-pip install smartfields
+django-smartfields
+django-crispy-forms
+Pillow
+whitenoise
+mysqlclient

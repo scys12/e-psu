@@ -13,6 +13,17 @@ def warga_required(function=None, redirect_field_name=REDIRECT_FIELD_NAME, login
         return actual_decorator(function)
     return actual_decorator
 
+def superuser_admin_kelola_required(function=None, redirect_field_name=REDIRECT_FIELD_NAME, login_url='/admin_kelola/login'):
+    # decorator for admin_kelola
+    actual_decorator = user_passes_test(
+        lambda u: u.is_active and (u.user_type == 1) and u.is_staff,
+        login_url=login_url,
+        redirect_field_name=redirect_field_name
+    )
+    if function:
+        return actual_decorator(function)
+    return actual_decorator
+
 def admin_kelola_required(function=None, redirect_field_name=REDIRECT_FIELD_NAME, login_url='/admin_kelola/login'):
     # decorator for admin_kelola
     actual_decorator = user_passes_test(
@@ -28,6 +39,17 @@ def admin_skpd_required(function=None, redirect_field_name=REDIRECT_FIELD_NAME, 
     # decorator for admin_skpd
     actual_decorator = user_passes_test(
         lambda u: u.is_active and u.user_type == 3,
+        login_url=login_url,
+        redirect_field_name=redirect_field_name
+    )
+    if function:
+        return actual_decorator(function)
+    return actual_decorator
+
+def superuser_admin_skpd_required(function=None, redirect_field_name=REDIRECT_FIELD_NAME, login_url='/admin_skpd/login'):
+    # decorator for admin_skpd
+    actual_decorator = user_passes_test(
+        lambda u: u.is_active and u.user_type == 3 and u.is_staff,
         login_url=login_url,
         redirect_field_name=redirect_field_name
     )

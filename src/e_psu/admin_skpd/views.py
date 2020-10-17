@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import AdminSKPDRegistrationForm
 from account.forms import RegisterForm, LoginForm, EditAccountForm
-from account.decorators import admin_skpd_required, anonymous_required
+from account.decorators import admin_skpd_required, anonymous_required, superuser_admin_skpd_required
 from django.db import transaction
 from laporan.models import BerkasLaporan
 from laporan.forms import UpdateStatusForm, UpdatePenangananForm
@@ -23,6 +23,7 @@ def index_view(request):
         'laporans': laporans,
     })
 
+@superuser_admin_skpd_required
 @transaction.atomic
 def register_view(request):
     account = RegisterForm(request.POST or None, prefix='account')
@@ -38,7 +39,7 @@ def register_view(request):
         admin_skpd_data = admin_skpd.save(commit=False)
         admin_skpd_data.user = user
         admin_skpd_data.save()
-        return redirect('admin_skpd:login')
+        return redirect('admin_skpd:index')
     return render(request, 'admin_skpd/auth/register.html', context)
 
 @anonymous_required

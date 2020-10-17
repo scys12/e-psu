@@ -9,7 +9,7 @@ from serah_terima.models import Dokumen
 from laporan.models import BerkasLaporan
 from serah_terima.forms import DokumenForm
 from laporan.forms import BerkasLaporanForm, PersetujuanLaporan
-from account.decorators import admin_kelola_required, anonymous_required
+from account.decorators import admin_kelola_required, anonymous_required, superuser_admin_kelola_required
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from e_psu.helpers import paginate_object
@@ -44,6 +44,7 @@ def index(request):
         'laporans_null_approve': page_laporans_null_approve
     })
 
+@superuser_admin_kelola_required
 @transaction.atomic
 def register_admin_kelola(request):
     account = RegisterForm(request.POST or None, prefix='account')
@@ -59,7 +60,7 @@ def register_admin_kelola(request):
         admin_kelola_data = admin_kelola.save(commit=False)
         admin_kelola_data.user = user
         admin_kelola_data.save()
-        return redirect('admin_kelola:login')
+        return redirect('admin_kelola:index')
     return render(request, 'admin_kelola/auth/register.html', context)
 
 @anonymous_required
@@ -262,6 +263,7 @@ def detail_form_persetujuan_view(request, id):
 @login_required(login_url='/admin_kelola/login')
 @admin_kelola_required
 def change_profile_view(request):
+    print(request.user.id)
     admin_kelola = AdminKelola.objects.get(user_id=request.user.id)
     admin_kelola_form = AdminKelolaRegistrationForm(request.POST or None, prefix='admin_kelola',instance = admin_kelola)
     account = EditAccountForm(request.POST or None, prefix='account', instance= request.user)
