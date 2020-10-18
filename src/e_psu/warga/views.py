@@ -24,7 +24,7 @@ def index_view(request):
     all_laporan_masyarakat = paginate_object(all_laporan, 10, page)
 
     warga = Warga.objects.get(user_id=request.user.id)
-    data_proyek_ids = set(PerwakilanPenghuni.objects.values_list('data_proyek', flat=True).distinct())
+    data_proyek_ids = set(PerwakilanPenghuni.objects.filter(warga_id=warga.id).values_list('data_proyek', flat=True).distinct())
     
     semua_data_serah_terima = Dokumen.objects.filter(data_proyek_id__in=[id for id in data_proyek_ids])
     all_dokumen_serah_terima = paginate_object(semua_data_serah_terima, 10, page)
