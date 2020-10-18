@@ -10,13 +10,14 @@ from laporan.models import BerkasLaporan
 from laporan.forms import UpdateStatusForm, UpdatePenangananForm
 from .models import AdminSKPD
 from e_psu.helpers import paginate_object
+from datetime import datetime
 # Create your views here.
 
 semua_laporan = BerkasLaporan.objects.filter(is_approve=1)
 
 @login_required(login_url='/admin_skpd/login')
 @admin_skpd_required
-def index_view(request):    
+def index_view(request):
     page = request.GET.get('page', 1)    
     laporans = paginate_object(semua_laporan, 10, page)    
     return render(request, "admin_skpd/index.html", {
@@ -114,6 +115,7 @@ def update_laporan_view(request, id):
         admin_skpd = AdminSKPD.objects.get(user_id=request.user.id)
         berkas_laporan = update_status_form.save(commit=False)
         berkas_laporan.admin_status_laporan = admin_skpd
+        berkas_laporan.tanggal_proses = datetime.now() #added for tanggal proses
         berkas_laporan.save()
         messages.success(request, f'Laporan {id} berhasil diperbaharui', extra_tags='laporan')
         return redirect('admin_skpd:index')

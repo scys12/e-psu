@@ -23,7 +23,7 @@ laporan_null_approve_list = BerkasLaporan.objects.filter(is_approve=None)
 
 @login_required(login_url='/admin_kelola/login')
 @admin_kelola_required
-def index(request):    
+def index(request):
     page = request.GET.get('page', 1)
 
     page_dokumens = paginate_object(dokumen_list, 10, page)

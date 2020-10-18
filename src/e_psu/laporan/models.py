@@ -23,8 +23,8 @@ class BerkasLaporan(models.Model):
     admin_penanganan_laporan = models.ForeignKey(AdminSKPD,on_delete=models.CASCADE, related_name='+',blank=True, null=True)
     is_approve = models.BooleanField(null=True, blank=True)
     alasan_ditolak = models.TextField(null=True, blank=True)
+    tanggal_proses = models.DateField(null=True, blank=True)
     user_created = models.ForeignKey(Account,on_delete=models.CASCADE, related_name='+')
-
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
