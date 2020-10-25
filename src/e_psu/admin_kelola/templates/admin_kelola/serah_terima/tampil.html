@@ -27,6 +27,7 @@
                 </div>
                 <hr class="my-4">
                 <h4>Salinan Laporan</h4>
+                <a href="{{ dokumen.salinan_laporan.url }}" class="btn btn-secondary" target="_blank">Preview Salinan Laporan</a>
                 <a href="{{ dokumen.salinan_laporan.url }}" class="btn btn-primary" download>Unduh Salinan Laporan</a>
                 
                 {% if dokumen.status_pengelolaan_text %}
@@ -37,7 +38,8 @@
                 {% if dokumen.status_pengelolaan %}
                     <hr class="my-4">
                     <h4>Status Pengelolaan File</h4>
-                    <a href="{{ dokumen.status_pengelolaan.url }}" class="btn btn-primary" download>Unduh File Status Pengelolaan</a>
+                    <a href="{{ dokumen.status_pengelolaan.url }}" class="btn btn-secondary"  target="_blank">Preview Status Pengelolaan</a>
+                    <a href="{{ dokumen.status_pengelolaan.url }}" class="btn btn-primary" download>Unduh Status Pengelolaan</a>
                 {% endif %}
 
                 {% if dokumen.pola_pengelolaan_text %}
@@ -48,7 +50,8 @@
                 {% if dokumen.pola_pengelolaan %}
                     <hr class="my-4">
                     <h4>Pola Pengelolaan File</h4>
-                    <a href="{{ dokumen.pola_pengelolaan.url }}" class="btn btn-primary" download>Unduh File Pola Pengelolaan</a>
+                    <a href="{{ dokumen.pola_pengelolaan.url }}" class="btn btn-secondary" target="_blank">Preview Pola Pengelolaan</a>
+                    <a href="{{ dokumen.pola_pengelolaan.url }}" class="btn btn-primary" download>Unduh Pola Pengelolaan</a>
                 {% endif %}
 
                 {% if dokumen.regulasi_pemanfaatan_psu_text %}
@@ -59,7 +62,8 @@
                 {% if dokumen.regulasi_pemanfaatan_psu %}
                     <hr class="my-4">
                     <h4>Regulasi Pemanfaatan PSU File</h4>
-                    <a href="{{ dokumen.regulasi_pemanfaatan_psu.url }}" class="btn btn-primary" download>Unduh File Regulasi Pemanfaatan PSU</a>
+                    <a href="{{ dokumen.regulasi_pemanfaatan_psu.url }}" class="btn btn-secondary" target="_blank">Preview Regulasi Pemanfaatan PSU</a>
+                    <a href="{{ dokumen.regulasi_pemanfaatan_psu.url }}" class="btn btn-primary" download>Unduh Regulasi Pemanfaatan PSU</a>
                 {% endif %}
 
                 <hr class="my-3">
