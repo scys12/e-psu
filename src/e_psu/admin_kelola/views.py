@@ -88,7 +88,7 @@ def perwakilan_penghuni_tambah(request):
     }
 
     if request.method == 'POST':
-        form = DokumenForm(request.POST)
+        form = PerwakilanPenghuniForm(request.POST)
         if perwakilan_penghuni.is_valid():
             if not PerwakilanPenghuni.objects.filter(warga=request.POST['perwakilan_penghuni-warga'], data_proyek=request.POST['perwakilan_penghuni-data_proyek']):
                 perwakilan_penghuni.save()
